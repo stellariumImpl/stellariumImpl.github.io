@@ -67,7 +67,7 @@
 }
 pre {
   font-family: Menlo, Monaco, Consolas, system-ui, "Courier New", "STZhongsong", monospace, sans-serif;
-  font-size: 0.8125rem;
+  font-size: 0.8525rem;
   tab-size: 4;
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -330,7 +330,7 @@ code {
 }
 p>code:not([class]),
 li>code:not([class]) {
-  font-size: 85%;
+  font-size: 88%;
   background: var(--block);
   padding: 0.2em;
   border-radius: 4px;
@@ -339,7 +339,7 @@ li>code:not([class]) {
 .md-text .highlight,
 pre:not([class]):has(>code) {
   margin: var(--gap-p) 0;
-  border-radius: 12px;
+  border-radius: 6px;
   overflow: hidden;
   background: var(--block);
   line-height: 1.5;
@@ -359,7 +359,7 @@ pre:not([class]):has(>code) {
 }
 .md-text .highlight figcaption {
   color: var(--text-p2);
-  font-size: 0.8125rem;
+  font-size: 0.8525rem;
   font-weight: 500;
   margin-left: 0.5rem;
   display: inline-block;
@@ -433,7 +433,7 @@ pre:not([class]):has(>code) {
 }
 .md-text .gist .gist-file {
   border: 1px solid var(--block-border);
-  border-radius: 12px;
+  border-radius: 6px;
 }
 .md-text .gist .gist-data {
   border-bottom: 1px solid var(--block-border);
@@ -457,7 +457,7 @@ table:not([class]) {
 }
 .md-text pre >.hljs {
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: 6px;
   line-height: 1.5;
   box-sizing: border-box;
 }
@@ -772,7 +772,7 @@ svg.loading {
   margin: 0;
   text-align: center;
   background: var(--block);
-  border-radius: 12px;
+  border-radius: 6px;
   position: relative;
   padding: 2rem;
 }
@@ -884,7 +884,7 @@ div.toast {
   color: var(--text-p1);
   font-weight: 500;
   text-align: center;
-  border-radius: 12px;
+  border-radius: 6px;
   background: var(--card);
   position: fixed;
   top: 50%;
@@ -901,7 +901,7 @@ div.toast {
   margin-top: 4rem;
   padding: 1rem;
   background: var(--block);
-  border-radius: 12px;
+  border-radius: 6px;
   border: 1px solid var(--block-border);
 }
 .md-text .article-footer:empty {
@@ -1242,7 +1242,7 @@ nav.cap a+a {
   font-size: 1rem;
   font-weight: 700;
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 2px 8px 0px rgba(0,0,0,0.03);
 }
@@ -1412,7 +1412,7 @@ article.md-text.content+.related-wrap {
 }
 .tag-plugin.about {
   background: var(--block);
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 2rem;
   position: relative;
 }
@@ -1982,7 +1982,7 @@ details.folding {
   display: block;
   padding: 1rem;
   margin: 1rem 0;
-  border-radius: 12px;
+  border-radius: 6px;
   background: var(--theme-bg2);
   border: 1px solid var(--theme-border);
 }
@@ -2271,7 +2271,7 @@ details.folding[child=iframe] >div.body {
 }
 .tag-plugin.grid[bg]>.cell {
   padding: 1rem;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 .tag-plugin.grid[bg='block']>.cell {
   background: var(--block);
@@ -2553,7 +2553,7 @@ details.folding[child=iframe] >div.body {
 .md-text .tag-plugin.note {
   position: relative;
   padding: 0.25rem 1rem;
-  border-radius: 12px;
+  border-radius: 6px;
   background: var(--theme-bg2);
   overflow: hidden;
   border: 1px solid var(--theme-border);
@@ -3006,7 +3006,7 @@ details.folding[child=iframe] >div.body {
   display: block;
 }
 .md-text.indent .tag-plugin.tabs .tab-content p:not([class]) {
-  text-indent: calc(0.9375rem * 2);
+  text-indent: calc(0.9575rem * 2);
 }
 .md-text.indent .tag-plugin.tabs .tab-content p:not([class]) a {
   text-indent: 0;
@@ -3152,7 +3152,7 @@ details.folding[child=iframe] >div.body {
 }
 .tag-plugin.timeline .body {
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 6px;
   border-top-left-radius: 2px;
   padding: 0.5rem 1rem;
   margin-top: 4px;
@@ -3594,7 +3594,7 @@ nav.menu a.nav-item:hover {
   padding: 0.75rem 0.5rem;
   color: var(--text-p2);
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
   transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
   -moz-transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
@@ -3640,7 +3640,7 @@ nav.menu a.nav-item:hover {
 .widget-wrapper.ghuser .widget-body {
   text-align: center;
   background: var(--card);
-  border-radius: 12px;
+  border-radius: 6px;
   padding: 1rem;
   box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
 }
@@ -4381,6 +4381,25 @@ nav.menu a.nav-item:hover {
     transform: translateX(0px);
   }
 }
+.social-wrap {
+  display: grid;
+  grid-gap: 0.25rem 0.25rem;
+  grid-template-columns: repeat(auto-fill, 32px);
+  margin-left: -10px;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #3dd9b6;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
 .post-list {
   margin: 1rem;
 }
@@ -4411,7 +4430,7 @@ nav.menu a.nav-item:hover {
 .post-list .post-card {
   display: block;
   margin: 1rem 0;
-  border-radius: 12px;
+  border-radius: 6px;
   box-shadow: 0 2px 8px 0px rgba(0,0,0,0.02);
   transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
@@ -4664,7 +4683,7 @@ h1.article-title {
   overflow: hidden;
 }
 .md-text.content.indent >p:not([class]) {
-  text-indent: calc(0.9375rem * 2);
+  text-indent: calc(0.9575rem * 2);
   text-align: left;
 }
 .md-text.content.indent >p:not([class]) a {
@@ -4804,7 +4823,7 @@ h1.article-title {
   margin-top: -0.5rem;
 }
 .md-text p {
-  font-size: 0.9375rem;
+  font-size: 0.9575rem;
 }
 .md-text pre {
   -webkit-font-smoothing: auto;
@@ -4860,7 +4879,7 @@ h1.article-title {
   right: -2px;
 }
 .md-text .aplayer {
-  border-radius: 12px;
+  border-radius: 6px;
 }
 img.lazy {
   transition: transform 0.5s ease-out, filter 0.28s ease-out;
