@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.2">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>大一下刷题记录 - Stellarium</title>
+
+  
+    <meta name="description" content="充实的寒假生活(GREEDY&#x2F;DP) 描述 寒假马上就要到了，龙傲天同学获得了从第0天开始到第60天结束为期61天超长寒假，他想要尽可能丰富自己的寒假生活。 现提供若干个活动的起止时间，请计算龙同学这个寒假至多可以参加多少个活动？注意所参加的活动不能有任何时间上的重叠，在第x天结束的活动和在第x天开始的活动不可同时选择。 输入 第一行为整数n，代表接下来输入的活动个数(n &lt; 10000">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大一下刷题记录">
+<meta property="og:url" content="https://stellariumimpl.github.io/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="充实的寒假生活(GREEDY&#x2F;DP) 描述 寒假马上就要到了，龙傲天同学获得了从第0天开始到第60天结束为期61天超长寒假，他想要尽可能丰富自己的寒假生活。 现提供若干个活动的起止时间，请计算龙同学这个寒假至多可以参加多少个活动？注意所参加的活动不能有任何时间上的重叠，在第x天结束的活动和在第x天开始的活动不可同时选择。 输入 第一行为整数n，代表接下来输入的活动个数(n &lt; 10000">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-20T12:15:53.000Z">
+<meta property="article:modified_time" content="2023-01-02T03:04:47.851Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="动态规划">
+<meta property="article:tag" content="归并排序">
+<meta property="article:tag" content="二分查找">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">沉舟侧畔千帆过</div><div class="sub hover cap" style="opacity:0"> 病树前头万木春</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">大一下刷题记录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%85%E5%AE%9E%E7%9A%84%E5%AF%92%E5%81%87%E7%94%9F%E6%B4%BBgreedydp"><span class="toc-text"> 充实的寒假生活(GREEDY&#x2F;DP)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E6%95%B0"><span class="toc-text"> 和为给定数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B1%82%E9%80%86%E5%BA%8F%E5%AF%B9%E6%95%B0"><span class="toc-text"> 求逆序对数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E6%9C%A8%E6%A3%8D"><span class="toc-text"> 小木棍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E4%BB%99%E4%B9%8B%E8%B7%AF"><span class="toc-text"> 修仙之路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9"><span class="toc-text"> 拦截导弹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%87%E8%8D%AFdp"><span class="toc-text"> 采药（DP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B4%E6%95%B0%E5%88%92%E5%88%86%E9%97%AE%E9%A2%98"><span class="toc-text"> 简单的整数划分问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%92%AD%E8%AE%A1%E7%A5%A8"><span class="toc-text"> 直播计票</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2022/09/22/Redis-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%87/"><span class="title">Redis 设计与实现 数据库篇</span></a><a class="item title" href="/2023/12/31/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84-Window-%E8%AE%A1%E7%AE%97/"><span class="title">流式计算中的 Window 计算</span></a><a class="item title" href="/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/"><span class="title">Exactly Once语义在Flink中的实现</span></a><a class="item title" href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/"><span class="title">流/批/OLAP 一体的 Flink 引擎介绍</span></a><a class="item title" href="/2023/01/01/SQL%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8%E6%B5%85%E6%9E%90/"><span class="title">SQL查询优化器浅析</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/gmail.png"/></a><a class="social" href="https://cone.fygod.xyz" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/mastodon.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/youtube.png"/></a><a class="social" href="https://onedrive.fygod.xyz/zh-CN" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/onedrive.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div id="post-meta">发布于&nbsp;<time datetime="2020-05-20T12:15:53.000Z">2020-05-20</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>大一下刷题记录</span></h1>
+<!-- https://cdn.fygod.xyz/uploads/2022/07/15/1/1657848212/MU43XrVc_wallhaven-9mxjjk-compressed.jpg -->
+<h2 id="充实的寒假生活greedydp"><a class="markdownIt-Anchor" href="#充实的寒假生活greedydp"></a> 充实的寒假生活(GREEDY/DP)</h2>
+<p><strong>描述</strong></p>
+<p>寒假马上就要到了，龙傲天同学获得了从第0天开始到第60天结束为期61天超长寒假，他想要尽可能丰富自己的寒假生活。<br />
+现提供若干个活动的起止时间，请计算龙同学这个寒假至多可以参加多少个活动？注意所参加的活动不能有任何时间上的重叠，在第x天结束的活动和在第x天开始的活动不可同时选择。</p>
+<p><strong>输入</strong></p>
+<p>第一行为整数n，代表接下来输入的活动个数(n &lt; 10000)<br />
+紧接着的n行，每一行都有两个整数，第一个整数代表活动的开始时间，第二个整数代表全结束时间</p>
+<p><strong>输出</strong></p>
+<p>输出至多参加的活动个数</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">0 0</span><br><span class="line">1 1</span><br><span class="line">2 2</span><br><span class="line">3 3</span><br><span class="line">4 4</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5</span><br></pre></td></tr></table></figure>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">eraseOverlapIntervals</span>(<span class="params">self, intervals</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type intervals: List[List[int]]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> intervals <span class="keyword">or</span> <span class="built_in">len</span>(intervals) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        intervals.sort(key = <span class="keyword">lambda</span> x: x[<span class="number">0</span>])  <span class="comment"># 按左端点从小到大排序</span></span><br><span class="line">        temp_pos = <span class="number">0</span></span><br><span class="line">        cnt = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="built_in">len</span>(intervals)):</span><br><span class="line">            <span class="keyword">if</span> intervals[temp_pos][<span class="number">1</span>] &gt;= intervals[i][<span class="number">0</span>]:  <span class="comment"># 当当前区间右端点&gt;i区间左端点</span></span><br><span class="line">                <span class="keyword">if</span> intervals[i][<span class="number">1</span>] &lt; intervals[temp_pos][<span class="number">1</span>]:  <span class="comment"># 当i区间右端点&lt;当前区间右端点，表示i区间被覆盖在当前区间中</span></span><br><span class="line">                    temp_pos = i  <span class="comment"># 更新temp_pos，选择覆盖范围小的i区间</span></span><br><span class="line">                cnt += <span class="number">1</span>  <span class="comment"># 当前区间右端点&gt;i区间左端点都要计数+1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                temp_pos = i  <span class="comment"># 当当前区间右端点&lt;=i区间左端点，表示不重叠，要更新temp_pos</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(intervals)-cnt</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    n=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    intervals=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        intervals.append(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split())))</span><br><span class="line">    <span class="built_in">print</span>(Solution().eraseOverlapIntervals(intervals))</span><br></pre></td></tr></table></figure>
+<h2 id="和为给定数"><a class="markdownIt-Anchor" href="#和为给定数"></a> 和为给定数</h2>
+<p><strong>描述</strong></p>
+<p>给出若干个整数，询问其中是否有一对数的和等于给定的数。</p>
+<p><strong>输入</strong></p>
+<p>共三行：<br />
+第一行是整数n(0 &lt; n &lt;= 100,000)，表示有n个整数。<br />
+第二行是n个整数。整数的范围是在0到108之间。<br />
+第三行是一个整数m（0 &lt;= m &lt;= 230)，表示需要得到的和。</p>
+<p><strong>输出</strong></p>
+<p>若存在和为m的数对，输出两个整数，小的在前，大的在后，中间用单个空格隔开。若有多个数对满足条件，选择数对中较小的数更小的。若找不到符合要求的数对，输出一行No。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">2 5 1 4</span><br><span class="line">6</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 5</span><br></pre></td></tr></table></figure>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">find</span>(<span class="params">key,base,top</span>): <span class="comment">#二分查找</span></span><br><span class="line">    <span class="keyword">while</span> base&lt;=top:</span><br><span class="line">        mid = (base+top)//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> a[mid]==key:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">elif</span> a[mid]&lt;key: </span><br><span class="line">            base=mid+<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            top=mid-<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span> </span><br><span class="line"></span><br><span class="line">n=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">a=<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">input</span>().split()))</span><br><span class="line">a=<span class="built_in">sorted</span>(a)</span><br><span class="line">flag=<span class="number">0</span></span><br><span class="line"><span class="comment"># print(a)</span></span><br><span class="line">m=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    key=m-a[i]</span><br><span class="line">    base=i+<span class="number">1</span></span><br><span class="line">    top=n-<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> find(key,base,top):</span><br><span class="line">        <span class="built_in">print</span>(a[i],key)</span><br><span class="line">        flag=<span class="number">1</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> flag==<span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;No&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="求逆序对数"><a class="markdownIt-Anchor" href="#求逆序对数"></a> 求逆序对数</h2>
+<p><strong>描述</strong></p>
+<p>对于一个长度为<code>N</code>的整数序列<code>A</code>，满足<code>i &lt; j</code>且 <code>Ai &gt; Aj</code>.的数对<code>(i,j)</code>称为整数序列<code>A</code>的一个逆序<br />
+请求出整数序列<code>A</code>的所有逆序对个数</p>
+<p><strong>输入</strong></p>
+<p>输入包含多组测试数据，每组测试数据有两行<br />
+第一行为整数<code>N(1 &lt;= N &lt;= 20000)</code>，当输入<code>0</code>时结束<br />
+第二行为<code>N</code>个整数，表示长为<code>N</code>的整数序列</p>
+<p><strong>输出</strong></p>
+<p>每组数据对应一行，输出逆序对的个数</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">5</span><br><span class="line">1 2 3 4 5</span><br><span class="line">5</span><br><span class="line">5 4 3 2 1</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0</span><br><span class="line">10</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p><strong>解决1</strong></p>
+<p>冒泡，可能会超时</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        ll = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split()))</span><br><span class="line">        <span class="comment"># print(ll)</span></span><br><span class="line">        c=[<span class="number">0</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>)]</span><br><span class="line">        group=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n-<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i,n-<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> ll[j]&gt;ll[j+<span class="number">1</span>]:</span><br><span class="line">                    group+=<span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(group)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<p><strong>解决2</strong></p>
+<p>归并</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">merge_sort</span>(<span class="params">a</span>):</span><br><span class="line">    s = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(a) &lt;= <span class="number">1</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    mid = <span class="built_in">len</span>(a) // <span class="number">2</span></span><br><span class="line">    l = a[:mid]</span><br><span class="line">    r = a[mid:]</span><br><span class="line">    s += merge_sort(l) + merge_sort(r)</span><br><span class="line">    i = j = k = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="built_in">len</span>(l) <span class="keyword">and</span> j &lt; <span class="built_in">len</span>(r)):</span><br><span class="line">        <span class="keyword">if</span> (l[i] &lt;= r[j]):</span><br><span class="line">            a[k] = l[i]</span><br><span class="line">            i += <span class="number">1</span></span><br><span class="line">            k += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a[k] = r[j]</span><br><span class="line">            j += <span class="number">1</span></span><br><span class="line">            k += <span class="number">1</span></span><br><span class="line">            s += <span class="built_in">len</span>(l) - i</span><br><span class="line">    <span class="keyword">while</span> (i &lt; <span class="built_in">len</span>(l)):</span><br><span class="line">        a[k] = l[i]</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> (j &lt; <span class="built_in">len</span>(r)):</span><br><span class="line">        a[k] = r[j]</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        ll = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split()))</span><br><span class="line">        <span class="built_in">print</span>(merge_sort(ll))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<h2 id="小木棍"><a class="markdownIt-Anchor" href="#小木棍"></a> 小木棍</h2>
+<p><strong>描述</strong></p>
+<p>小明将一批等长的木棍随机切成最长为50单位的小段。现在他想要将木棍还原成原来的状态，但是却忘记了原来的木棍数量和长度。请写一个程序帮助他计算如果还原成原来的等长木棍，其长度可能的最小值。所有的长度均大于0。</p>
+<p><strong>输入</strong></p>
+<p>输入包含多个实例。每个实例有两行，第一行是切割后的木棍数量n（最多64个），第二行为n个以空格分开的整数，分别为每根木棍的长度。输入的最后以n为 0 结束。</p>
+<p><strong>输出</strong></p>
+<p>对于每个实例，输出一行其长度的可能的最小值。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">9</span><br><span class="line">5 2 1 5 2 1 5 2 1</span><br><span class="line">4</span><br><span class="line">1 2 3 4</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">6</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+<p><strong>来源</strong></p>
+<p>来自计算概论B期末考试，本题对数据进行了弱化</p>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">N=<span class="number">105</span></span><br><span class="line">a=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)]</span><br><span class="line">v=[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)]</span><br><span class="line">target=<span class="number">0</span></span><br><span class="line">n=<span class="number">0</span></span><br><span class="line">maxn=<span class="number">0</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dfs</span>(<span class="params">cnt, <span class="built_in">len</span>, pos</span>):</span><br><span class="line">    <span class="keyword">if</span> cnt == target:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span> <span class="comment">#拼够了根数，符合题意</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span> == maxn:</span><br><span class="line">        <span class="keyword">return</span> dfs(cnt+<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>) <span class="comment">#拼完了一根 继续下一根</span></span><br><span class="line">    i = pos</span><br><span class="line">    <span class="keyword">while</span> i&lt;n:</span><br><span class="line">        <span class="keyword">if</span> v[i]==<span class="number">0</span> <span class="keyword">and</span> <span class="built_in">len</span>+a[i]&lt;=maxn:</span><br><span class="line">            v[i]=<span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> dfs(cnt, <span class="built_in">len</span>+a[i], i):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">            v[i]=<span class="number">0</span></span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span> == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span> <span class="comment">#凑第一根的时候可以随便选，如果随便选都凑不成一根，那这个长度不行 神奇剪枝！！</span></span><br><span class="line">            <span class="keyword">while</span> i+<span class="number">1</span>&lt;n <span class="keyword">and</span> a[i+<span class="number">1</span>]==a[i]:</span><br><span class="line">                i += <span class="number">1</span> <span class="comment">#如果用当前的小木段拼凑 失败则与它等长的同样失败，小剪枝</span></span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    n=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    arr = <span class="built_in">input</span>()</span><br><span class="line">    a = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)]</span><br><span class="line">    a = [<span class="built_in">int</span>(n) <span class="keyword">for</span> n <span class="keyword">in</span> arr.split()]</span><br><span class="line">    asum = <span class="number">0</span></span><br><span class="line">    asum = <span class="built_in">sum</span>(a)</span><br><span class="line">    a=<span class="built_in">sorted</span>(a,reverse=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    maxn = <span class="number">0</span></span><br><span class="line">    maxn=a[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">while</span> maxn &lt;= asum:</span><br><span class="line">        <span class="keyword">if</span> asum%maxn == <span class="number">0</span>:</span><br><span class="line">            target = asum / maxn</span><br><span class="line">            v = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)]</span><br><span class="line">            <span class="keyword">if</span> dfs(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>):</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        maxn += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(maxn)</span><br></pre></td></tr></table></figure>
+<h2 id="修仙之路"><a class="markdownIt-Anchor" href="#修仙之路"></a> 修仙之路</h2>
+<p><strong>描述</strong></p>
+<p>修仙之路长漫漫，逆水行舟，不进则退！你过五关斩六将，终于来到了仙界。仙界是一个r行c列的二维格子空间，每个单元格是一个”境界“，每个境界都有等级。你需要任意选择其中一个境界作为起点，从一个境界可以前往上下左右相邻四个境界之一 ，当且仅当新到达的境界等级增加。你苦苦行走，直到所在的境界等级比相邻四个境界的等级都要高为止，一览众山小。请问包括起始境界在内最长修仙路径需要经过的境界数是多少？</p>
+<p><strong>输入</strong></p>
+<p>第一行为两个正整数，分别为r和c（1&lt;=r,c&lt;=100）。<br />
+接下来有r行，每行有c个0到100000000之间的整数，代表各境界的等级。</p>
+<p><strong>输出</strong></p>
+<p>输出一行，为最长修仙路径需要经过的境界数（包括起始境界）。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">5 5</span><br><span class="line">1 2 3 4 5</span><br><span class="line">16 17 18 19 6</span><br><span class="line">15 24 25 20 7</span><br><span class="line">14 23 22 21 8</span><br><span class="line">13 12 11 10 9</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">25</span><br></pre></td></tr></table></figure>
+<p><strong>解决1</strong></p>
+<p>没有考虑位于边界的“仙境”</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**]</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 5 5</span></span><br><span class="line"><span class="comment"> * 1 2 3 4 5</span></span><br><span class="line"><span class="comment"> * 16 17 18 19 6</span></span><br><span class="line"><span class="comment"> * 15 24 25 20 7</span></span><br><span class="line"><span class="comment"> * 14 23 22 21 8</span></span><br><span class="line"><span class="comment"> * 13 12 11 10 9</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">sc</span> <span class="operator">=</span><span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        <span class="type">int</span> m= sc.nextInt();</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span>sc.nextInt();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> [][] nums = <span class="keyword">new</span> <span class="title class_">int</span>[m][n];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;m;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;j&lt;n;j++)&#123;</span><br><span class="line">                nums[i][j] = sc.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/* int [][] dp = new int[m][n];</span></span><br><span class="line"><span class="comment">        dp[0][0] =1;</span></span><br><span class="line"><span class="comment">         int target =0;</span></span><br><span class="line"><span class="comment">        // i+1,j // i-1,j // i,j+1// i,j-1</span></span><br><span class="line"><span class="comment">        for(int i=0;i&lt;m;i++)&#123;</span></span><br><span class="line"><span class="comment">            for(int j=0;j&lt;n;j++)&#123;</span></span><br><span class="line"><span class="comment">                if(i==0&amp;&amp;j==0)&#123;</span></span><br><span class="line"><span class="comment">                    continue;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                if(i+1&lt;m&amp;&amp;j&lt;n &amp;&amp; nums[i+1][j]&lt;nums[i][j])&#123;</span></span><br><span class="line"><span class="comment">                    dp [i][j] =Math.max(dp[i+1][j],dp[i][j])+1;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                if (0&lt;=i-1&amp;&amp;j&lt;n&amp;&amp; nums[i-1][j]&lt;nums[i][j])&#123;</span></span><br><span class="line"><span class="comment">                    dp [i][j] =Math.max(dp[i-1][j],dp[i][j])+1;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                 if(i&lt;m&amp;&amp;j+1&lt;n &amp;&amp; nums[i][j+1]&lt;nums[i][j])&#123;</span></span><br><span class="line"><span class="comment">                    dp [i][j] =Math.max(dp[i][j+1],dp[i][j])+1;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment">                if(i&lt;m&amp;&amp;j-1&gt;=0 &amp;&amp; nums[i][j-1]&lt;nums[i][j])&#123;</span></span><br><span class="line"><span class="comment">                    dp [i][j] =Math.max(dp[i][j-1],dp[i][j])+1;</span></span><br><span class="line"><span class="comment">                &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                int tmp = nums[i][j];</span></span><br><span class="line"><span class="comment">                int tmp1 = dp[i][j];</span></span><br><span class="line"><span class="comment">                target = Math.max(dp[i][j],target);</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        System.out.println(target);</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">      <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span> dfs(nums,<span class="number">0</span>,<span class="number">0</span>,m,n,<span class="number">1</span>);</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>  <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> [][] nums ,<span class="type">int</span> i,<span class="type">int</span> j ,<span class="type">int</span> m, <span class="type">int</span> n ,<span class="type">int</span> tt )</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(i&lt;<span class="number">0</span> || i&gt;m || j&lt;<span class="number">0</span>||j&gt;n)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(is(nums,i,j,m,n)==<span class="number">4</span>)&#123;</span><br><span class="line">           <span class="keyword">return</span> tt;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">a</span> <span class="operator">=</span><span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> b=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> c=<span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> d=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(i-<span class="number">1</span>&gt;=<span class="number">0</span>&amp;&amp;nums[i][j]&lt;nums[i-<span class="number">1</span>][j])&#123;</span><br><span class="line">            a= dfs(nums, i-<span class="number">1</span>, j, m, n,tt+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span>(i+<span class="number">1</span>&lt;m&amp;&amp;nums[i][j]&lt;nums[i+<span class="number">1</span>][j])&#123;</span><br><span class="line">            b= dfs(nums, i+<span class="number">1</span>, j, m, n,tt+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span>(j-<span class="number">1</span>&gt;=<span class="number">0</span>&amp;&amp;nums[i][j]&lt;nums[i][j-<span class="number">1</span>])&#123;</span><br><span class="line">            c= dfs(nums, i, j-<span class="number">1</span>, m, n,tt+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="keyword">if</span>(j+<span class="number">1</span>&lt;n&amp;&amp;nums[i][j]&lt;nums[i][j+<span class="number">1</span>])&#123;</span><br><span class="line">            d= dfs(nums, i, j+<span class="number">1</span>, m, n,tt+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">         a= Math.max(a,b);</span><br><span class="line">         a= Math.max(a,c);</span><br><span class="line">         a= Math.max(a,d);</span><br><span class="line">        <span class="keyword">return</span>  a;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">is</span><span class="params">(<span class="type">int</span> [][] nums,<span class="type">int</span> i,<span class="type">int</span> j,<span class="type">int</span> m,<span class="type">int</span> n)</span>&#123;</span><br><span class="line">        <span class="type">int</span> tar=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(i-<span class="number">1</span>&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>( nums[i][j]&gt;nums[i-<span class="number">1</span>][j])&#123;</span><br><span class="line">               tar++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(i+<span class="number">1</span>&lt;m)&#123;</span><br><span class="line">            <span class="keyword">if</span>( nums[i][j]&gt;nums[i+<span class="number">1</span>][j])&#123;</span><br><span class="line">                tar++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j-<span class="number">1</span>&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>( nums[i][j]&gt;nums[i][j-<span class="number">1</span>])&#123;</span><br><span class="line">                tar++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(j+<span class="number">1</span>&lt;n)&#123;</span><br><span class="line">            <span class="keyword">if</span>( nums[i][j]&gt;nums[i][j+<span class="number">1</span>])&#123;</span><br><span class="line">                tar++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>  tar;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>来自<a target="_blank" rel="noopener" href="http://ayugudu.top/">啊鱼咕嘟</a></p>
+<p><strong>解决2</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 5 5</span></span><br><span class="line"><span class="comment"># 1 2 3 4 5</span></span><br><span class="line"><span class="comment"># 16 17 18 19 6</span></span><br><span class="line"><span class="comment"># 15 24 25 20 7</span></span><br><span class="line"><span class="comment"># 14 23 22 21 8</span></span><br><span class="line"><span class="comment"># 13 12 11 10 9</span></span><br><span class="line"></span><br><span class="line">n,m=<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">input</span>().split())</span><br><span class="line">nums = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">	nums.append(<span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split())))</span><br><span class="line">dp=[[-<span class="number">1</span>]* m <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(n)]</span><br><span class="line">move=[[<span class="number">0</span>,<span class="number">1</span>],[<span class="number">1</span>,<span class="number">0</span>],[-<span class="number">1</span>,<span class="number">0</span>],[<span class="number">0</span>,-<span class="number">1</span>]]</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dfs</span>(<span class="params">i,j</span>):</span><br><span class="line">    <span class="keyword">if</span> dp[i][j]!=-<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> dp[i][j]</span><br><span class="line">    ret=<span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> oi,oj <span class="keyword">in</span> move:</span><br><span class="line">        ni,nj=i+oi,j+oj</span><br><span class="line">        <span class="keyword">if</span> <span class="number">0</span>&lt;=ni&lt;n <span class="keyword">and</span> <span class="number">0</span>&lt;=nj&lt;m <span class="keyword">and</span> nums[i][j]&gt;nums[ni][nj]:</span><br><span class="line">            ret=<span class="built_in">max</span>(ret,dfs(ni,nj)+<span class="number">1</span>)</span><br><span class="line">    dp[i][j]=ret</span><br><span class="line">    <span class="keyword">return</span> dp[i][j]</span><br><span class="line">res=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">        res=<span class="built_in">max</span>(res,dfs(i,j))</span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure>
+<h2 id="拦截导弹"><a class="markdownIt-Anchor" href="#拦截导弹"></a> 拦截导弹</h2>
+<p><strong>描述</strong></p>
+<p>某国为了防御敌国的导弹袭击，发展出一种导弹拦截系统。但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭。由于该系统还在试用阶段，所以只有一套系统，因此有可能不能拦截所有的导弹。</p>
+<p>输入导弹依次飞来的高度（雷达给出的高度数据是不大于30000的正整数），计算这套系统最多能拦截多少导弹。</p>
+<p><strong>输入</strong></p>
+<p>第一行是一个整数N（不超过15），表示导弹数。<br />
+第二行包含N个整数，为导弹依次飞来的高度（雷达给出的高度数据是不大于30000的正整数）。</p>
+<p><strong>输出</strong></p>
+<p>一个整数，表示最多能拦截的导弹数。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">8</span><br><span class="line">389 207 155 300 299 170 158 65</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6</span><br></pre></td></tr></table></figure>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">i=<span class="number">0</span></span><br><span class="line">data = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>)]</span><br><span class="line">ans = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>)]</span><br><span class="line">n=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">arr=<span class="built_in">input</span>()</span><br><span class="line">data = [<span class="built_in">int</span>(n) <span class="keyword">for</span> n <span class="keyword">in</span> arr.split()]</span><br><span class="line">ans[<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">maxt = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n):</span><br><span class="line">    ans[j] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, j):</span><br><span class="line">        <span class="keyword">if</span> data[i]&gt;=data[j]:</span><br><span class="line">            <span class="keyword">if</span> ans[i]+<span class="number">1</span>&gt; ans[j]:</span><br><span class="line">                ans[j] = ans[i]+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ans[j]&gt; maxt:</span><br><span class="line">        maxt = ans[j]</span><br><span class="line"><span class="built_in">print</span>(maxt)</span><br></pre></td></tr></table></figure>
+<h2 id="采药dp"><a class="markdownIt-Anchor" href="#采药dp"></a> 采药（DP）</h2>
+<p><strong>描述</strong></p>
+<p>辰辰是个很有潜能、天资聪颖的孩子，他的梦想是称为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同的草药，采每一株都需要一些时间，每一株也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”</p>
+<p>如果你是辰辰，你能完成这个任务吗？</p>
+<p><strong>输入</strong></p>
+<p>输入的第一行有两个整数T（1 &lt;= T &lt;= 1000）和M（1 &lt;= M &lt;= 100），T代表总共能够用来采药的时间，M代表山洞里的草药的数目。接下来的M行每行包括两个在1到100之间（包括1和100）的的整数，分别表示采摘某株草药的时间和这株草药的价值。</p>
+<p><strong>输出</strong></p>
+<p>输出只包括一行，这一行只包含一个整数，表示在规定的时间内，可以采到的草药的最大总价值。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">70 3</span><br><span class="line">71 100</span><br><span class="line">69 1</span><br><span class="line">1 2</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+<p><strong>来源</strong></p>
+<p>NOIP 2005</p>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">N=<span class="number">1010</span></span><br><span class="line">T,M=<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">input</span>().split())</span><br><span class="line">f = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(N)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, M):</span><br><span class="line">        v,w=<span class="built_in">map</span>(<span class="built_in">int</span>,<span class="built_in">input</span>().split())</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(T, v - <span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">            f[j] = <span class="built_in">max</span>(f[j], f[j - v] + w)</span><br><span class="line"><span class="built_in">print</span>(f[T])</span><br></pre></td></tr></table></figure>
+<h2 id="简单的整数划分问题"><a class="markdownIt-Anchor" href="#简单的整数划分问题"></a> 简单的整数划分问题</h2>
+<p><strong>描述</strong></p>
+<p>将正整数n 表示成一系列正整数之和，n=n1+n2+…+nk, 其中n1&gt;=n2&gt;=…&gt;=nk&gt;=1 ，k&gt;=1 。<br />
+正整数n 的这种表示称为正整数n 的划分。正整数n 的不同的划分个数称为正整数n 的划分数。</p>
+<p><strong>输入</strong></p>
+<p>标准的输入包含若干组测试数据。每组测试数据是一个整数N(0 &lt; N &lt;= 50)。</p>
+<p><strong>输出</strong></p>
+<p>对于每组测试数据，输出N的划分数。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">7</span><br></pre></td></tr></table></figure>
+<p><strong>提示</strong></p>
+<p>5, 4+1, 3+2, 3+1+1, 2+2+1, 2+1+1+1, 1+1+1+1+1</p>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x,y</span>):</span><br><span class="line">        <span class="keyword">if</span> y == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> y &lt;= <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> x &lt; y:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span>(f(x - <span class="number">1</span>,y - <span class="number">1</span>) + f(x - y,y))</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">        s = <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            s = s + f(n,i)</span><br><span class="line">        <span class="built_in">print</span>(s)</span><br><span class="line">    <span class="keyword">except</span> EOFError: <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h2 id="直播计票"><a class="markdownIt-Anchor" href="#直播计票"></a> 直播计票</h2>
+<p><strong>描述</strong></p>
+<p>直播间发起了投票活动：在屏幕上列出若干选项，观众通过发送弹幕向自己支持的选项投票。在幕后工作的你需要根据弹幕信息，向直播间的观众们展示哪个选项得票最多。</p>
+<p>这里每个选项用一个正整数编号表示。</p>
+<p><strong>输入</strong></p>
+<p>输入只有一行，由若干正整数组成，每个正整数表示这条弹幕是投票给哪个选项的。</p>
+<p>输入的正整数个数不超过100,000，且满足最多有100个不同的选项，选项的编号不超过100,000。</p>
+<p><strong>输出</strong></p>
+<p>输出只有一行，为得票最多的选项。若有并列第一的情况出现，则按编号从小到大依次输出所有得票数最多的选项，用空格隔开。</p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 10 2 3 3 10</span><br></pre></td></tr></table></figure>
+<p><strong>样例输出</strong></p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 10</span><br></pre></td></tr></table></figure>
+<p><strong>解决</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">list1 = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split()))</span><br><span class="line">list2 = []</span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list1)):</span><br><span class="line">    result1 = list1.count(list1[a])</span><br><span class="line">    list2.append(result1)</span><br><span class="line"><span class="comment"># print(list2)</span></span><br><span class="line">dict1 = <span class="built_in">dict</span>(<span class="built_in">zip</span>(list1, list2))</span><br><span class="line"><span class="comment"># print(dict1)</span></span><br><span class="line">list3 = <span class="built_in">list</span>(dict1.values())</span><br><span class="line">max_values = <span class="built_in">max</span>(list3)</span><br><span class="line">list4 = []</span><br><span class="line"><span class="comment"># print (max_values)</span></span><br><span class="line"><span class="keyword">for</span> key <span class="keyword">in</span> dict1.keys():</span><br><span class="line">    <span class="keyword">if</span> dict1[key] == max_values:</span><br><span class="line">        list5 = key</span><br><span class="line">        list4.append(list5)</span><br><span class="line">list4.sort()</span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> list4:</span><br><span class="line">    <span class="built_in">print</span>(item, end=<span class="string">&quot; &quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/&title=大一下刷题记录 - Stellarium&pics=https://cdn.fygod.xyz/uploads/2022/05/22/c3M9cX01_wallhaven-x8ye3z.jpg&summary=
+ 充实的寒假生活(GREEDY/DP)
+描述
+寒假马上就要到了，龙傲天同学获得了从第0天开始到第60天结束为期61天超长寒假，他想要尽可能丰富自己的寒假生活。
+现提供若干个活动的起止时间，请计算龙同学这个寒假至多可以参加多少个活动？..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=大一下刷题记录 - Stellarium&amp;body=https://stellariumimpl.github.io/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/">学生信息管理系统</a></div><div class="item" id="next"></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2022\12\31\重叠子问题和最优子结构\" title="重叠子问题和最优子结构"><span class="title">重叠子问题和最优子结构</span></a><a class="item" href="\2022\05\15\归并排序\" title="归并排序"><span class="title">归并排序</span></a><a class="item" href="\2022\11\08\BST 合法性、增、删、查\" title="BST 合法性、增、删、查"><span class="title">BST 合法性、增、删、查</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== 'your_domain' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+Base64.encode(href)+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body>
+</html>

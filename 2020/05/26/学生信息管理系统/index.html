@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.2">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>学生信息管理系统 - Stellarium</title>
+
+  
+    <meta name="description" content="12345678910111213141516Modules:Student    |-- Add Student     |-- Delete Student     |-- Change Student     |-- Student Add Course     |-- Student Delete Course     |-- View Student     |-- View Stude">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学生信息管理系统">
+<meta property="og:url" content="https://stellariumimpl.github.io/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="12345678910111213141516Modules:Student    |-- Add Student     |-- Delete Student     |-- Change Student     |-- Student Add Course     |-- Student Delete Course     |-- View Student     |-- View Stude">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-26T01:17:11.000Z">
+<meta property="article:modified_time" content="2023-01-02T02:24:00.720Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="结课作业">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">沉舟侧畔千帆过</div><div class="sub hover cap" style="opacity:0"> 病树前头万木春</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">学生信息管理系统</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#summary"><span class="toc-text"> Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#student"><span class="toc-text"> Student</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#course"><span class="toc-text"> Course</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#todo"><span class="toc-text"> TODO</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2022/09/22/Redis-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%87/"><span class="title">Redis 设计与实现 数据库篇</span></a><a class="item title" href="/2023/12/31/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84-Window-%E8%AE%A1%E7%AE%97/"><span class="title">流式计算中的 Window 计算</span></a><a class="item title" href="/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/"><span class="title">Exactly Once语义在Flink中的实现</span></a><a class="item title" href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/"><span class="title">流/批/OLAP 一体的 Flink 引擎介绍</span></a><a class="item title" href="/2023/01/01/SQL%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8%E6%B5%85%E6%9E%90/"><span class="title">SQL查询优化器浅析</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/gmail.png"/></a><a class="social" href="https://cone.fygod.xyz" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/mastodon.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/youtube.png"/></a><a class="social" href="https://onedrive.fygod.xyz/zh-CN" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/onedrive.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/C%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">C语言程序设计</a></div><div id="post-meta">发布于&nbsp;<time datetime="2020-05-26T01:17:11.000Z">2020-05-26</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>学生信息管理系统</span></h1>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Modules:</span><br><span class="line">Student</span><br><span class="line">    |-- Add Student </span><br><span class="line">    |-- Delete Student </span><br><span class="line">    |-- Change Student </span><br><span class="line">    |-- Student Add Course </span><br><span class="line">    |-- Student Delete Course </span><br><span class="line">    |-- View Student </span><br><span class="line">    |-- View Student Course</span><br><span class="line">    |-- Save Student </span><br><span class="line">    |-- Student Save Course</span><br><span class="line">Administrator</span><br><span class="line">    |-- Administrator Add Course </span><br><span class="line">    |-- Administrator Delete Course </span><br><span class="line">    |-- View Course</span><br><span class="line">    |-- Administrator Save Course</span><br></pre></td></tr></table></figure>
+<h3 id="summary"><a class="markdownIt-Anchor" href="#summary"></a> Summary</h3>
+<p>In fact, the above division of administrators and students is just for you to understand. There is only one entry for system design, and the above modules will appear in the directory of the start page；</p>
+<p>It is reasonable to say that no matter the administrator adds(delete) the course or the student adds(delete) the personal information and course, all functions containing the <code>I/O</code> operation should have corresponding options for selection after the functions to save the contents in the buffer into the corresponding file.</p>
+<h3 id="student"><a class="markdownIt-Anchor" href="#student"></a> Student</h3>
+<p><strong>Add Student &amp; <code>&quot;stu&quot;</code> &amp; the Student Linked List &amp; the Function needed</strong><br />
+For students, first, you need to add a student node. Here, only the student’s name, student number and gender are added, and age and other information are not listed; Stored in a linked list, the student structure <code>&quot;stu&quot;</code> has not only the above information and the student’s own structure pointer, but also the structure pointer of course selection information.<br />
+Here is the <code>&quot;stu&quot;</code>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">stu</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> ID;</span><br><span class="line">    <span class="type">char</span> name[<span class="number">32</span>];</span><br><span class="line">    <span class="type">char</span> sex[<span class="number">10</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cour</span> *<span class="title">selection</span>;</span> <span class="comment">// the course selection structure pointer</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">stu</span> *<span class="title">next</span>;</span> <span class="comment">// the student structure pointer</span></span><br><span class="line">&#125; stu,*pstu; <span class="comment">// the Pointer point the &quot;stu&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Next, you need to create a linked list to store student information, <code>new_stu=create_stu(stu_head);</code> Incoming head node, each time allocating a<code>&quot;stu&quot;</code>size of memory space <code>new_stu</code> to store students;The <code>create_student</code> function calls the <code>find_student</code> function to determine if a new student node has been added before, the criterion is <code>ID</code>; if you repeat, re-enter <code>ID</code>, otherwise continue to enter <code>sex</code>.And here comes the step needs to be careful, because student node comes before the Course selection , so the previously defined structure pointer should be <code>NULL</code> at this time, not only to initialize <code>next</code>, but also to initialize <code>selection</code> and return <code>new_stu</code>.<br />
+Here is the <code>create_stu</code> function &amp; the <code>find_stu</code> function needed:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">pstu <span class="title function_">create_stu</span><span class="params">(pstu stu_head)</span> &#123;</span><br><span class="line">    pstu new_stu=(pstu)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(stu));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;---------   Input the Student information   ---------\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input the name：&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,new_stu-&gt;name);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input the ID：&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_stu-&gt;ID);</span><br><span class="line"><span class="keyword">while</span> (find_stu(stu_head,new_stu-&gt;ID)!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;This ID has been used,try again.&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_stu-&gt;ID);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input the sex：&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,new_stu-&gt;sex);</span><br><span class="line">    new_stu-&gt;selection=<span class="literal">NULL</span>;</span><br><span class="line">    new_stu-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> new_stu;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The function is called recursively with two end conditions, either return <code>NULL</code> or <code>stu_head</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pstu <span class="title function_">find_stu</span><span class="params">(pstu stu_head,<span class="type">int</span> ID)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(stu_head==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(stu_head-&gt;ID==ID)</span><br><span class="line">        <span class="keyword">return</span> stu_head;</span><br><span class="line">    <span class="keyword">return</span> find_stu(stu_head-&gt;next, ID);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then, <code>stu_head=add_stu(stu_head,new_stu);</code> Add Student Information to the Linked List,if the <code>stu_head</code> is <code>NULL</code>,return the <code>new_stu</code>.Otherwise <code>new_Stu</code> as a guard node, the next is <code>stu_head</code> and return the new linked list.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pstu <span class="title function_">add_stu</span><span class="params">(pstu stu_head,pstu new_stu)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(stu_head==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> new_stu;</span><br><span class="line">    new_stu-&gt;next=stu_head;</span><br><span class="line">    <span class="keyword">return</span> new_stu;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Delete Student</strong><br />
+Enter the student <code>ID</code> to be deleted in the main function and call <code>find_ stu</code> function finds the node to be deleted through <code>n</code> times recursions as formal parameter of <code>del_stu</code>, calls <code>del_stu</code> function.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Input the ID you want to delete:\n&quot;</span>);</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;ID);</span><br><span class="line">stu_head=del_stu(stu_head,find_stu(stu_head,ID));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Delete Success！\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pstu <span class="title function_">del_stu</span><span class="params">(pstu stu_head,pstu del_point)</span> &#123;</span><br><span class="line">    pstu point;</span><br><span class="line">    <span class="keyword">if</span>(del_point == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;This ID dosen&#x27;t exist,try again.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> stu_head;</span><br><span class="line">    &#125;</span><br><span class="line">    point=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(del_point == stu_head ) &#123;</span><br><span class="line">        point=stu_head-&gt;next;</span><br><span class="line">        <span class="built_in">free</span>(stu_head);</span><br><span class="line">        <span class="keyword">return</span> point;</span><br><span class="line">    &#125;</span><br><span class="line">    point=stu_head;</span><br><span class="line">    <span class="keyword">while</span>(point) &#123;</span><br><span class="line">        <span class="keyword">if</span>(point-&gt;next == del_point) &#123;</span><br><span class="line">            point-&gt;next=del_point-&gt;next;</span><br><span class="line">            <span class="built_in">free</span>(del_point);</span><br><span class="line">            <span class="keyword">return</span> stu_head;</span><br><span class="line">        &#125;</span><br><span class="line">        point = point-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="course"><a class="markdownIt-Anchor" href="#course"></a> Course</h3>
+<p><strong>Administrator Add Course &amp; the Course Linked List &amp; the Functions needed</strong><br />
+Similar to adding students, first create a course linked list and dynamically create a <code>cour</code> size <code>pcour</code> type memory space <code>new_cour</code>, add course name, course ID, teacher name, course hour and course location; Of course, this also requires <code>find_cour</code> to prevent the course ID from not existing.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">cour</span> &#123;</span></span><br><span class="line">    <span class="type">char</span> name[<span class="number">20</span>];  <span class="comment">//COURSE NAME</span></span><br><span class="line">    <span class="type">int</span> ID; <span class="comment">//COURSE ID</span></span><br><span class="line">    <span class="type">char</span> teacher[<span class="number">20</span>]; <span class="comment">//COURSE TEACHER</span></span><br><span class="line">    <span class="type">int</span> time; <span class="comment">//COURSE HOUR</span></span><br><span class="line">    <span class="type">int</span> classroom; <span class="comment">//COURSE CLASSROOM</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">cour</span> *<span class="title">next</span>;</span> <span class="comment">//COURSE STRUCTURE POINTER</span></span><br><span class="line">&#125; cour,*pcour; <span class="comment">//the Pointer point the Structure cour </span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">new_cour=creat_cour(cour_head);</span><br><span class="line">cour_head=add_cour(cour_head,new_cour);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pcour <span class="title function_">find_cour</span><span class="params">(pcour cour_head,<span class="type">int</span> ID)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(cour_head==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(cour_head-&gt;ID==ID)</span><br><span class="line">        <span class="keyword">return</span> cour_head;</span><br><span class="line">    <span class="keyword">return</span> find_cour(cour_head-&gt;next, ID);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pcour <span class="title function_">creat_cour</span><span class="params">(pcour cour_head)</span> &#123;</span><br><span class="line">    pcour new_cour=(pcour)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(cour));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;---------   Input Course Information   ---------\n\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input Course Name:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,new_cour-&gt;name);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input Course ID:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_cour-&gt;ID);</span><br><span class="line"><span class="keyword">while</span> (find_cour(cour_head,new_cour-&gt;ID)!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;This ID has existed,try again.&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_cour-&gt;ID);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input Teacher&#x27;s Name:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>,new_cour-&gt;teacher);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input Course Time:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_cour-&gt;time);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Input Course Location:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;new_cour-&gt;classroom);</span><br><span class="line">    new_cour-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> new_cour;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then, <code>add_cour(pcour cour_head,pcour new_cour)</code> Add Course Information to the Linked List,if the <code>cour_head</code> is NULL,return the <code>new_cour</code>.Otherwise <code>new_cour</code> as a guard node, the next is <code>cour_head</code> and return the new linked <a target="_blank" rel="noopener" href="http://list.As">list.As</a> same as the function <code>add_stu</code>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pcour <span class="title function_">add_cour</span><span class="params">(pcour cour_head,pcour new_cour)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(cour_head==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> new_cour;</span><br><span class="line">    new_cour-&gt;next=cour_head;</span><br><span class="line">    <span class="keyword">return</span> new_cour;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Delete Course</strong><br />
+As same as the Function <code>del_stu</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">pcour <span class="title function_">del_cour</span><span class="params">(pcour cour_head,pcour del_point)</span> &#123;</span><br><span class="line">    pcour point;</span><br><span class="line">    <span class="keyword">if</span>(del_point == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;This ID dosen&#x27;t exist,try again.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> cour_head;</span><br><span class="line">    &#125;</span><br><span class="line">    point=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">if</span>(del_point == cour_head ) &#123;</span><br><span class="line">        point=cour_head-&gt;next;</span><br><span class="line">        <span class="built_in">free</span>(cour_head);</span><br><span class="line">        <span class="keyword">return</span> point;</span><br><span class="line">    &#125;</span><br><span class="line">    point=cour_head;</span><br><span class="line">    <span class="keyword">while</span>(point) &#123;</span><br><span class="line">        <span class="keyword">if</span>(point-&gt;next == del_point) &#123;</span><br><span class="line">            point-&gt;next=del_point-&gt;next;</span><br><span class="line">            <span class="built_in">free</span>(del_point);</span><br><span class="line">            <span class="keyword">return</span> cour_head;</span><br><span class="line">        &#125;</span><br><span class="line">        point = point-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="todo"><a class="markdownIt-Anchor" href="#todo"></a> TODO</h3>
+<p><strong>Student Add Course &amp; View Student &amp; View Course</strong><br />
+In order to facilitate course selection, print the basic information of all students before course selection and call <code>out_stu</code> function; Then you can select the student number of the students to be selected and enter the course selection. In fact, the purpose is to associate the students with the courses in the schedule, because the two linked lists are independent at first.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;\tStudent Name\tStudent ID\tStudent Sex\n&quot;</span>);</span><br><span class="line">out_stu(stu_head);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Input the Student ID:&quot;</span>);</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;ID1);</span><br><span class="line">choose_cour(stu_head,ID1,cour_head);</span><br></pre></td></tr></table></figure>
+<p>The linked list extraction displays the basic information of all students. Read from the head node, move the head node until it is empty, and stop reading.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">out_stu</span><span class="params">(pstu stu_head)</span> &#123;</span><br><span class="line"><span class="keyword">while</span>(stu_head) &#123;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%s\t\t%d\t\t%s\n&quot;</span>,stu_head-&gt;name,stu_head-&gt;ID,stu_head-&gt;sex);</span><br><span class="line">   stu_head=stu_head-&gt;next;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Operate the <code>cour_head</code>. As same as <code>out_stu</code>.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">out_cour</span><span class="params">(pcour cour_head)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span>(cour_head) &#123;     <span class="built_in">printf</span>(<span class="string">&quot;%s\t\t%d\t\t%s\t\t%d\t\t%d\n&quot;</span>,cour_head-&gt;name,cour_head-&gt;ID,cour_head-&gt;teacher,cour_head-&gt;time,cour_head-&gt;classroom);</span><br><span class="line">        cour_head=cour_head-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>If the return value <code>stu_head</code> of the <code>find_stu</code> function is not empty, start the course selection operation. For easy addition, print the optional course information first; pass the return value <code>cour_head</code> of the <code>find_cour</code> function to the point; if not empty, dynamically create a memory space <code>choice_point</code> of type pcour, copy the cour size of the point to the <code>choice_point</code>, and initialize its next pointer.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pstu <span class="title function_">choose_cour</span><span class="params">(pstu stu_head,<span class="type">int</span> ID1,pcour cour_head)</span> &#123;</span><br><span class="line">    <span class="type">int</span> ID;</span><br><span class="line">    pcour point=<span class="literal">NULL</span>;</span><br><span class="line">    pcour choice_point=<span class="literal">NULL</span>;</span><br><span class="line">    pstu stu_point=find_stu(stu_head,ID1);</span><br><span class="line">    <span class="keyword">if</span>(stu_point!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\tCourse Name\tCourse ID\tCourse Teacher\tCourse Hour\tCourse Location\n&quot;</span>);</span><br><span class="line">        out_cour(cour_head);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Input the Course ID：&quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;ID);</span><br><span class="line">        point=find_cour(cour_head,ID);</span><br><span class="line">        <span class="keyword">if</span>(point!=<span class="literal">NULL</span>) &#123;</span><br><span class="line">            choice_point=(pcour)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(cour));</span><br><span class="line">            <span class="built_in">memcpy</span>(choice_point,point,<span class="keyword">sizeof</span>(cour));</span><br><span class="line">            choice_point-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">            <span class="keyword">if</span>(stu_point-&gt;selection==<span class="literal">NULL</span>) &#123;</span><br><span class="line">                stu_point-&gt;selection=choice_point;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                choice_point-&gt;next=stu_point-&gt;selection;</span><br><span class="line">                stu_point-&gt;selection=choice_point;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Choose successfully.\n&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> stu_head;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;This Course ID doesn&#x27;t exist.\n&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> stu_head;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;This Student ID doesn&#x27;t exist.&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> stu_head;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>View Student Course</strong><br />
+This part contains two layers of traversal, the outer loop traverses the student list, and the inner loop traverses the course selection list of each student.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">out_choice</span><span class="params">(pstu stu_head)</span> &#123;</span><br><span class="line">    pcour point=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span>(stu_head) &#123;</span><br><span class="line">        point=stu_head-&gt;selection;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\t%s\t\t%d\t\t%s\n&quot;</span>,stu_head-&gt;name,stu_head-&gt;ID,stu_head-&gt;sex);</span><br><span class="line">        <span class="keyword">while</span>(point) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;\t\t\t\t\t\t\t%s\t\t%d\t\t%s\t\t%d\t\t%d\n&quot;</span>,point-&gt;name,point-&gt;ID,point-&gt;teacher,point-&gt;time,point-&gt;classroom);</span><br><span class="line">            point=point-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        stu_head=stu_head-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=学生信息管理系统 - Stellarium&pics=https://cdn.fygod.xyz/uploads/2022/10/06/1/1665037914/STiRFGhH_ZYUoUTGa_wallhaven-rdp3q7-compressed(1).jpg&summary=12345678910111213141516Modules:Student    |-- Add Student     |-- Delete Student     |-- Change Student     |-- Stude..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=学生信息管理系统 - Stellarium&amp;body=https://stellariumimpl.github.io/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2020/05/26/%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2020/10/05/%E4%BB%8E%E5%B0%BE%E5%88%B0%E5%A4%B4%E6%89%93%E5%8D%B0%E9%93%BE%E8%A1%A8/">从尾到头打印链表</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2020/05/20/%E5%A4%A7%E4%B8%80%E4%B8%8B%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">大一下刷题记录</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts"></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== 'your_domain' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+Base64.encode(href)+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body>
+</html>

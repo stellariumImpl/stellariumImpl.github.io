@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.2">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Exactly Once语义在Flink中的实现 - Stellarium</title>
+
+  
+    <meta name="description" content="Flink案例很敷衍，有时间花时间看看  数据流和动态表 如何在数据流上执行SQL语句，说明流式处理中状态的概念。 传统的SQL首先处理的表是有界的，这也决定了查询时可以访问到完整的数据，每次查询都是批处理产生固定大小结果后终止；而流可以是一个无限元组序列，查询无法访问到所有的数据，所以查询会不断更新，永不终止。 数据流和动态表的转换   在流上定义表  动态表与表示批处理数据的静态表不同，是随时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exactly Once语义在Flink中的实现">
+<meta property="og:url" content="https://stellariumimpl.github.io/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="Flink案例很敷衍，有时间花时间看看  数据流和动态表 如何在数据流上执行SQL语句，说明流式处理中状态的概念。 传统的SQL首先处理的表是有界的，这也决定了查询时可以访问到完整的数据，每次查询都是批处理产生固定大小结果后终止；而流可以是一个无限元组序列，查询无法访问到所有的数据，所以查询会不断更新，永不终止。 数据流和动态表的转换   在流上定义表  动态表与表示批处理数据的静态表不同，是随时">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc9586df864b43268cf8f488588bcc7e~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9417ded4fc5444519d56f02837bc07e3~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01d3c5a05b744e83ac891fc216293fac~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7660951f65f44c94b50be8f29f62c0cc~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d311d0f0eee44ab89dbcb80124e8ac74~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af4bcd31bf534d078a1c470170301a73~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/11a234940d104615a3008d999f138922~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af4bcd31bf534d078a1c470170301a73~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ccd8f4090d246d5bf5f3500d0e15737~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aa96b317a8bc4985a22fc107e0075e0a~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe3c4ae7c048402db4697146fbc14879~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ad38e4c62434e8f952561ff57cc2972~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7f6fcb66e50401cb74278795690f36c~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/08d6de4b10464e6da525a4514157a87b~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f22b3d2e84848288938eb9c50b8d95d~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8c4d2c5002894d7d9120a46f730a3faa~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ab892c2da32c4c5cb58dc5680a9a290f~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/544a9106abfe4246ab422699be8fecd8~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4047462b0c804021b8db97d0c19b6f60~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f04949869cf7433d9db35487a0e27d73~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c953ef586c2f449e8008faafd4bd320d~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35582a11d4bd4f97ab14315174a42905~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd07b61d8f864837a02cf1e1e367bbbb~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ab6a0f46f7df4799b84c9ec31ee5c9b1~tplv-k3u1fbpfcp-watermark.image?">
+<meta property="article:published_time" content="2023-12-28T12:01:20.000Z">
+<meta property="article:modified_time" content="2023-01-02T05:08:43.492Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="Exactly Once语义">
+<meta property="article:tag" content="Flink">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc9586df864b43268cf8f488588bcc7e~tplv-k3u1fbpfcp-watermark.image?">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://cdn.fygod.xyz/uploads/2022/12/30/1/1672390046/DgQVRur0_icons8-uplay-app-144.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">沉舟侧畔千帆过</div><div class="sub hover cap" style="opacity:0"> 病树前头万木春</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Exactly Once语义在Flink中的实现</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%B5%81%E4%B8%8A%E5%AE%9A%E4%B9%89%E8%A1%A8"><span class="toc-text"> 在流上定义表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E7%BB%AD%E6%9F%A5%E8%AF%A2"><span class="toc-text"> 连续查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%AF%94"><span class="toc-text"> 对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#retract%E6%B6%88%E6%81%AF%E7%9A%84%E4%BA%A7%E7%94%9F"><span class="toc-text"> Retract消息的产生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8A%B6%E6%80%81"><span class="toc-text"> 状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%BF%AB%E7%85%A7%E4%B8%8E%E6%81%A2%E5%A4%8D"><span class="toc-text"> 状态快照与恢复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E5%BF%AB%E7%85%A7%E7%9A%84%E6%97%B6%E9%97%B4%E7%82%B9"><span class="toc-text"> 制作快照的时间点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chandy-lamport%E7%AE%97%E6%B3%95"><span class="toc-text"> Chandy-Lamport算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7%E5%88%B6%E4%BD%9C%E7%9A%84%E5%BC%80%E5%A7%8B"><span class="toc-text"> 快照制作的开始</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#source%E7%AE%97%E5%AD%90%E7%9A%84%E5%A4%84%E7%90%86"><span class="toc-text"> source算子的处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#barrier-alignment"><span class="toc-text"> barrier alignment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7%E5%88%B6%E4%BD%9C%E5%92%8C%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A7%A3%E8%80%A6"><span class="toc-text"> 快照制作和处理数据的解耦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#checkpoint%E7%BB%93%E6%9D%9F"><span class="toc-text"> checkpoint结束</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#checkpoint%E5%AF%B9%E4%BD%9C%E4%B8%9A%E6%80%A7%E8%83%BD%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="toc-text"> checkpoint对作业性能的影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E5%8D%8F%E8%AE%AE"><span class="toc-text"> 两个阶段提交协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%B8%80%E9%A2%84%E6%8F%90%E4%BA%A4%E9%98%B6%E6%AE%B5"><span class="toc-text"> 阶段一：预提交阶段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%E6%8F%90%E4%BA%A4%E9%98%B6%E6%AE%B5"><span class="toc-text"> 阶段二：提交阶段</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#flink%E4%B8%AD%E7%9A%84%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4sink"><span class="toc-text"> Flink中的两阶段提交sink</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2022/09/22/Redis-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%87/"><span class="title">Redis 设计与实现 数据库篇</span></a><a class="item title" href="/2023/12/31/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84-Window-%E8%AE%A1%E7%AE%97/"><span class="title">流式计算中的 Window 计算</span></a><a class="item title" href="/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/"><span class="title">Exactly Once语义在Flink中的实现</span></a><a class="item title" href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/"><span class="title">流/批/OLAP 一体的 Flink 引擎介绍</span></a><a class="item title" href="/2023/01/01/SQL%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E5%99%A8%E6%B5%85%E6%9E%90/"><span class="title">SQL查询优化器浅析</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/gmail.png"/></a><a class="social" href="https://cone.fygod.xyz" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/mastodon.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/youtube.png"/></a><a class="social" href="https://onedrive.fygod.xyz/zh-CN" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/onedrive.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%9D%92%E8%AE%AD%E8%90%A5%E7%AC%94%E8%AE%B0/">青训营笔记</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-12-28T12:01:20.000Z">2023-12-28</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>Exactly Once语义在Flink中的实现</span></h1>
+<p><strong>Flink案例很敷衍，有时间花时间看看</strong></p>
+<h1 id="数据流和动态表"><a class="markdownIt-Anchor" href="#数据流和动态表"></a> 数据流和动态表</h1>
+<p><strong>如何在数据流上执行SQL语句，说明流式处理中状态的概念。</strong></p>
+<p>传统的SQL首先处理的表是有界的，这也决定了查询时可以访问到完整的数据，每次查询都是批处理产生固定大小结果后终止；而流可以是一个无限元组序列，查询无法访问到所有的数据，所以查询会不断更新，永不终止。</p>
+<p><strong>数据流和动态表的转换</strong><br />
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dc9586df864b43268cf8f488588bcc7e~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h2 id="在流上定义表"><a class="markdownIt-Anchor" href="#在流上定义表"></a> 在流上定义表</h2>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9417ded4fc5444519d56f02837bc07e3~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p>动态表与表示批处理数据的静态表不同，是随时间变化的，不过查询方式和静态表是一样的。</p>
+<h2 id="连续查询"><a class="markdownIt-Anchor" href="#连续查询"></a> 连续查询</h2>
+<p><strong>不过查出来的东西肯定不一样，如下图</strong><br />
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/01d3c5a05b744e83ac891fc216293fac~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /><br />
+比如，查完marry之后<strong>不会终止</strong>这个查询，会等待其他人的访问，等待下一次Mary的访问，查询结果会<strong>不断更新</strong>，累计对该网站的点击量，产生新的一张动态表。</p>
+<p>在任何时候，<strong>连续查询的结果</strong>在语义上与<strong>批处理模式在输入表快照上执行的相同查询的结果</strong>相同。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7660951f65f44c94b50be8f29f62c0cc~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p>上图<strong>左边每个大括号表示一个窗口，右边每个大括号代表一个时间表</strong>，TUMBLE_END 代表窗口结束时间，上述SQL指定了窗口结束时间，时间间隔为1小时。比如，从12点到1点Bob点击了1次，之后1点01分又访问一次，由于结束时间已经不一样，所以不会更新之前的记录，只会新插入一条记录。</p>
+<h3 id="对比"><a class="markdownIt-Anchor" href="#对比"></a> 对比</h3>
+<p>虽然上述两个查询示例看起来相似，都计算分组计数聚合，但存在一个重要的不同</p>
+<ul>
+<li>第一个查询更新先前输出的结果，即定义结果表的changelog流<strong>包含INSERT和UPDATE操作</strong></li>
+<li>第二个查询只会附加到结果表，即结果表的changelog流<strong>只包含INSERT操作</strong></li>
+</ul>
+<h3 id="retract消息的产生"><a class="markdownIt-Anchor" href="#retract消息的产生"></a> Retract消息的产生</h3>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d311d0f0eee44ab89dbcb80124e8ac74~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p>插入、更新、删除都支持的动态表会转换为撤回流。</p>
+<p>撤回流包含两类消息：<strong>添加（Add）消息</strong>和<strong>撤回（Retract）消息</strong>。</p>
+<p>动态表通过将 INSERT 编码为 add 消息、DELETE 编码为 retract 消息、UPDATE 编码为被更改行（更改前）的retract 消息和更新后行（新行）的 add 消息，转换为 retract 流。</p>
+<p>当Mary第二次点击时，先回撤第一条记录，再插入更新后的记录。</p>
+<h3 id="状态"><a class="markdownIt-Anchor" href="#状态"></a> 状态</h3>
+<p>从刚才的例子，我们能看出动态表的更新依赖于之前计数记录，所以说需要<strong>存储每位用户的URL计数</strong>，以便能够增加该计数并在输入表接收新行时发送新结果，所以说这种查询需要维护更多的状态（state）数据</p>
+<ul>
+<li>数据流和动态表之间的转换</li>
+<li>在数据流的查询不会终止</li>
+<li>查询可能会有的状态，用来不断更新查询的结果</li>
+</ul>
+<p><strong>查询中出现故障怎么办？</strong></p>
+<p><strong>故障发生时，Flink自身如何从故障中恢复</strong></p>
+<ul>
+<li>at-most-once：出现故障的时候，啥也不做，能保证所有时间处理数据流，不会有其他开销，处理时延低</li>
+<li>at-least-once：保证每条数据至少被处理一次，但是对同一条数据可能存在重复消费</li>
+<li>exactly-once：最严格的语义，从输出结果来看，每条数据均被消费且仅消费一次，仿佛故障从未发生</li>
+</ul>
+<p><strong>如何保证对数据消费的不重不漏</strong></p>
+<h1 id="exactly-once和checkpoint"><a class="markdownIt-Anchor" href="#exactly-once和checkpoint"></a> Exactly-Once和Checkpoint</h1>
+<h2 id="状态快照与恢复"><a class="markdownIt-Anchor" href="#状态快照与恢复"></a> 状态快照与恢复</h2>
+<p>下图，是一个持续的多少以内的奇偶数分别求和的快照建立与错误恢复的例子<br />
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af4bcd31bf534d078a1c470170301a73~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p>上图，source偏移量到5的时候，对几个算子建立快照<code>source(5),sum_even(2+4),sum_odd(1+3+5)</code>，这样就做了一个checkpoint，并将状态保存至状态后端了</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/11a234940d104615a3008d999f138922~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p>上图，source到7时，sum_odd出错</p>
+<ul>
+<li>recovery1：立即重启应用，source，sum_even，sum_odd状态皆被清空；</li>
+<li>recovery2：再从checkpoint读取状态，恢复状态，这时其内部状态与检查点完成时的状态完全相同。</li>
+<li>recovery3：继续处理后续计算<code>source(7),sum_even(6+6),sum_odd(9+7)</code>，这种检查点的保存和恢复机制可以为应用程序状态提供exactly-once的一致性，因为所有算子都会保存检查点并恢复其所有状态，这样一来所有的输入流就都会被重置到检查点完成时的位置。</li>
+</ul>
+<h2 id="制作快照的时间点"><a class="markdownIt-Anchor" href="#制作快照的时间点"></a> 制作快照的时间点</h2>
+<p><strong>状态恢复的时间点</strong></p>
+<p>问题来了，我们能否在任意时刻创建checkpoint保存状态？</p>
+<p>试想，当source到5，但是数据未传输到下游奇数累加器，那么，如果这时候建立快照，三处状态分别是5，6，4；<em>那么如果后面从此处恢复，source由于已经是5，所以会直接读6，而事实上此时sum_odd只有(1+3)，还没加进5</em>，偶数累加器也不知道5有没有加进来，5就这样被丢失了。</p>
+<p><strong>需要的等待所有处理逻辑消费完成source保留状态及之前的数据</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/af4bcd31bf534d078a1c470170301a73~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><strong>有一个简单的快照制作算法：</strong></p>
+<ul>
+<li>暂停处理输入的数据</li>
+<li><strong>等待后续所有算子消费当前已经输入的数据</strong></li>
+<li>等待上一步处理完后，作业所有的算子复制自己的状态并保存到远端可靠存储</li>
+<li>恢复对输入数据的处理</li>
+</ul>
+<p><em>看似挺好，必须得等sum_odd处理完5，并且source也确认过后才会存至远端，继续消费；但是这需要停止作业逻辑，等待可能漫长的状态制作过程，实施场景不太可能</em></p>
+<h2 id="chandy-lamport算法"><a class="markdownIt-Anchor" href="#chandy-lamport算法"></a> Chandy-Lamport算法</h2>
+<p>这是一个经典的分布式状态快照制作算法，例子仍然是刚才的奇偶数累加，但是现在<em>两个数据流并行独立地处理各自的数据</em>。</p>
+<p>用到了checkpoint barrier，这是一种特殊的数据形式，用来把一条流上数据按照不同的checkpoint分开，分界线之前到来的数据导致的状态更改，都会被包含在当前分界线所属的检查点中；而基于分界线之后的数据导致的所有更改，就会包含在之后的检查点中。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8ccd8f4090d246d5bf5f3500d0e15737~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="快照制作的开始"><a class="markdownIt-Anchor" href="#快照制作的开始"></a> 快照制作的开始</h3>
+<p>每一个source算子都接收到JM发送的checkpoint barrier，标识状态快照制作的开始（图中初始检查点2）</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aa96b317a8bc4985a22fc107e0075e0a~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="source算子的处理"><a class="markdownIt-Anchor" href="#source算子的处理"></a> source算子的处理</h3>
+<p>各个source保存自己的状态后，向所有连接的下游继续发送checkpoint barrier，同时告知JM自己状态已经制作完成，具体的，source1和source2收到检查点2，会分别向远端存入自己的偏移量蓝3黄4，完后返回一个ack of checkpoint2通知JM快照已经存好<code>Acknowledge completion of task checkpoint2</code>；<strong>在保存快照时source会暂停发送和处理数据</strong>，同时它也会向下游发送带有检查点2的barrier，以广播形式发送（emit），<strong>另外可以看出这个过程中sum和sink都在工作</strong>。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fe3c4ae7c048402db4697146fbc14879~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="barrier-alignment"><a class="markdownIt-Anchor" href="#barrier-alignment"></a> barrier alignment</h3>
+<p>barrier继续向下游传递，很有可能没有同时到达，累加任务会等待所有输入分区的barrier到达，barrier已经到达的分区，后续到达的数据会被缓存；而barrier尚未到达的分区，数据会被正常处理。具体的，如下图所示，蓝2通知sum_even，它会等待黄2的barrier达到，此时待处理的数据4来了，会先被缓存<code>buffered record for barrier alignment</code>；黄2的checkpoint2还在路上，barrier尚未到达，在此之前source2发送了待处理数据4，那么sum_even还是可以正常处理<strong>sum_event(2+2+4)</strong></p>
+<ul>
+<li>算子会等待所有上游的barrier到齐之后，才开始快照的制作</li>
+<li>已经制作完成的上游算子会继续处理数据，并不会被下游算子制作快照的过程阻塞</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4ad38e4c62434e8f952561ff57cc2972~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="快照制作和处理数据的解耦"><a class="markdownIt-Anchor" href="#快照制作和处理数据的解耦"></a> 快照制作和处理数据的解耦</h3>
+<p>当收到所有输入分区的barrier时，任务就将其状态保存到后端的检查点中，然后将barrier继续向下游发送；barrier对齐之后，sum_even和sum_odd都接收到了两个source发来的barrier，将它们各自的状态8存入checkpoint中，接下来继续向下游sink广播barrier；完后，任务继续正常的数据处理，先处理缓存的数据，蓝4加载进来sum_even 12，黄6加载进来sum_even 18</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7f6fcb66e50401cb74278795690f36c~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /><br />
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/08d6de4b10464e6da525a4514157a87b~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="checkpoint结束"><a class="markdownIt-Anchor" href="#checkpoint结束"></a> checkpoint结束</h3>
+<p>Sink任务向JobManager确认状态保存到checkpoint完毕；（Sink接收到barrier后先保存状态到checkpoint，然后向JobManager汇报），当所有任务都确认已成功将状态保存到检查点时，检查点就真正完成了。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3f22b3d2e84848288938eb9c50b8d95d~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h2 id="checkpoint对作业性能的影响"><a class="markdownIt-Anchor" href="#checkpoint对作业性能的影响"></a> checkpoint对作业性能的影响</h2>
+<ol>
+<li>解耦了快照制作和数据处理过程，各个算子制作完成状态快照后就可以正常处理数据，不用等下游算子 制作制作完成快照；</li>
+<li>在快照制作和Barrier Alignment过程中需要暂停处理数据，仍然会增加数据处理延迟；</li>
+<li>快照保存到远端也有可能极为耗时。</li>
+</ol>
+<h1 id="端到端的exactly-once实现"><a class="markdownIt-Anchor" href="#端到端的exactly-once实现"></a> 端到端的Exactly-Once实现</h1>
+<p><strong>Flink本身的Checkpoint机制如何和外部存储结合，实现端到端的不重不漏语义</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8c4d2c5002894d7d9120a46f730a3faa~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<ol>
+<li>Checkpoint能保证每条数据都对各个有状态的算子更新一次，sink输出算子仍然可能下发重复的数据</li>
+<li>严格意义的端到端的exactly-once语义需要特殊的sink算子实现</li>
+</ol>
+<h2 id="两个阶段提交协议"><a class="markdownIt-Anchor" href="#两个阶段提交协议"></a> 两个阶段提交协议</h2>
+<p>在多个节点参与执行的分布式系统中，为了协调每个节点都能<strong>同时执行</strong>或者<strong>回滚某个事务性的操作</strong>，引入了一个中心节点来统一处理所有节点的执行逻辑，这个中心节点叫做<strong>协作者（coordinate）</strong>，被中心节点调度的其它业务节点叫做<strong>参与者（participant）</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ab892c2da32c4c5cb58dc5680a9a290f~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<h3 id="阶段一预提交阶段"><a class="markdownIt-Anchor" href="#阶段一预提交阶段"></a> 阶段一：预提交阶段</h3>
+<ol>
+<li>协作者向所有参与者发送一个commit消息</li>
+<li>每个参与的协作者收到消息后，执行事务，但是不是真正提交</li>
+<li>若事务成功执行完成，发送一个成功的消息（vote yes）；执行失败，则发送一个失败的消息（vote no）</li>
+</ol>
+<h3 id="阶段二提交阶段"><a class="markdownIt-Anchor" href="#阶段二提交阶段"></a> 阶段二：提交阶段</h3>
+<p><strong>场景一：若协作者成功接收到所有的参与者vote yes的消息</strong></p>
+<ol>
+<li>协作者向所有参与者发送一个commit消息</li>
+<li>每个收到commit消息的参与者释放执行事务所需的资源，并结束这次事务的执行</li>
+<li>完后，参与者发送一个ack消息给协作者</li>
+<li>协作者受到所有参与者的ack消息后，标识该事务执行完成</li>
+</ol>
+<p><strong>场景二：若协作者有收到参与者vote no的消息（或者发生超时等待）</strong></p>
+<ol>
+<li>协作者向所有的参与者发送一个rollback消息</li>
+<li>每个收到rollback消息的参与者回滚事物的执行操作，并释放事务所占资源</li>
+<li>完后，参与者发送一个ack消息给协作者</li>
+<li>协作者收到所有参与者的ack消息，标识该事务成功完成回滚</li>
+</ol>
+<h2 id="flink中的两阶段提交sink"><a class="markdownIt-Anchor" href="#flink中的两阶段提交sink"></a> Flink中的两阶段提交sink</h2>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/544a9106abfe4246ab422699be8fecd8~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4047462b0c804021b8db97d0c19b6f60~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f04949869cf7433d9db35487a0e27d73~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c953ef586c2f449e8008faafd4bd320d~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35582a11d4bd4f97ab14315174a42905~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<ol>
+<li><strong>事务开启</strong>：在sink task向下游写数据之前，均会开启一个事务，后续所有写数据的操作均在这个事务中执行，事务未提交前，事务写入的数据下游不可读；</li>
+<li><strong>预提交阶段</strong>：JobManager开始下发Checkpoint Barrier,当各个处理逻辑接收到barrier后停止处理后续数据，对当前状态制作快照，此时sink也不在当前事务下继续处理数据（处理后续的数据需要新打开下一个事务）。状态制作成功则向JM成功的消息，失败则发送失败的消息；</li>
+<li><strong>提交阶段</strong>：若JM收到所有预提交成功的消息，则向所有处理逻辑（包括sink）发送可以提交此次事务的消息，sink接收到此 消息后，则完成此次事务的提交，此时下游可以读到这次事务写入的数据；若JM有收到预提交失败的消息，则通知所有处理逻辑回滚这次事务的操作，此时sink则丢弃这次事务提交的数据下。</li>
+</ol>
+<h1 id="flink案例"><a class="markdownIt-Anchor" href="#flink案例"></a> Flink案例</h1>
+<p><strong>选择字节内部真实案例场景，介绍Flink如何解决和实现账单计费服务</strong></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd07b61d8f864837a02cf1e1e367bbbb~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><strong>执行步骤</strong></p>
+<ol>
+<li>在上次记录的位点之后，从Kafka中读 取固定大小的数据；</li>
+<li>对该批数据进行去重和聚合计算；</li>
+<li>处理完成后写入Mysql中，若全部写入成功，则记录下当前读取到的消息的终止位置；若处理或者写入失败，则不记录位点；</li>
+<li>跳回步骤1</li>
+</ol>
+<p><em>从Kafka中读取账单消息，进行处理后写入到MySQL中</em></p>
+<p><strong>存在的问题：</strong></p>
+<ol>
+<li>非严格意义上的端到端的Exactly-Once 语义： 若该批数据处理完成后，在写入MySQL中发生异常，则存在部分数据写入的情况，下次作业启动后，这部分数据仍然会重复写入；</li>
+<li>去重能力有限：只能在当前处理的一批数据内进行去重，无法在批与批之间进行去重；</li>
+</ol>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ab6a0f46f7df4799b84c9ec31ee5c9b1~tplv-k3u1fbpfcp-watermark.image?" alt="image.png" /></p>
+<p><strong>优势：</strong></p>
+<ol>
+<li>严格意义上的端到端的Exactly-Once语义：下游读到的数据是不丢不重的；</li>
+<li>增强的去重能力：可以在更长的时间维度 对数据进行去重。</li>
+</ol>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/&title=Exactly Once语义在Flink中的实现 - Stellarium&pics=https://cdn.fygod.xyz/uploads/2022/08/29/1/1661781365/o62n1jl2_wallhaven-dpkedl-compressed.jpg&summary=Flink案例很敷衍，有时间花时间看看
+ 数据流和动态表
+如何在数据流上执行SQL语句，说明流式处理中状态的概念。
+传统的SQL首先处理的表是有界的，这也决定了查询时可以访问到完整的数据，每次查询都是批处理产生固定大小结果后终止；而流..."><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=Exactly Once语义在Flink中的实现 - Stellarium&amp;body=https://stellariumimpl.github.io/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/12/31/%E6%B5%81%E5%BC%8F%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84-Window-%E8%AE%A1%E7%AE%97/">流式计算中的 Window 计算</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/">流/批/OLAP 一体的 Flink 引擎介绍</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2023\01\02\流-批-OLAP-一体的-Flink-引擎介绍\" title="流/批/OLAP 一体的 Flink 引擎介绍"><span class="title">流/批/OLAP 一体的 Flink 引擎介绍</span></a><a class="item" href="\2023\01\01\SQL查询优化器浅析\" title="SQL查询优化器浅析"><span class="title">SQL查询优化器浅析</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+
+        <script src="//cdn.jsdelivr.net/npm/js-base64/base64.min.js"></script>
+        <script>
+        const hasAttr = (e,a) => a.some(_=> e.attr(_)!==undefined);
+        $('a').each(function() {
+          const $this = $(this);
+          if(hasAttr($this,["data-fancybox","ignore-external-link"])) return;
+          const href = $this.attr('href');
+          if (href && href.match('^((http|https|thunder|qqdl|ed2k|Flashget|qbrowser|ftp|rtsp|mms)://)')) {
+            const strs = href.split('/');
+            if (strs.length >= 3) {
+                const host = strs[2];
+                if (host !== 'your_domain' || window.location.host) {
+                    $this.attr('href', '/go.html?u='+Base64.encode(href)+'').attr('rel', 'external nofollow noopener noreferrer');
+                    if (true) {
+                        $this.attr('target', '_blank');
+                    }
+                }
+            }
+          }
+        });
+        </script></body>
+</html>
