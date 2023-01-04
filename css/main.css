@@ -4403,6 +4403,12 @@ nav.menu a.nav-item:hover {
 .steam-game-button::before {
   border-radius: 4px;
 }
+.hitokoto {
+  padding: 10px;
+  text-align: left;
+  color: #095ad4;
+  margin: 5px 0 5px 0;
+}
 .post-list {
   margin: 1rem;
 }
