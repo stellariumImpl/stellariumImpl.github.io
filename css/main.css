@@ -28,6 +28,12 @@
     --width-left: 288px;
   }
 }
+@font-face {
+  font-family: 'LXGW WenKai Screen';
+  src: url("/font/LXGWWenKai-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
 :root {
   --site-bg: #f9fafb;
   --card: #fff;
@@ -694,7 +700,7 @@ table:not([class]) {
   outline: none;
 }
 html {
-  font-family: Ovo, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
+  font-family: LXGW WenKai Screen, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -3846,7 +3852,7 @@ nav.menu a.nav-item:hover {
   padding: 0.5rem 0;
   line-height: 1;
   box-sizing: border-box;
-  font-family: Ovo, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
+  font-family: LXGW WenKai Screen, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
   color: var(--text-p0);
 }
 .search-wrapper.noresult .search-icon {
@@ -4404,7 +4410,7 @@ nav.menu a.nav-item:hover {
   border-radius: 4px;
 }
 .hitokoto {
-  padding: 10px;
+  padding: 16px;
   text-align: left;
   color: #095ad4;
   margin: 5px 0 5px 0;
@@ -4985,6 +4991,9 @@ div.swiper-slide img {
 }
 .swiper-button-next:after {
   transform: translateX(1px);
+}
+.reveal {
+  visibility: hidden;
 }
 img[fancybox='true'] {
   cursor: zoom-in;

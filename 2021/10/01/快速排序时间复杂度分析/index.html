@@ -105,7 +105,7 @@
 
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a></div><div id="post-meta">发布于&nbsp;<time datetime="2021-10-01T15:53:45.000Z">2021-10-01</time></div></div>
 
-<article class='md-text content post'>
+<article class='md-text content post reveal'>
 <h1 class="article-title"><span>快速排序时间复杂度分析</span></h1>
 <p>基于分治的思想，首先在数组中选择一个基准点，选取基准点的效率决定了时间复杂度，从数组两端扫描数组，设置<code>low</code> 和 <code>high</code>两个索引，图中蓝标代表<code>low</code>红标代表<code>high</code>，橘色表代表重合位置</p>
 <p>首次分割，数列被分成了两个子数列，长度分别是<code>i-1</code>和<code>n-i</code>，排序时间表示为<code>T(i-1)</code>和<code>T(n-i)</code>，计算总时间还得加上分割操作的时间，分割操作只用了循环<code>while(low&lt;high)</code>，此段时间记为<code>cn</code>，所以<code>Tn = T(i-1)+T(n-i)+cn</code>；</p>
@@ -302,8 +302,8 @@
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

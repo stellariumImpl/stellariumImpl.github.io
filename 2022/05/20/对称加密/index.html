@@ -130,7 +130,7 @@
 
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE/">通信协议</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-05-20T13:00:00.000Z">2022-05-20</time></div></div>
 
-<article class='md-text content post'>
+<article class='md-text content post reveal'>
 <h1 class="article-title"><span>对称加密</span></h1>
 <h1 id="流密码"><a class="markdownIt-Anchor" href="#流密码"></a> 流密码</h1>
 <p>逐位加密信息，将明文消息分解为单个位，然后使用密钥位将其分别转换为密文。流密码一次加密一位数据，而不用等待数据块的形成，此过程的关键在于根据加密密钥和种子（随机数<code>nonce</code>）生成伪随机比特流，它们一起创建了一个密钥流（伪随机比特流），该密钥流再与纯文本逐位进行异或运算，生成密文。因为每个数字的加密都取决于密码引擎的当前状态，所以流密码也被称为状态密码。</p>
@@ -498,8 +498,8 @@ Ri = Li ⊕ f(Ri-1, Ki);</p>
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

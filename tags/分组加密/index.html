@@ -104,7 +104,7 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a href="/">近期发布</a><a href="/categories">分类</a><a class="active" href="/tags">标签：分组加密</a><a href="/archives">归档</a><a href="/friends/rss/">朋友文章</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/05/20/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+  <div class="post-list post"><a class="post-card post  reveal" href="/2022/05/20/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/uploads/2022/05/22/B7Yoelfp_wallhaven-y89del.png"/></div><h2 class="post-title">对称加密</h2><div class="excerpt"><p> 流密码
 逐位加密信息，将明文消息分解为单个位，然后使用密钥位将其分别转换为密文。流密码一次加密一位数据，而不用等待数据块的形成，此过程的关键在于根据加密密钥和种子（随机数nonce）生成伪随机比特流，它们一起创建了一个密钥流（伪随机比特流），该密钥流再与纯文本逐位进行异或运算，生成密文。因为每个数字的加密都取决于密码引擎的当前状态，所以流密码也被称为状态密码。
 
@@ -260,8 +260,8 @@
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

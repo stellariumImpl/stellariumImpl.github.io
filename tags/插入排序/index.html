@@ -104,11 +104,11 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a href="/">近期发布</a><a href="/categories">分类</a><a class="active" href="/tags">标签：插入排序</a><a href="/archives">归档</a><a href="/friends/rss/">朋友文章</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/09/18/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+  <div class="post-list post"><a class="post-card post  reveal" href="/2022/09/18/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/uploads/2023/01/02/1/1672631342/8op9fSDs_20200612112131396.jpg"/></div><h2 class="post-title">快速排序</h2><div class="excerpt"><p> 基本思想
 快速排序每一次都排定一个元素（这个元素呆在了它最终应该呆的位置），然后递归地去排它左边的部分和右边的部分，依次进行下去，直到数组有序
 123456789101112131415161718192021222324252627282930313233343536373839public class quicksort &#123;    public static void qui...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-09-18T02:30:58.000Z">2022-09-18</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post " href="/2022/05/12/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/">
+</a><a class="post-card post  reveal" href="/2022/05/12/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/blog/nest/DdgrdlBA_wallhaven-6olw9x-compressed.jpg"/></div><h2 class="post-title">希尔排序</h2><div class="excerpt"><p> 回顾插入排序
 12345678def insertSort(li):    for i in range(1,len(li)): #i表示摸到的牌的下标,注意循环从1开始,因为手里的牌是0        tmp=li[i]        j=i-1 #j表示手里的牌的下标        while j&gt;=0 and li[j]&gt;tmp: #如果手里的牌比tmp小或者手里已经没有...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-05-12T03:26:49.000Z">2022-05-12</time></span><span class="cap breadcrumb">数据结构</span></div></article>
 </a></div>
@@ -261,8 +261,8 @@
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

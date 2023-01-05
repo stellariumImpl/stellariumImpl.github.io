@@ -104,7 +104,7 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a href="/">近期发布</a><a href="/categories">分类</a><a class="active" href="/tags">标签：语法树构建</a><a href="/archives">归档</a><a href="/friends/rss/">朋友文章</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2021/12/06/%E6%B6%88%E9%99%A4%E5%9B%9E%E6%BA%AF%E5%92%8CLL1%EF%BC%8C%E6%B6%88%E9%99%A4%E5%B7%A6%E9%80%92%E5%BD%92/">
+  <div class="post-list post"><a class="post-card post  reveal" href="/2021/12/06/%E6%B6%88%E9%99%A4%E5%9B%9E%E6%BA%AF%E5%92%8CLL1%EF%BC%8C%E6%B6%88%E9%99%A4%E5%B7%A6%E9%80%92%E5%BD%92/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/uploads/2022/05/27/cPZmhYxH_wallhaven-pkzpoj.jpg"/></div><h2 class="post-title">消除回溯和LL1，消除左递归</h2><div class="excerpt"><p> 消除回溯和LL1
 前面我们知道，自上而下分析出现的第一个问题是文法左递归问题，还有一个回溯问题；如何构造一个不带回溯的自上而下分析算法？
 为了消除回溯必须保证，对文法的任何非终结符，当要它去匹配输入串时，能够根据它所面临的输入符号准确地指派它的一个候选去执行任务，并且此候选的工作结果应该是确信无疑的。
@@ -260,8 +260,8 @@
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

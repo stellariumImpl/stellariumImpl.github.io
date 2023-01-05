@@ -107,7 +107,7 @@
 
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-09-22T14:09:31.000Z">2022-09-22</time></div></div>
 
-<article class='md-text content post'>
+<article class='md-text content post reveal'>
 <h1 class="article-title"><span>Redis 设计与实现 数据库篇</span></h1>
 <h3 id="redis-数据库"><a class="markdownIt-Anchor" href="#redis-数据库"></a> Redis 数据库</h3>
 <h3 id="服务器中的数据库"><a class="markdownIt-Anchor" href="#服务器中的数据库"></a> 服务器中的数据库</h3>
@@ -409,8 +409,8 @@ redis服务器将所有数据库都保存在服务器状态redisServer 结构的
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});

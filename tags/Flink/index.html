@@ -104,7 +104,7 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a href="/">近期发布</a><a href="/categories">分类</a><a class="active" href="/tags">标签：Flink</a><a href="/archives">归档</a><a href="/friends/rss/">朋友文章</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+  <div class="post-list post"><a class="post-card post  reveal" href="/2023/12/28/Exactly-Once%E8%AF%AD%E4%B9%89%E5%9C%A8Flink%E4%B8%AD%E7%9A%84%E5%AE%9E%E7%8E%B0/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/uploads/2022/08/29/1/1661781365/o62n1jl2_wallhaven-dpkedl-compressed.jpg"/></div><h2 class="post-title">Exactly Once语义在Flink中的实现</h2><div class="excerpt"><p>Flink案例很敷衍，有时间花时间看看
  数据流和动态表
 如何在数据流上执行SQL语句，说明流式处理中状态的概念。
@@ -114,7 +114,7 @@
  在流上定义表
 
 动态表与表示批处理数据的静态表不同，...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-12-28T12:01:20.000Z">2023-12-28</time></span><span class="cap breadcrumb">青训营笔记</span></div></article>
-</a><a class="post-card post " href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/">
+</a><a class="post-card post  reveal" href="/2023/01/02/%E6%B5%81-%E6%89%B9-OLAP-%E4%B8%80%E4%BD%93%E7%9A%84-Flink-%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://cdn.fygod.xyz/uploads/2022/11/16/1/1668591062/GGtHFfAV_52481756807_f1d16d6418_o-compressed.jpg"/></div><h2 class="post-title">流/批/OLAP 一体的 Flink 引擎介绍</h2><div class="excerpt"><p> Apache Flink 概述
  大数据时代发展背景及面临问题
 大数据是大数据时代之下系统演化结果，是更加贴近大数据场景下用户处理数据的诉求，而非开历史倒车。大数据、大数据，我们讨论的就是一个“数据爆炸”时代下如何进行有效地大规模数据处理问题。这个问题是数据库之前未曾遇到、也未曾解决的特定问题，这些数据可能非结构化、非关系化，可能是半结构化的 Nginx 日志或者是用户上传的图片、再或者可...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-02T04:58:59.000Z">2023-01-02</time></span><span class="cap breadcrumb">青训营笔记</span></div></article>
@@ -268,8 +268,8 @@
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
