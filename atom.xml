@@ -6,7 +6,7 @@
   <link href="https://stellariumimpl.github.io/atom.xml" rel="self"/>
   
   <link href="https://stellariumimpl.github.io/"/>
-  <updated>2023-01-08T15:40:07.113Z</updated>
+  <updated>2023-01-08T15:44:51.906Z</updated>
   <id>https://stellariumimpl.github.io/</id>
   
   <author>
@@ -17,13 +17,13 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>构造函数与函数重载</title>
-    <link href="https://stellariumimpl.github.io/2023/01/08/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"/>
-    <id>https://stellariumimpl.github.io/2023/01/08/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/</id>
+    <title>C++基础知识</title>
+    <link href="https://stellariumimpl.github.io/2023/01/08/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>https://stellariumimpl.github.io/2023/01/08/C++%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</id>
     <published>2023-01-08T07:55:05.000Z</published>
-    <updated>2023-01-08T15:40:07.113Z</updated>
+    <updated>2023-01-08T15:44:51.906Z</updated>
     
-    <content type="html"><![CDATA[<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">complex</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="built_in">complex</span>(<span class="type">double</span> r = <span class="number">0</span>, <span class="type">double</span> i = <span class="number">0</span>):<span class="built_in">re</span>(r),<span class="built_in">im</span>(i)&#123;&#125;</span><br><span class="line">complex&amp; <span class="keyword">operator</span> +=(<span class="type">const</span> complex&amp;);</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">real</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> re; &#125;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">image</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> im; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"><span class="type">double</span> re, im;</span><br><span class="line"></span><br><span class="line"><span class="keyword">friend</span> complex&amp; __doapl(complex*, <span class="type">const</span> complex&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>创建对象时自动调用构造函数 <code>complex(double r = 0, double i = 0):re(r),im(i)&#123;&#125;</code> ，名称一定要和类名相同，创建对象时如果未赋初值，则使用默认实参，也不需要写 return type ，因为构造函数就是用来创建对象的，创建的自然是某某 class。</p><p>以上代码可以等价于 <code>complex(double r = 0, double i = 0) &#123; re = r; im = i; &#125;</code> ，最好还是写成初始化的形式。</p><p>构造函数可以有很多个，overloading。</p>]]></content>
+    <content type="html"><![CDATA[<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">complex</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="built_in">complex</span>(<span class="type">double</span> r = <span class="number">0</span>, <span class="type">double</span> i = <span class="number">0</span>):<span class="built_in">re</span>(r),<span class="built_in">im</span>(i)&#123;&#125;</span><br><span class="line">complex&amp; <span class="keyword">operator</span> +=(<span class="type">const</span> complex&amp;);</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">real</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> re; &#125;</span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">image</span><span class="params">()</span><span class="type">const</span> </span>&#123; <span class="keyword">return</span> im; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line"><span class="type">double</span> re, im;</span><br><span class="line"></span><br><span class="line"><span class="keyword">friend</span> complex&amp; __doapl(complex*, <span class="type">const</span> complex&amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>创建对象时自动调用构造函数 <code>complex(double r = 0, double i = 0):re(r),im(i)&#123;&#125;</code> ，名称一定要和类名相同，创建对象时如果未赋初值，则使用默认实参，也不需要写 return type ，因为构造函数就是用来创建对象的，创建的自然是某某 class。</p><p>以上代码可以等价于 <code>complex(double r = 0, double i = 0) &#123; re = r; im = i; &#125;</code> ，最好还是写成初始化的形式。</p><p>构造函数可以有很多个，overloading。</p><h2 id="引用与指针"><a class="markdownIt-Anchor" href="#引用与指针"></a> 引用与指针</h2><p>底层实现方式相同，都是按照指针的方式实现的。</p><table><thead><tr><th>引用</th><th>指针</th></tr></thead><tbody><tr><td>引用和原变量是同一个东西，不过是原变量名的一个别名，占同一个内存单元</td><td>是一个变量，只不过这个变量中存储的是一个地址，指向内存中的一个单元</td></tr><tr><td>必须初始化</td><td>不用初始化</td></tr><tr><td>一旦初始化为指向一个对象，就不能再指向其他对象</td><td>任何时候可指向任何一个同类型的对象</td></tr><tr><td>没有空引用</td><td>但有空指针</td></tr><tr><td>引用大小为引用类型的大小</td><td>指针大小始终为地址空间所占字节数（32位平台下，指针大小永远是4）</td></tr><tr><td>++ 改变的是变量的内容</td><td>++ 改变的是指针的指向</td></tr><tr><td>没有多级引用</td><td>但有多级指针</td></tr><tr><td>使用起来比指针安全</td><td>没有指针安全</td></tr><tr><td>不适合返回动态内存分配的对象或内存，可能会引起内存泄漏</td><td>针对返回动态内存分配的对象或内存</td></tr></tbody></table><ul><li>值传递：被调函数对形式参数的任何操作都是作为局部变量进行，不会影响主调函数的实参变量的值，实际上是实参的一个副本。</li><li>传地址：实参是变量的地址，形参是指针类型的变量，在函数中对指针变量的操作就是对实参（变量地址）对应的变量的操作，函数调用结束后，原函数中的变量值将会改变。</li><li>传引用：形参是引用类型变量，也就是实参的一个别名，在函数中对引用变量的任何操作等价于对实参的操作，这样整个函数执行完毕后，原先实参的值就会改变。</li></ul><h3 id="值传递传引用或指针谁更高效"><a class="markdownIt-Anchor" href="#值传递传引用或指针谁更高效"></a> 值传递，传引用或指针谁更高效</h3><p>从执行效率上讲（这里所说执行效率，是指在被调用的函数体内执行时的效率）。因为传值调用时，当值被传到函数体内，临时对象生成以后，所有的执行任务都是通过直接寻址的方式执行的，而指针和大多数情况下的引用则是以间接寻址的方式执行的，所以实际的执行效率会比传值调用要低。如果函数体内对参数传过来的变量进行操作比较频繁，执行总次数又多的情况下，传址调用和大多数情况下的引用参数传递会造成比较明显的执行效率损失。</p><p>值传递比使用指针传递要安全得多，因为你不可能传一个不存在的值给传值参数或引用参数，而使用指针就可以，很可能传来的是一个非法的地址（没有初始化，指向已经 delete 掉的对象的指针等）。值传递和引用传递会使你的代码更健壮，具体是使用引用还是使用传值，最简单的原则就是看传递的是不是内建的数据类型，对内建的数据类型优先使用值传递，而对于自定义的数据类型，特别是传递较大的对象，那么优先使用引用传递。</p>]]></content>
     
     
       
@@ -39,6 +39,12 @@
     <category term="构造函数" scheme="https://stellariumimpl.github.io/tags/%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/"/>
     
     <category term="函数重载" scheme="https://stellariumimpl.github.io/tags/%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD/"/>
+    
+    <category term="值传递" scheme="https://stellariumimpl.github.io/tags/%E5%80%BC%E4%BC%A0%E9%80%92/"/>
+    
+    <category term="传引用" scheme="https://stellariumimpl.github.io/tags/%E4%BC%A0%E5%BC%95%E7%94%A8/"/>
+    
+    <category term="传指针" scheme="https://stellariumimpl.github.io/tags/%E4%BC%A0%E6%8C%87%E9%92%88/"/>
     
   </entry>
   
