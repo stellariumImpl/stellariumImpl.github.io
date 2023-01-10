@@ -1,4 +1,3 @@
-console.log('\n' + '%c Stellar v' + stellar.version + ' %c\n' + stellar.github + '\n', 'color:#e8fafe;background:#03c7fa;padding:8px;border-radius:4px', 'margin-top:8px');
 // utils
 const util = {
 
@@ -387,33 +386,3 @@ if (stellar.plugins.heti) {
 
 
 
-if (stellar.plugins.swiper) {
-  const swiper_container = document.getElementById('swiper_container');
-  if (swiper_container !== undefined) {
-    stellar.loadCSS(stellar.plugins.customSwiperTopArticle.css);
-    stellar.loadScript(stellar.plugins.customSwiperTopArticle.js, {defer:true}).then(function () {
-      var swiper = new Swiper('.blog-slider', {
-        passiveListeners: true,
-        spaceBetween: 30,
-        effect: 'fade',
-        loop: true,
-        autoplay: {
-          disableOnInteraction: true,
-          delay: 3000
-        },
-        mousewheel: false,
-        // autoHeight: true,
-        pagination: {
-          el: '.blog-slider__pagination',
-          clickable: true,
-        }
-      });
-      swiper_container.onmouseenter = function() {
-        swiper.autoplay.stop();
-      };
-      swiper_container.onmouseleave = function() {
-        swiper.autoplay.start();
-      }
-    });
-  }
-}
