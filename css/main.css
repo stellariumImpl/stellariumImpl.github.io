@@ -30,7 +30,7 @@
 }
 @font-face {
   font-family: 'LXGW WenKai Screen';
-  src: url("/font/LXGWWenKai-Regular.ttf");
+  src: url("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/font/LXGWWenKai-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -43,7 +43,7 @@ li>code:not([class]) {
 }
 @font-face {
   font-family: 'SourceCodePro';
-  src: url("/font/SourceCodePro-Medium.ttf");
+  src: url("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/font/SourceCodePro-Medium.ttf");
   font-weight: normal;
   font-style: normal;
 }
