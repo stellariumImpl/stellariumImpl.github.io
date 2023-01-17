@@ -192,30 +192,10 @@ sum_d
 </a><a class="post-card post  reveal" href="/2023/01/09/%E7%9F%AD%E6%9D%BF%E6%95%88%E5%BA%94/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/3.jpg"/></div><h2 class="post-title">短板效应</h2><div class="excerpt"><p> 盛最多水的容器
 12345678910111213141516171819202122232425262728293031#include&lt;iostream&gt;#include&lt;vector&gt;using namespace std;class Solution &#123;public:	int maxArea(vector&lt;int&gt;&amp; heigh...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-09T06:10:27.000Z">2023-01-09</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2023/01/08/static%E5%85%B3%E9%94%AE%E5%AD%97/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/13.jpg"/></div><h2 class="post-title">static关键字</h2><div class="excerpt"><p>被 static 修饰的变量属于类变量，可以通过类名.变量名直接引用，而不需要 new 出一个类来，同理对于类函数也是如此，他们统一属于类的静态资源，被类实例共享，牵一发而动全身。
-声明为 static 的对象将分配到静态存储区中，并且一直作用到程序结束。即使函数被多次调用，静态成员变量的空间也只被分配一次，被所有对象共用，并且前一次调用的变量值会被带到下一次函数调用中。有助于 C/C++ ...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-08T01:11:48.000Z">2023-01-08</time></span><span class="cap breadcrumb">C++面向对象</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/12/31/%E9%87%8D%E5%8F%A0%E5%AD%90%E9%97%AE%E9%A2%98%E5%92%8C%E6%9C%80%E4%BC%98%E5%AD%90%E7%BB%93%E6%9E%84/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/1.jpg"/></div><h2 class="post-title">重叠子问题和最优子结构</h2><div class="excerpt"><p> 重叠子问题
-众所周知，斐波那契数列的数学形式就是递归的
-1234public int fib(int n) &#123;    if (n == 1 || n == 2) return 1;    return fib(n - 1) + fib(n - 2);&#125;
-这样写代码虽然简洁易懂，但是十分低效，计算该递归的时间复杂度，首先计算子问题个数即二叉树节点总数为指数级别，所以子问题...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-12-31T14:36:51.000Z">2022-12-31</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/11/08/BST%20%E5%90%88%E6%B3%95%E6%80%A7%E3%80%81%E5%A2%9E%E3%80%81%E5%88%A0%E3%80%81%E6%9F%A5/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/7.jpg"/></div><h2 class="post-title">BST 合法性、增、删、查</h2><div class="excerpt"><p>主要依赖「左小右大」的特性，可以在二叉树中做类似二分搜索的操作，寻找一个元素的效率很高。
-对于 BST 相关的问题，你可能会经常看到类似下面这样的代码逻辑：
-12345678public void BST(TreeNode root, int target) &#123;    if (root.val == target)        //找到目标，做点什么        if (roo...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-11-08T14:39:00.000Z">2022-11-08</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/11/07/BST-%E4%B8%AD%E5%BA%8F%E9%81%8D%E5%8E%86%E6%9C%89%E5%BA%8F/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/4.jpg"/></div><h2 class="post-title">BST 中序遍历有序</h2><div class="excerpt"><p>
-对于BST的每一个节点node，左子树节点的值都比node值要小，右子树节点值比node值大
-对于BST的每一个node，它的左右子树皆是BST
-
-基于BST的数据结构有AVL树，红黑树等，拥有自平衡性质，可以提供logN级别的增删查改效率；还有B+树，线段树等结构都是基于BST的思想来设计的。
-除了其定义，还有一个重要的性质，BST的中序遍历结果是升序的。
-也就是说，如果输入一棵BST，...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-11-07T14:39:19.000Z">2022-11-07</time></span><span class="cap breadcrumb">数据结构</span></div></article>
 </a></div>
   
   <div class='paginator-wrap dis-select'>
-  <span class="extend prev" rel="prev"></span><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"></a>
+  <span class="extend prev" rel="prev"></span><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"></a>
   </div>
 
 

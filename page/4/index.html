@@ -26,7 +26,7 @@
   
     <meta property="og:type" content="website">
 <meta property="og:title" content="Stellarium">
-<meta property="og:url" content="https://stellariumimpl.github.io/page/3/index.html">
+<meta property="og:url" content="https://stellariumimpl.github.io/page/4/index.html">
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="fygod">
@@ -107,54 +107,46 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a class="active" href="/">近期发布</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a><a href="/friends/rss/">朋友文章</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post  reveal" href="/2022/07/19/%E6%B4%9B%E8%B0%B7-P2820-%E5%B1%80%E5%9F%9F%E7%BD%91/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/15.jpg"/></div><h2 class="post-title">洛谷 P2820 局域网</h2><div class="excerpt"><p> 题目</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-19T02:04:43.000Z">2022-07-19</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/07/18/Kruskal-%E5%B9%B6%E6%9F%A5%E9%9B%86/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/16.jpg"/></div><h2 class="post-title">Kruskal-并查集</h2><div class="excerpt"><p> Kruskal算法
-假设G=(V,E)是连通图，将G中的边按权值从小到大的顺序排列
+  <div class="post-list post"><a class="post-card post  reveal" href="/2022/07/08/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E7%BB%93%E7%82%B9/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/22.jpg"/></div><h2 class="post-title">二叉树的下一个结点</h2><div class="excerpt"><p> 题目
+给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+分析二叉树的下一个节点，一共有以下情况：
 
-将n个顶点看成n个集合
-按权值从大到小的顺序选择边，所选边应满足两个顶点不在同一个顶点集合内，即加入此边后不会在生成树中产生回路，将该边放到生成树边的集合中。同时将该边的两个顶点所在的顶点集合合并。
-重复2，直到所有的顶点都在同一个顶点集合内。
+二叉树为空，则返回空；
+节点右孩子存在，则设置一个指针从该节点的右孩子出发，一直沿着指向左子结点的指针找到的叶子节点即为下一个节点；
+节点不是根节点。如果该节点是其父节点的左孩子，则返回父节点；否则继续向上...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-08T13:31:07.000Z">2022-07-08</time></span><span class="cap breadcrumb">数据结构</span></div></article>
+</a><a class="post-card post  reveal" href="/2022/05/20/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/24.jpg"/></div><h2 class="post-title">对称加密</h2><div class="excerpt"><p> 流密码
+逐位加密信息，将明文消息分解为单个位，然后使用密钥位将其分别转换为密文。流密码一次加密一位数据，而不用等待数据块的形成，此过程的关键在于根据加密密钥和种子（随机数nonce）生成伪随机比特流，它们一起创建了一个密钥流（伪随机比特流），该密钥流再与纯文本逐位进行异或运算，生成密文。因为每个数字的加密都取决于密码引擎的当前状态，所以流密码也被称为状态密码。
 
- 并查集
-
-Make_Set(x) 把每一个元素初始化为一...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-18T13:35:14.000Z">2022-07-18</time></span><span class="cap breadcrumb">数据结构</span><span class="pin"></span></div></article>
-</a><a class="post-card post  reveal" href="/2022/07/17/%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/17.jpg"/></div><h2 class="post-title">岛屿数量</h2><div class="excerpt"><p> 题目
-给你一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，请你计算网格中岛屿的数量。
-岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
-此外，你可以假设该网格的四条边均被水包围。
-123456789101112131415输入：grid = [  [&quot;1&quot;,&quot;1&quot;,&quot;1&quot;,&quot;1&q...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-17T14:11:54.000Z">2022-07-17</time></span><span class="cap breadcrumb">数据结构</span><span class="pin"></span></div></article>
-</a><a class="post-card post  reveal" href="/2022/07/14/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E8%BF%91%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/18.jpg"/></div><h2 class="post-title">二叉树的最近公共祖先</h2><div class="excerpt"><p> 题目
-给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
-百科中最近公共祖先的定义为：“对于有根树 T 的两个节点 p、q，最近公共祖先表示为一个节点 x，满足 x 是 p、q 的祖先且 x 的深度尽可能大（一个节点也可以是它自己的祖先）。”
-
-输入：root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
-输出：3
-解释：节点 5 和节点...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-14T14:19:20.000Z">2022-07-14</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/07/12/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E8%B7%AF%E5%BE%84%E5%92%8C/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/19.jpg"/></div><h2 class="post-title">二叉树中的最大路径和</h2><div class="excerpt"><p> 题目
-路径被定义为一条从树中任意节点出发，沿父节点-子节点连接，达到任意节点的序列。同一个节点在一条路径序列中至多出现一次。该路径至少包含一个节点，且不一定经过根节点。
-路径和 是路径中各节点值的总和。
-给你一个二叉树的根节点 root ，返回其 最大路径和 。
-
-输入：root = [-10,9,20,null,null,15,7]
-输出：42
-解释：最优路径是 15 -&gt; 20 ...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-12T01:48:42.000Z">2022-07-12</time></span><span class="cap breadcrumb">数据结构</span></div></article>
-</a><a class="post-card post  reveal" href="/2022/07/10/%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E7%AC%ACK%E4%B8%AA%E6%9C%80%E5%A4%A7%E5%85%83%E7%B4%A0/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/21.jpg"/></div><h2 class="post-title">数组中的第K个最大元素</h2><div class="excerpt"><p> 题目
-给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
-请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
-输入：[3,2,3,1,2,4,5,5,6] 和 k = 4
-输出：4
- 暴力求解
-1234567891011121314#include &lt;iostream&gt;#include &lt;vector&gt;using ...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-10T13:48:10.000Z">2022-07-10</time></span><span class="cap breadcrumb">数据结构</span></div></article>
+ 分组密码
+顾名思义，分块...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-05-20T13:00:00.000Z">2022-05-20</time></span><span class="cap breadcrumb">通信协议</span></div></article>
+</a><a class="post-card post  reveal" href="/2021/10/18/%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E6%95%B0%E5%AD%97/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/32.jpg"/></div><h2 class="post-title">在排序数组中查找数字</h2><div class="excerpt"><p> 要求
+统计一个数字在排序数组中出现的次数。
+12345输入: nums = [5,7,7,8,8,10], target = 8输出: 2输入: nums = [5,7,7,8,8,10], target = 6输出: 0
+来源：https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof
+ 解答...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-10-18T13:51:45.000Z">2021-10-18</time></span><span class="cap breadcrumb">数据结构</span></div></article>
+</a><a class="post-card post  reveal" href="/2021/10/13/%E6%95%B0%E7%BB%84%E4%B8%AD%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/33.jpg"/></div><h2 class="post-title">数组中重复的数字</h2><div class="excerpt"><p> 要求
+找出数组中重复的数字。在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
+123输入：[2, 3, 1, 0, 2, 5, 3]输出：2 或 3 
+来源：https://leetcode-cn.com/problems/shu-zu-zhong-zh...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-10-13T15:38:31.000Z">2021-10-13</time></span><span class="cap breadcrumb">数据结构</span></div></article>
+</a><a class="post-card post  reveal" href="/2021/10/13/%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/34.jpg"/></div><h2 class="post-title">左旋转字符串</h2><div class="excerpt"><p> 要求
+字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。比如，输入字符串abcdefg和数字2，该函数将返回左旋转两位得到的结果cdefgab。
+12345输入: s = &quot;abcdefg&quot;, k = 2输出: &quot;cdefgab&quot;输入: s = &quot;lrloseumgh&quot;, k...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-10-13T00:55:29.000Z">2021-10-13</time></span><span class="cap breadcrumb">数据结构</span></div></article>
+</a><a class="post-card post  reveal" href="/2021/10/12/%E6%9B%BF%E6%8D%A2%E7%A9%BA%E6%A0%BC/">
+<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/35.jpg"/></div><h2 class="post-title">替换空格</h2><div class="excerpt"><p> 要求
+请实现一个函数，把字符串 s 中的每个空格替换成%20。
+12输入：s = &quot;We are happy.&quot;输出：&quot;We%20are%20happy.&quot;
+来源：https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/
+ 解答一
+先统计字符串有多少空格，由于要将空格转化为%20，所以数组需要扩大，...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-10-12T01:43:23.000Z">2021-10-12</time></span><span class="cap breadcrumb">数据结构</span></div></article>
 </a></div>
   
   <div class='paginator-wrap dis-select'>
-  <a class="extend prev" rel="prev" href="/page/2/"></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"></a>
+  <a class="extend prev" rel="prev" href="/page/3/"></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"></a>
   </div>
 
 
