@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>完成一个图灵机 - Stellarium</title>
+
+  
+    <meta name="description" content="内置函数 print print(line,end&#x3D;&#39;&#39;) 默认情况下，print()函数的end参数的值是换行符\n，即每次调用print()函数时会在输出内容的末尾自动添加换行符。这样可以使得每次输出的内容独占一行。如果想要在输出内容的末尾添加其它字符（如空格、逗号等），可以通过设置end参数的值来实现。指定end&#x3D;&#39;&#39;表示在输出内容的末尾不添加任何字符，即不换行，多次调用print()函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="完成一个图灵机">
+<meta property="og:url" content="https://stellariumimpl.github.io/2023/08/03/%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%81%B5%E6%9C%BA/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="内置函数 print print(line,end&#x3D;&#39;&#39;) 默认情况下，print()函数的end参数的值是换行符\n，即每次调用print()函数时会在输出内容的末尾自动添加换行符。这样可以使得每次输出的内容独占一行。如果想要在输出内容的末尾添加其它字符（如空格、逗号等），可以通过设置end参数的值来实现。指定end&#x3D;&#39;&#39;表示在输出内容的末尾不添加任何字符，即不换行，多次调用print()函数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-03T08:33:43.000Z">
+<meta property="article:modified_time" content="2023-08-09T07:18:21.271Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="Python 基础">
+<meta property="article:tag" content="Turning Machine">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">/imagine prompt:</div><div class="sub hover cap" style="opacity:0"> a rabbit as Harry Potter</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">项目</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">完成一个图灵机</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-text"> 内置函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text"> 准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#start-from-the-turning-machine"><span class="toc-text"> Start from the Turning Machine</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><span class="title">查找算法</span></a><a class="item title" href="/2023/08/14/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><span class="title">排序算法</span></a><a class="item title" href="/2023/07/14/C%20%E6%8C%87%E9%92%88%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%93/"><span class="title">C 指针与结构体</span></a><a class="item title" href="/2023/08/09/Python-%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="title">Python 实现数据结构</span></a><a class="item title" href="/2023/07/20/%E6%AF%95%E4%B8%9A%E4%B9%8B%E6%97%85%E7%AC%AC%E5%9B%9B%E7%AB%99-%E6%9D%AD%E5%B7%9E/"><span class="title">毕业之旅第四站 杭州</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AF%B9%E4%BA%8ECOMP9021%E7%9A%84%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87/">对于COMP9021的一些准备</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-08-03T08:33:43.000Z">2023-08-03</time></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>完成一个图灵机</span></h1>
+<h3 id="内置函数"><a class="markdownIt-Anchor" href="#内置函数"></a> 内置函数</h3>
+<p><strong>print</strong></p>
+<p><code>print(line,end='')</code></p>
+<p>默认情况下，<code>print()</code>函数的end参数的值是换行符<code>\n</code>，即每次调用<code>print()</code>函数时会在输出内容的末尾自动添加换行符。这样可以使得每次输出的内容独占一行。如果想要在输出内容的末尾添加其它字符（如空格、逗号等），可以通过设置end参数的值来实现。指定<code>end=''</code>表示在输出内容的末尾不添加任何字符，即不换行，多次调用<code>print()</code>函数输出的内容会连续显示在同一行上。</p>
+<p><strong>open</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://ProgramData/PycharmProjects/preview/turing/division_by_2.txt&#x27;</span>) <span class="keyword">as</span> instructions:</span><br><span class="line">  <span class="built_in">next</span>(i)</span><br><span class="line">  <span class="built_in">next</span>(i)</span><br><span class="line">  <span class="built_in">next</span>(i)</span><br><span class="line">  <span class="built_in">next</span>(i)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://ProgramData/PycharmProjects/preview/turing/division_by_2.txt&#x27;</span>) <span class="keyword">as</span> instructions:</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> instructions:</span><br><span class="line">    <span class="built_in">print</span>(i,end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>startswith</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;A string&#x27;</span>.startswith(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;A string&#x27;</span>.startswith(<span class="string">&#x27;A&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;A string&#x27;</span>.startswith(<span class="string">&#x27;A &#x27;</span>)</span><br><span class="line"><span class="string">&#x27;A string&#x27;</span>.startswith(<span class="string">&#x27;A s&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;A string&#x27;</span>.startswith(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># False</span></span><br></pre></td></tr></table></figure>
+<p>为什么第一个是True？因为空字符串 <code>''</code> 是任何字符串的前缀。在这种情况下，由于空字符串没有任何字符，它包含在字符串 <code>'A string'</code> 的开头位置，因此返回 True。注意，这种情况是特例，而不是所有函数都可以接受空字符串作为参数。</p>
+<p><strong>isspace</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;</span>.isspace() <span class="comment"># False 空</span></span><br><span class="line"><span class="string">&#x27; a&#x27;</span>.isspace() <span class="comment"># False 包含了非空白字符&#x27;a&#x27;</span></span><br><span class="line"><span class="string">&#x27; &#x27;</span>.isspace()</span><br><span class="line"><span class="string">&#x27; &#x27;</span>.isspace()</span><br><span class="line"><span class="comment"># \t is for tab</span></span><br><span class="line"><span class="string">&#x27; \t \n&#x27;</span>.isspace()</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>.isspace()</span><br></pre></td></tr></table></figure>
+<p><strong>split</strong></p>
+<p>If no argument is passed to split(), then any longest sequence of space characters will play the role of separator, and any leading or trailing sequence of space characters will be ignored:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27; \n\t X X\tX\nX \t \n X&#x27;</span>.split()</span><br><span class="line"><span class="comment"># [&#x27;X&#x27;, &#x27;X&#x27;, &#x27;X&#x27;, &#x27;X&#x27;, &#x27;X&#x27;]</span></span><br></pre></td></tr></table></figure>
+<h3 id="准备工作"><a class="markdownIt-Anchor" href="#准备工作"></a> 准备工作</h3>
+<p>To represent a finite section of the tape of a TM, a particular kind of object, namely, a Python list, is appropriate. We just need to define a Python list whose elements are the integers 0 and 1, that Python also represents as objects. We can then let a variable, say tape, denote what the list literal [0, 0, 1, 1, 1, 0] itself denotes, namely, a sequence of bits stored in computer memory meant to be interpreted as the Python list that consists of the integers 0, 0, 1, 1, 1 and 0.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 6 consecutive cells of a TM</span></span><br><span class="line">tape = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>] <span class="comment"># Some cells contain 0, others contain 1</span></span><br><span class="line">tape</span><br><span class="line"><span class="comment"># [0, 0, 1, 1, 1, 0]</span></span><br><span class="line"><span class="built_in">print</span>(tape[<span class="number">0</span>], tape[<span class="number">1</span>], tape[<span class="number">2</span>], tape[<span class="number">3</span>], tape[<span class="number">4</span>], tape[<span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(tape[-<span class="number">1</span>], tape[-<span class="number">2</span>], tape[-<span class="number">3</span>], tape[-<span class="number">4</span>], tape[-<span class="number">5</span>], tape[-<span class="number">6</span>])</span><br><span class="line"><span class="comment"># 0 0 1 1 1 0</span></span><br><span class="line"><span class="comment"># 0 1 1 1 0 0</span></span><br></pre></td></tr></table></figure>
+<p>So the positive index of the last element of a nonempty list is equal to the length of the list minus 1, and the negative index of the first element of a nonempty list is equal to minus the length of the list. The length of a list is what the len() function returns when it receives (an expression that evaluates to that) list as argument:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">len</span>(tape)</span><br><span class="line"><span class="comment"># 6</span></span><br></pre></td></tr></table></figure>
+<p>However, using an index which is at least equal to the length of the list generates an IndexError exception:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tape[<span class="built_in">len</span>(tape)]</span><br><span class="line"><span class="comment"># IndexError: list index out of range</span></span><br></pre></td></tr></table></figure>
+<p>在C和Python中，数组确实只能通过负索引进行访问，并且无法直接访问超出数组长度的内存位置。这是因为数组在内存中是一块连续的内存空间，而且数组的索引是基于内存地址的偏移量。但是也有差别，C语言的数组索引可以是负值，只不过并不是像python一样指向的是从最后数的第几个元素，这里有一个恒等的关系<code>a[i] = *(a+i)</code>，所以只要指向的这个地址里面有内容就可以使用负值索引。</p>
+<p>而在Python中，当你尝试访问负索引时，计算机会根据索引的负值从数组末尾开始向前计算偏移量，然后获取对应内存地址处的值。这种方式允许你使用负索引访问数组的元素。</p>
+<p>对于两者共同而言，超出数组长度的索引代表的内存位置是属于其他变量、数据结构或是未分配的内存区域。因此不允许直接访问这些未分配的内存区域。</p>
+<p>A function that does not eventually execute a return statement still returns some value, namely, the special value that the “standard” expression None evaluates to</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">display_tape</span>():</span><br><span class="line"><span class="comment"># Draw a horizontal line to represent</span></span><br><span class="line"><span class="comment"># the top boundary of the tape fragment.</span></span><br><span class="line"><span class="comment"># Draw the tape fragment&#x27;s cell contents,</span></span><br><span class="line"><span class="comment"># also drawing vertical line segments as cell boundaries.</span></span><br><span class="line"><span class="comment"># Draw a horizontal line to represent</span></span><br><span class="line"><span class="comment"># the bottom boundary of the tape fragment.</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">display_tape() <span class="comment"># Returns None, which is not shown when running the cell</span></span><br><span class="line">x = display_tape()</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line"><span class="comment"># None</span></span><br></pre></td></tr></table></figure>
+<p>在Python中，使用单引号 <code>'</code> 或双引号 <code>&quot;</code> 都可以作为字符串的定界符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string = <span class="string">&#x27;A string with \&#x27; (single quote), not &quot;, as delimiter&#x27;</span></span><br><span class="line">string</span><br><span class="line"><span class="built_in">print</span>(string)</span><br><span class="line"><span class="comment"># A string with &#x27; (single quote), not &quot;, as delimiter</span></span><br></pre></td></tr></table></figure>
+<p>如果用单引号括字符串，在字符串内使用单引号，则需要backslash，而使用双引号则不需要。相反，如果用双引号括字符串，需要在字符串内使用双引号，需要backslash，使用单引号则不需要。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string = <span class="string">&quot;A string with \&quot; (double quote), not &#x27;, as delimiter&quot;</span></span><br><span class="line">string</span><br><span class="line"><span class="built_in">print</span>(string)</span><br><span class="line"><span class="comment"># A string with &quot; (double quote), not &#x27;, as delimiter</span></span><br></pre></td></tr></table></figure>
+<p>将列表转换为字符换，需要用到内置函数<code>str()</code>，list comprehension同样可以用在字符串的生成中，所谓列表推导式，<code>new_list = [expresion_for_member for member in iterable if condition]</code>。</p>
+<ul>
+<li>expresion_for_member是表达式。</li>
+<li>member是可迭代的对象或值。</li>
+<li>iterable是一个list，set，序列生成器或可以一次返回其元素的任何其他对象。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tape = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line">[<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape]</span><br><span class="line"><span class="comment"># [&#x27;0&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, &#x27;0&#x27;]</span></span><br></pre></td></tr></table></figure>
+<p>One could then use a particular function, the join() method of the str class, to create a string from the (one character) strings in the former list. If join() is applied to the empty string, then all those characters are “glued” together:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;|&#x27;</span>.join([<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape])</span><br><span class="line"><span class="comment"># &#x27;0|0|1|1|1|0&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>The previous expression is correct, but not as good as it could and should be. Indeed, the expression is evaluated by processing all elements that make up (the list that is the value of) tape to create the list (that is the value of) [str(symbol) for symbol in tape], and then processing all elements that make up that second list to create the desired string. A better option is to use a generator expression:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape)</span><br><span class="line"><span class="comment"># &lt;generator object &lt;genexpr&gt; at 0x000001673728E9D0&gt;</span></span><br></pre></td></tr></table></figure>
+<p>A generator expression is a potential sequence of elements. One way to actualise the sequence and retrieve each of its members, one by one, is to call the next() function; when all elements have been retrieved, a new call to next() generates a StopIteration exception:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">E = (<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="built_in">next</span>(E)</span><br><span class="line"><span class="comment"># ---------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># StopIteration                             Traceback (most recent call last)</span></span><br><span class="line"><span class="comment"># Cell In[5], line 8</span></span><br><span class="line"><span class="comment">#       6 next(E)</span></span><br><span class="line"><span class="comment">#       7 next(E)</span></span><br><span class="line"><span class="comment"># ----&gt; 8 next(E)</span></span><br><span class="line"><span class="comment">#       9 next(E)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># StopIteration: </span></span><br></pre></td></tr></table></figure>
+<p>Any (expression that evaluates to a) generator expression can be passed as an argument to list() which behind the scene, calls next() until StopIteration is generated, letting it gracefully complete the construction of the list:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The full syntax would be list((str(symbol) for symbol in tape)),</span></span><br><span class="line"><span class="comment"># but Python lets us simplify it and omit one pair of parentheses.</span></span><br><span class="line"><span class="built_in">list</span>(<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape)</span><br><span class="line"><span class="comment"># [&#x27;0&#x27;, &#x27;0&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, &#x27;1&#x27;, &#x27;0&#x27;]</span></span><br></pre></td></tr></table></figure>
+<p>join() also accepts a generator expression rather than a list as argument. In the code below, join() processes the ‘0’’s and ‘1’’s it receives from the generator expression (str(symbol) for symbol in tape), as that generator expression processes the 0’s and 1’s that make up the list tape. The desired string is created “on the fly”; no intermediate list is created:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;|&#x27;</span>.join(<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape)</span><br><span class="line"><span class="comment"># &#x27;0|0|1|1|1|0&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>So now we have the full implementation of display_tape():</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tape = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">draw_horizontal_line</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-&#x27;</span>*(<span class="built_in">len</span>(tape)*<span class="number">2</span>+<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">display_tape</span>():</span><br><span class="line">    draw_horizontal_line()</span><br><span class="line">    <span class="comment"># print(&#x27;|&#x27; + &#x27;|&#x27;.join(str(symbol) for symbol in tape) + &#x27;|&#x27;)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;|&#x27;</span>,<span class="string">&#x27;|&#x27;</span>.join(<span class="built_in">str</span>(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> tape),<span class="string">&#x27;|&#x27;</span>,sep=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">    draw_horizontal_line()</span><br><span class="line"></span><br><span class="line">display_tape()</span><br></pre></td></tr></table></figure>
+<p>startswith()是一个字符串方法，用于检查字符串是否以指定的前缀开头，比如<code>#初始状态</code>。而isspace()是另一个字符串方法，用于检查字符串是否只包含空白字符。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://ProgramData/PycharmProjects/preview/turing/division_by_2.txt&#x27;</span>) <span class="keyword">as</span> TM_instruction:</span><br><span class="line">  <span class="keyword">for</span> ti <span class="keyword">in</span> TM_instruction:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> ti.startswith(<span class="string">&#x27;#&#x27;</span>) <span class="keyword">and</span> <span class="keyword">not</span> ti.isspace():</span><br><span class="line">      <span class="built_in">print</span>(line,end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>Alternatively, we can test the negation of the condition of the if statement in the previous code fragment (applying one of de Morgan’s laws to get a disjunction from a conjunction as well as applying double negation elimination) and use a continue statement not to process any further any line that is not of interest. The Boolean expression then makes use of the logical operator or, for (inclusive as opposed to exclusive) disjunction.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://ProgramData/PycharmProjects/preview/turing/division_by_2.txt&#x27;</span>) <span class="keyword">as</span> TM_instruction:</span><br><span class="line">  <span class="keyword">for</span> ti <span class="keyword">in</span> TM_instruction:</span><br><span class="line">    <span class="keyword">if</span> ti.startswith(<span class="string">&#x27;#&#x27;</span>) <span class="keyword">or</span> ti.isspace():</span><br><span class="line">      <span class="keyword">continue</span></span><br><span class="line">    <span class="built_in">print</span>(ti,end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>So we can now get from each instruction a list of 5 strings:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;D://ProgramData/PycharmProjects/preview/turing/division_by_2.txt&#x27;</span>) <span class="keyword">as</span> TM_instruction:</span><br><span class="line">  <span class="keyword">for</span> ti <span class="keyword">in</span> TM_instruction:</span><br><span class="line">    <span class="keyword">if</span> ti.startswith(<span class="string">&#x27;#&#x27;</span>) <span class="keyword">or</span> ti.isspace():</span><br><span class="line">      <span class="keyword">continue</span></span><br><span class="line">    <span class="built_in">print</span>(ti.split())</span><br></pre></td></tr></table></figure>
+<p>A list of 5 strings is not the best representation of an instruction. Recall that since a TM is deterministic, no two distinct instructions share the same first two elements. A good way to put it is that the program of a TM is a function that maps a pair of the form <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\mathit{state}, \mathit{symbol})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mclose">)</span></span></span></span> to a triple of the form <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo separator="true">,</mo><mrow><mi>d</mi><mi>i</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\mathit{new\_state}, \mathit{new\_symbol}, \mathit{direction})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">d</span><span class="mord mathit">i</span><span class="mord mathit">r</span><span class="mord mathit">e</span><span class="mord mathit">c</span><span class="mord mathit">t</span><span class="mord mathit">i</span><span class="mord mathit">o</span><span class="mord mathit">n</span></span><span class="mclose">)</span></span></span></span>: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\mathit{state}, \mathit{symbol})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mclose">)</span></span></span></span> represents a possible configuration (what is possibly the current state and the symbol stored in the cell that the head of the TM is currently positioned under), while <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo separator="true">,</mo><mrow><mi>d</mi><mi>i</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\mathit{new\_state}, \mathit{new\_symbol}, \mathit{direction})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">d</span><span class="mord mathit">i</span><span class="mord mathit">r</span><span class="mord mathit">e</span><span class="mord mathit">c</span><span class="mord mathit">t</span><span class="mord mathit">i</span><span class="mord mathit">o</span><span class="mord mathit">n</span></span><span class="mclose">)</span></span></span></span> represents what to do in case the computation is at a stage when that possible configuration happens to be the current one. To represent functions, mappings, Python offers <strong>dictionaries</strong>, that associate values to <strong>keys</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># An empty dictionary</span></span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="comment"># A dictionary with 4 keys, mapping names of digits to digits.</span></span><br><span class="line">&#123;<span class="string">&#x27;one&#x27;</span>: <span class="number">1</span>, <span class="string">&#x27;two&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;three&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;four&#x27;</span>: <span class="number">4</span>&#125;</span><br><span class="line"><span class="comment"># A dictionary with 4 keys, mapping English words to German translations</span></span><br><span class="line">&#123;<span class="string">&#x27;tap&#x27;</span>: <span class="string">&#x27;Hahn&#x27;</span>, <span class="string">&#x27;table&#x27;</span>: <span class="string">&#x27;Tisch&#x27;</span>, <span class="string">&#x27;rooster&#x27;</span>: <span class="string">&#x27;Hahn&#x27;</span>, <span class="string">&#x27;train&#x27;</span>: <span class="string">&#x27;Zug&#x27;</span>&#125;</span><br><span class="line"><span class="comment"># A dictionary with 3 keys, mapping German words to English translations</span></span><br><span class="line">&#123;<span class="string">&#x27;Hahn&#x27;</span>: [<span class="string">&#x27;tap&#x27;</span>, <span class="string">&#x27;rooster&#x27;</span>], <span class="string">&#x27;Tisch&#x27;</span>: [<span class="string">&#x27;table&#x27;</span>], <span class="string">&#x27;Zug&#x27;</span>: [<span class="string">&#x27;train&#x27;</span>]&#125;</span><br></pre></td></tr></table></figure>
+<p>Observe how we mapped an English word to a German word, but a German word to a list of English words: this is because the English words under consideration all have a single German translation, whereas some of the German words under consideration have more than one English translation.</p>
+<p>Getting back to our TM instructions, we could think of creating a dictionary <code>TM_program</code> that would have for each instruction of the form <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo separator="true">,</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo separator="true">,</mo><mrow><mi>d</mi><mi>i</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\mathit{state}, \mathit{symbol}, \mathit{new\_state}, \mathit{new\_symbol}, \mathit{direction})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">d</span><span class="mord mathit">i</span><span class="mord mathit">r</span><span class="mord mathit">e</span><span class="mord mathit">c</span><span class="mord mathit">t</span><span class="mord mathit">i</span><span class="mord mathit">o</span><span class="mord mathit">n</span></span><span class="mclose">)</span></span></span></span>, the list <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathit{state}, \mathit{symbol}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mclose">]</span></span></span></span> as a key and the list <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>t</mi><mi>a</mi><mi>t</mi><mi>e</mi></mrow><mo separator="true">,</mo><mrow><mi>n</mi><mi>e</mi><mi>w</mi><mi>_</mi><mi>s</mi><mi>y</mi><mi>m</mi><mi>b</mi><mi>o</mi><mi>l</mi></mrow><mo separator="true">,</mo><mrow><mi>d</mi><mi>i</mi><mi>r</mi><mi>e</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathit{new\_state}, \mathit{new\_symbol}, \mathit{direction}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.06em;vertical-align:-0.31em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">t</span><span class="mord mathit">a</span><span class="mord mathit">t</span><span class="mord mathit">e</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">n</span><span class="mord mathit">e</span><span class="mord mathit">w</span><span class="mord mathit">_</span><span class="mord mathit">s</span><span class="mord mathit">y</span><span class="mord mathit">m</span><span class="mord mathit">b</span><span class="mord mathit">o</span><span class="mord mathit">l</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathit">d</span><span class="mord mathit">i</span><span class="mord mathit">r</span><span class="mord mathit">e</span><span class="mord mathit">c</span><span class="mord mathit">t</span><span class="mord mathit">i</span><span class="mord mathit">o</span><span class="mord mathit">n</span></span><span class="mclose">]</span></span></span></span> as value for that key. That does not work:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;[<span class="string">&#x27;del1&#x27;</span>, <span class="string">&#x27;1&#x27;</span>]: [<span class="string">&#x27;del2&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;R&#x27;</span>]&#125;</span><br></pre></td></tr></table></figure>
+<p>The keys of a dictionary should be <strong>immutable</strong> objects, that is, objects that cannot change. It is possible to change a dictionary by adding or removing a key together with its associated value, but an existing key cannot be modified. A list is <strong>mutable</strong>, as it can be changed in many ways. It is for instance possible to change one of the members of a list:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">L = [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]</span><br><span class="line">L[<span class="number">1</span>] = <span class="number">21</span></span><br><span class="line">L</span><br></pre></td></tr></table></figure>
+<h3 id="start-from-the-turning-machine"><a class="markdownIt-Anchor" href="#start-from-the-turning-machine"></a> Start from the Turning Machine</h3>
+<p>At any stage of the computation, including before it starts and when it ends, if it ever comes to an end, the TM is in one of a finite number of states. The program of a<br />
+TM consists of a finite set of instructions, each instruction being a quintuple of the form <code>(state, symbol, new_state, new_symbol, direction)</code></p>
+<p>Suppose that there are two possible states, green and blue. Also suppose that the initial state, that is, the state of the TM before computation starts, is green. If the program of the TM has no instruction whose first two members are green and 1, then computation stops. One the other hand, if the program has one such instruction.</p>
+
+
+<div class="article-footer reveal fs14"><section id="references"><div class="header"><span>参考资料</span></div><div class="body"><ul><li class="post-title"><a href="https://www.bilibili.com/video/BV1Z64y1h7Rk" target="_blank" rel="external nofollow noopener noreferrer">Python程序设计</a></li></ul></div></section><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2023/08/03/%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%81%B5%E6%9C%BA/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2023/08/03/%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%81%B5%E6%9C%BA/&title=完成一个图灵机 - Stellarium&pics=https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/wallhaven-x6pl9v.jpg&summary= 内置函数
+print
+print(line,end='')
+默认情况下，print()函数的end参数的值是换行符\n，即每次调用print()函数时会在输出内容的末尾自动添加换行符。这样可以使得每次输出的内容独占一行。如果想要在输..."><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=完成一个图灵机 - Stellarium&amp;body=https://stellariumimpl.github.io/2023/08/03/%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%81%B5%E6%9C%BA/"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2023/08/03/%E5%AE%8C%E6%88%90%E4%B8%80%E4%B8%AA%E5%9B%BE%E7%81%B5%E6%9C%BA/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/08/09/Python-%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">Python 实现数据结构</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/07/25/%E6%B5%B7%E7%BB%B5/">海绵</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2023\03\05\Python-super函数\" title="Python super函数"><span class="title">Python super函数</span></a><a class="item" href="\2023\03\05\Python-一切皆对象\" title="Python 一切皆对象"><span class="title">Python 一切皆对象</span></a><a class="item" href="\2023\04\07\Python-单例模式\" title="Python 单例模式"><span class="title">Python 单例模式</span></a><a class="item" href="\2023\03\14\Python-变量与方法\" title="Python 变量与方法"><span class="title">Python 变量与方法</span></a><a class="item" href="\2023\08\09\Python-实现数据结构\" title="Python 实现数据结构"><span class="title">Python 实现数据结构</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  // optional plugins
+  if ('false' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if('true' == 'true'){
+  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
+}
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+  <!-- 引用依赖 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
+
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = 'Copy'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = 'Copied'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = 'Copy'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('Copy')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+
+
+<!-- 我使用的APlayer本体 -->
+<!-- <div class="aplayer" 
+  data-id="8383366441" 
+  data-server="netease" 
+  data-type="playlist" 
+  data-fixed="true" 
+  data-autoplay="true" 
+  data-order="random" 
+  data-volume="0.55" 
+  data-theme="#cc543a" 
+  data-preload="auto" >
+  </div> -->
+<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+</html>
