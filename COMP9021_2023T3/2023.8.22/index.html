@@ -32,8 +32,8 @@
 <meta property="og:description" content="在 Python 中，字符串（string）和数组（list）是两种常用的数据类型，它们的使用方式和一些常见操作有一些区别。  字符串 字符串是一系列有序的字符组成的序列。可以用单引号或双引号来表示一个字符串。例如： 12string1 &#x3D; &amp;#x27;Hello&amp;#x27;string2 &#x3D; &quot;World&quot; 可以使用索引来访问字符串中的单个字符，索引从 0 开始。例如，str">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/2023.8.22.png">
-<meta property="article:published_time" content="2023-08-22T03:35:37.230Z">
-<meta property="article:modified_time" content="2023-08-22T03:35:37.230Z">
+<meta property="article:published_time" content="2023-08-22T03:39:53.078Z">
+<meta property="article:modified_time" content="2023-08-22T03:39:53.078Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/2023.8.22.png">
@@ -98,7 +98,7 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.22/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-22T03:35:37.230Z">2023-08-22</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.22/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-22T03:39:53.078Z">2023-08-22</time></div></div>
 
   <article class='md-text content wiki reveal'>
   <h1 class="article-title"><span>循环打印字符串</span></h1>
@@ -121,7 +121,7 @@
 <p><strong>与字符串不同，数组是可变的，可以修改数组中的元素。例如，可以通过索引来修改数组的某个元素。</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array[<span class="number">0</span>] = <span class="number">100</span></span><br><span class="line"><span class="built_in">print</span>(array)  <span class="comment"># 输出 [100, &#x27;Hello&#x27;, 3.14, True]</span></span><br></pre></td></tr></table></figure>
 <h3 id="第一天的作业打卡"><a class="markdownIt-Anchor" href="#第一天的作业打卡"></a> 第一天的作业打卡</h3>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">looping</span>(<span class="params">string</span>):</span><br><span class="line">    length = <span class="built_in">len</span>(string)</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; length:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;comp  <span class="subst">&#123;string[:length - i]&#125;</span>  9021&#x27;</span>)</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    string = <span class="string">&quot;Programming&quot;</span></span><br><span class="line">    looping(string)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">looping</span>(<span class="params">string</span>):</span><br><span class="line">    length = <span class="built_in">len</span>(string)  <span class="comment"># 获取字符串的长度</span></span><br><span class="line">    i = <span class="number">0</span>  <span class="comment"># 初始化循环变量</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; length:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;comp  <span class="subst">&#123;string[:length - i]&#125;</span>  9021&#x27;</span>)  <span class="comment"># 打印字符串的子串，使用f-string，将变量直接嵌入到字符串中，不需要使用额外的连接符或转换操作</span></span><br><span class="line">        i += <span class="number">1</span>  <span class="comment"># 更新循环变量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    string = <span class="string">&quot;Programming&quot;</span></span><br><span class="line">    looping(string)  </span><br></pre></td></tr></table></figure>
 <p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/2023.8.22.png" alt="" /></p>
 
   
