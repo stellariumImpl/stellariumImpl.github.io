@@ -31,14 +31,14 @@
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:description" content="循环 enumerate 该函数用于在迭代过程中获取每个元素的索引和值，返回一个可迭代对象，该对象生成一个包含索引和值的元组。 1enumerate(iterable,start&#x3D;0) 其中，iterable 是要遍历的可迭代对象，例如列表、元组、字符串等。而 start 是可选参数，用于指定开始的索引，默认值是 0。 12345678fruits &#x3D; [&amp;#x27;apple&amp;#x27;, &amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/quiz_1-2.pdf">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/xunhuan1.png">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/printrhombus.png">
 <meta property="og:image" content="https://github-readme-stats.xaoxuu.com/api/pin/?username=marey&repo=UNSW_COMP9021&theme=dark&show_owner=true">
-<meta property="article:published_time" content="2023-08-23T16:49:37.347Z">
-<meta property="article:modified_time" content="2023-08-23T16:49:37.347Z">
+<meta property="article:published_time" content="2023-08-23T17:25:36.157Z">
+<meta property="article:modified_time" content="2023-08-23T17:25:36.157Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/quiz_1-2.pdf">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/xunhuan1.png">
   
   
 
@@ -100,7 +100,7 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.22/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-23T16:49:37.347Z">2023-08-24</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.22/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-23T17:25:36.157Z">2023-08-24</time></div></div>
 
   <article class='md-text content wiki reveal'>
   <h1 class="article-title"><span>Day 1</span></h1>
@@ -120,7 +120,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> number <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>, <span class="number">20</span>):</span><br><span class="line">    <span class="keyword">for</span> factor1 <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, number):</span><br><span class="line">        <span class="keyword">if</span> number % factor1 != <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;number&#125;</span> is a prime number&#x27;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            factor2 = number / factor1</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;factor1&#125;</span>*<span class="subst">&#123;factor2:<span class="number">0.0</span>f&#125;</span>=<span class="subst">&#123;number&#125;</span>&#x27;</span>)</span><br><span class="line">            <span class="keyword">break</span> </span><br></pre></td></tr></table></figure>
 <p><strong>while-else</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">number = <span class="number">10</span></span><br><span class="line"><span class="keyword">while</span> number &lt; <span class="number">20</span>:</span><br><span class="line">    factor1=<span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> factor1&lt;<span class="number">20</span>:</span><br><span class="line">        <span class="keyword">if</span> number%factor1==<span class="number">0</span>:</span><br><span class="line">            factor2=number/factor1</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;factor1&#125;</span>*<span class="subst">&#123;factor2:<span class="number">0.0</span>f&#125;</span>=<span class="subst">&#123;number&#125;</span>&#x27;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        factor1+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;number&#125;</span> is a prime number&#x27;</span>)</span><br><span class="line">    number+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/quiz_1-2.pdf" alt="" /></p>
+<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/xunhuan1.png" alt="" /></p>
 <h3 id="刷题"><a class="markdownIt-Anchor" href="#刷题"></a> 刷题</h3>
 <p>来自<a target="_blank" rel="noopener" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/quiz_1-2.pdf">quiz_1-2.pdf</a></p>
 <p>待读取的文件内容可以这样写：</p>
