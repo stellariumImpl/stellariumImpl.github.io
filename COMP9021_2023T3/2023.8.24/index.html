@@ -21,19 +21,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>编程原理：Day 2 - Stellarium</title>
+  <title>编程原理：列表生成式的运用 - Stellarium</title>
 
   
     <meta name="description" content="刷题 第2天的作业打卡 给定任意一个整数  输出该整数有多少个数字是大于0的 输出该整数中有多少个偶数数字，有多少个奇数数字  可以当成字符串来处理，也可以当成整数来处理。 当成整数来处理 12345678910111213141516171819202122positive_numbers&#x3D;[]odd_numbers&#x3D;[]even_numbers&#x3D;[]try:    number &#x3D; int(">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Day 2">
+<meta property="og:title" content="列表生成式的运用">
 <meta property="og:url" content="https://stellariumimpl.github.io/COMP9021_2023T3/2023.8.24/index.html">
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:description" content="刷题 第2天的作业打卡 给定任意一个整数  输出该整数有多少个数字是大于0的 输出该整数中有多少个偶数数字，有多少个奇数数字  可以当成字符串来处理，也可以当成整数来处理。 当成整数来处理 12345678910111213141516171819202122positive_numbers&#x3D;[]odd_numbers&#x3D;[]even_numbers&#x3D;[]try:    number &#x3D; int(">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/oddornot1.png">
-<meta property="article:published_time" content="2023-08-27T09:02:05.292Z">
-<meta property="article:modified_time" content="2023-08-27T09:02:05.292Z">
+<meta property="article:published_time" content="2023-09-01T12:37:58.723Z">
+<meta property="article:modified_time" content="2023-09-01T12:37:58.723Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/oddornot1.png">
@@ -84,9 +84,9 @@
 
 
 
-<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9021_2023T3/2023.8.22/index.html"><div class="main" ff="title">编程原理</div></a></div></widget>
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9021_2023T3/2023.8.23/index.html"><div class="main" ff="title">编程原理</div></a></div></widget>
 
-<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Day 2</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.22/index.html#start"><span class="toc-text">Day 0</span></a></div><div class="doc-tree active"><a class="doc-tree-link active" href="/COMP9021_2023T3/2023.8.24/index.html"><span class="toc-text">Day 2</span></a><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E9%A2%98"><span class="toc-text"> 刷题</span></a></li></ol></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.23/index.html"><span class="toc-text">Day 1</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.29/index.html"><span class="toc-text">Day 5</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.26/index.html"><span class="toc-text">Day 3</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.28/index.html"><span class="toc-text">Day 4</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.30/index.html"><span class="toc-text">Day 5</span></a></div></div></widget>
+<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">列表生成式的运用</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.23/index.html#start"><span class="toc-text">循环</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.22/index.html"><span class="toc-text">字符串 列表</span></a></div><div class="doc-tree active"><a class="doc-tree-link active" href="/COMP9021_2023T3/2023.8.24/index.html"><span class="toc-text">列表生成式的运用</span></a><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%B7%E9%A2%98"><span class="toc-text"> 刷题</span></a></li></ol></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.28/index.html"><span class="toc-text">元组和列表</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.26/index.html"><span class="toc-text">列表再探讨</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.29/index.html"><span class="toc-text">字典和集合</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.30/index.html"><span class="toc-text">lambda函数 sorted函数</span></a></div></div></widget>
 </div>
 
 
@@ -98,10 +98,10 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.22/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-08-27T09:02:05.292Z">2023-08-27</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.23/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-09-01T12:37:58.723Z">2023-09-01</time></div></div>
 
   <article class='md-text content wiki reveal'>
-  <h1 class="article-title"><span>Day 2</span></h1>
+  <h1 class="article-title"><span>列表生成式的运用</span></h1>
   <h3 id="刷题"><a class="markdownIt-Anchor" href="#刷题"></a> 刷题</h3>
 <p><strong>第2天的作业打卡</strong></p>
 <p>给定任意一个整数</p>
