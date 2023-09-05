@@ -1,73 +1,587 @@
-.l_body {
-  display: flex;
-  margin: auto;
-  padding: 0 var(--gap-l);
-  justify-content: center;
-}
-.l_body .l_left {
-  z-index: 8;
-  width: var(--width-left);
-  flex-shrink: 0;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-}
-.l_body .l_main {
-  flex-shrink: 1;
-  flex-grow: 1;
-  width: 320px;
-  max-width: var(--width-main);
-}
-@media screen and (max-width: $device-mobile-max) {
-  .mobile-only {
-    display: block !important;
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>查找算法 - Stellarium</title>
+
+  
+    <meta name="description" content="二分查找 1234567891011121314151617181920212223242526272829303132def binary_search(lst,item):    length&#x3D;len(lst)    first&#x3D;0    last&#x3D;length # length-1也无所谓吧    while first&lt;&#x3D;last:        mid_item&#x3D;(first+l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查找算法">
+<meta property="og:url" content="https://stellariumimpl.github.io/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="二分查找 1234567891011121314151617181920212223242526272829303132def binary_search(lst,item):    length&#x3D;len(lst)    first&#x3D;0    last&#x3D;length # length-1也无所谓吧    while first&lt;&#x3D;last:        mid_item&#x3D;(first+l">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-17T12:13:26.000Z">
+<meta property="article:modified_time" content="2023-08-21T08:24:27.322Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="C 基础">
+<meta property="article:tag" content="Python 基础">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="二分查找">
+<meta property="article:tag" content="二叉树的遍历">
+<meta property="article:tag" content="广度优先搜索">
+<meta property="article:tag" content="深度优先搜索">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">文档</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">查找算法</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE"><span class="toc-text"> 二分查找</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91-%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88"><span class="toc-text"> 二叉树 广度优先</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><span class="title">查找算法</span></a><a class="item title" href="/2023/08/14/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><span class="title">排序算法</span></a><a class="item title" href="/2023/07/14/C%20%E6%8C%87%E9%92%88%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%93/"><span class="title">C 指针与结构体</span></a><a class="item title" href="/2023/08/09/Python-%E5%AE%9E%E7%8E%B0%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="title">Python 实现数据结构</span></a><a class="item title" href="/2023/07/20/%E6%AF%95%E4%B8%9A%E4%B9%8B%E6%97%85%E7%AC%AC%E5%9B%9B%E7%AB%99-%E6%9D%AD%E5%B7%9E/"><span class="title">毕业之旅第四站 杭州</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AF%B9%E4%BA%8ECOMP9021%E7%9A%84%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87/">对于COMP9021的一些准备</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-08-17T12:13:26.000Z">2023-08-17</time></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>查找算法</span></h1>
+<h3 id="二分查找"><a class="markdownIt-Anchor" href="#二分查找"></a> 二分查找</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">binary_search</span>(<span class="params">lst,item</span>):</span><br><span class="line">    length=<span class="built_in">len</span>(lst)</span><br><span class="line">    first=<span class="number">0</span></span><br><span class="line">    last=length <span class="comment"># length-1也无所谓吧</span></span><br><span class="line">    <span class="keyword">while</span> first&lt;=last:</span><br><span class="line">        mid_item=(first+last)//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> item==lst[mid_item]:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">elif</span> item&lt;lst[mid_item]:</span><br><span class="line">            last=mid_item-<span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            first=mid_item+<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">binary_search_recursion</span>(<span class="params">lst,item</span>):</span><br><span class="line">    length = <span class="built_in">len</span>(lst)</span><br><span class="line">    <span class="keyword">if</span> length&gt;<span class="number">0</span>:</span><br><span class="line">        mid_item=length//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> lst[mid_item]==item:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">elif</span> lst[mid_item]&gt;item:</span><br><span class="line">            <span class="keyword">return</span> binary_search_recursion(lst[:mid_item],item)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> binary_search_recursion(lst[mid_item+<span class="number">1</span>:], item)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    lst=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>]</span><br><span class="line">    length = <span class="built_in">len</span>(lst)</span><br><span class="line">    item=<span class="number">4</span></span><br><span class="line">    <span class="built_in">print</span>(binary_search(lst,item))</span><br><span class="line">    <span class="built_in">print</span>(binary_search_recursion(lst,item))</span><br></pre></td></tr></table></figure>
+<p>下面是C语言版，这里<code>binary_search_recursion</code>函数中之所以不再像python版本的那样方便，比如<code>mid_item=start+(end-start)/2</code>，又添加了一个start参数，并且不再用<code>length&gt;0</code>作为结束递归的标志，一切的一切是因为传入的lst还是原来的那个lst，不管在二分的哪一截，索引还得从start开始加。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MaxSize 10</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">binary_search</span><span class="params">(<span class="type">int</span> *lst,<span class="type">int</span> item,<span class="type">int</span> length)</span>&#123;</span><br><span class="line">    <span class="type">int</span> start=<span class="number">0</span>,end=length<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(start&lt;=end)&#123;</span><br><span class="line">        <span class="type">int</span> mid_item=(start+end)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(item==lst[mid_item])</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(item&gt;lst[mid_item])</span><br><span class="line">            start=mid_item+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            end=mid_item<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">binary_search_recursion</span><span class="params">(<span class="type">int</span> *lst,<span class="type">int</span> item,<span class="type">int</span> start,<span class="type">int</span> end)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(start&lt;=end)&#123;</span><br><span class="line">        <span class="type">int</span> mid_item=start+(end-start)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span>(item==lst[mid_item])</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(item&gt;lst[mid_item])</span><br><span class="line">            <span class="keyword">return</span> binary_search_recursion(lst,item,mid_item+<span class="number">1</span>,end);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> binary_search_recursion(lst,item,start,mid_item<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> lst[MaxSize]=&#123;<span class="number">23</span>,<span class="number">24</span>,<span class="number">25</span>,<span class="number">45</span>,<span class="number">68</span>,<span class="number">92</span>,<span class="number">100</span>&#125;;</span><br><span class="line">    <span class="type">int</span> length=<span class="keyword">sizeof</span>(lst)/<span class="keyword">sizeof</span> (lst[<span class="number">0</span>]);</span><br><span class="line">    <span class="type">int</span> item=<span class="number">25</span>;</span><br><span class="line"><span class="comment">//    printf(&quot;%d&quot;,binary_search(lst,item,length));</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,binary_search_recursion(lst,item,<span class="number">0</span>,length));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二叉树-广度优先"><a class="markdownIt-Anchor" href="#二叉树-广度优先"></a> 二叉树 广度优先</h3>
+<p><strong>满二叉树 &amp; 完全二叉树 &amp; AVL &amp; BST</strong></p>
+<p>对于一棵二叉树，假设其深度为d(d&gt;1)，除了第d层外，其它各层的节点数目均已达到最大值，且第d层所有的节点从左向右地紧密排列，这样的二叉树被称为<em>完全二叉树</em>。其中，<em>满二叉树</em>的定义是所有叶子节点都在最底层的完全二叉树，也就是每一层的节点数都达到最大值，假设层数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>，深度为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>h</mi></mrow><annotation encoding="application/x-tex">h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">h</span></span></span></span>，深度与最大层数相同，那么节点总数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">{2^k}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.932438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>，所以总节点数一定为奇数，叶子数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>h</mi></msup></mrow><annotation encoding="application/x-tex">2^h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span></span></span>，第<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>层的节点数为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">2^{k-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>。而完全二叉树，最后那一层可能不是完整的，此外所有的这<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mtext> </mtext><mi>h</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">1~h-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mspace nobreak"> </span><span class="mord mathnormal">h</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>层的节点数都到达最大个数，对于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>层的完全二叉树，节点数的范围<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn><mo>&lt;</mo><mi>N</mi><mo>&lt;</mo><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{k-1}-1&lt;N&lt;{2^k}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9324379999999999em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68354em;vertical-align:-0.0391em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.72243em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.932438em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>。</p>
+<p>二叉排序树、二叉搜索树、有序二叉树(BST)，其中每个节点都满足以下条件：</p>
+<ul>
+<li>该节点左子树中的所有节点的值都小于该节点的值；而右子树中的所有节点的值都大于该节点的值</li>
+<li>左右子树同样也都是二叉排序树</li>
+</ul>
+<p>通过这种组织方式，排序二叉树使得查找、插入和删除操作的时间复杂度为 <code>O(logn)</code>，其中 n 为二叉树中节点的数量。因为每次操作都可以通过比较节点值来决定向左子树或右子树移动，从而有效地缩小搜索范围。</p>
+<p>平衡二叉树(AVL)，当且仅当任何节点的两棵子树的高度差不大于1的二叉树，相比普通的二叉排序树，它额外满足下列条件：</p>
+<ul>
+<li>左右子树的高度差不超过1</li>
+<li>左子树和右子树都是平衡二叉树</li>
+</ul>
+<p>总而言之，平衡二叉树是一种额外满足高度平衡性质的排序二叉树。</p>
+<p><strong>构建一棵二叉树</strong></p>
+<p>如何插入元素？从根节点为None开始。可以用一个临时的队列模拟构建的全过程，从队首取出节点，先判断该节点是否有左孩子，如果没有，左孩子指向节点node；如果有左孩子，在队尾添加该左子节点，右子树亦然。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,item</span>):</span><br><span class="line">        self.item=item</span><br><span class="line">        self.lchild=<span class="literal">None</span></span><br><span class="line">        self.rchild=<span class="literal">None</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Tree</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.root=<span class="literal">None</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">self,item</span>):</span><br><span class="line">        node=Node(item)</span><br><span class="line">        <span class="keyword">if</span> self.root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            self.root=node</span><br><span class="line">            <span class="keyword">return</span> </span><br><span class="line">        queue=[]</span><br><span class="line">        queue.append(self.root)</span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            cur_node=queue.pop(<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">if</span> cur_node.lchild <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cur_node.lchild=node</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                queue.append(cur_node.lchild)</span><br><span class="line">            <span class="keyword">if</span> cur_node.rchild <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                cur_node.rchild=node</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                queue.append(cur_node.rchild)</span><br></pre></td></tr></table></figure>
+<p><strong>广度优先遍历</strong></p>
+<p>广度优先遍历的顺序也就是插入节点的顺序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">breadth_travel</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">if</span> self.root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    queue=[]</span><br><span class="line">    queue.append(self.root)</span><br><span class="line">    <span class="keyword">while</span> queue:</span><br><span class="line">        cur_node=queue.pop(<span class="number">0</span>)</span><br><span class="line">        <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> cur_node.lchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            queue.append(cur_node.lchild)</span><br><span class="line">        <span class="keyword">if</span> cur_node.rchild <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            queue.append(cur_node.rchild)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<!-- **测试结果**
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    binary_tree=Tree()</span><br><span class="line">    binary_tree.add(<span class="number">1</span>)</span><br><span class="line">    binary_tree.add(<span class="number">2</span>)</span><br><span class="line">    binary_tree.add(<span class="number">3</span>)</span><br><span class="line">    binary_tree.add(<span class="number">4</span>)</span><br><span class="line">    binary_tree.add(<span class="number">5</span>)</span><br><span class="line">    binary_tree.add(<span class="number">6</span>)</span><br><span class="line">    binary_tree.add(<span class="number">7</span>)</span><br><span class="line">    binary_tree.breadth_travel()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1 2 3 4 5 6 7</span></span><br><span class="line">``` --&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">### 二叉树 深度优先 </span></span><br><span class="line"></span><br><span class="line">**前序遍历**</span><br><span class="line"></span><br><span class="line">使用栈来模拟遍历过程，先进后出。前序遍历：`根-&gt;左-&gt;右`。</span><br><span class="line"></span><br><span class="line">需要将右子节点先入栈，因为这样，在弹栈顺序中，左子节点会被先弹出，从而先进行访问。而右子节点是后弹出的，所以自然会在左子节点之后访问。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">preorder_withoutRecursion</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">if</span> self.root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        stack = []</span><br><span class="line">        stack.append(self.root)</span><br><span class="line">        <span class="keyword">while</span> stack:</span><br><span class="line">            cur_node = stack.pop()</span><br><span class="line">            <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> cur_node.rchild:</span><br><span class="line">                stack.append(cur_node.rchild)</span><br><span class="line">            <span class="keyword">if</span> cur_node.lchild:</span><br><span class="line">                stack.append(cur_node.lchild)</span><br></pre></td></tr></table></figure>
+<p><strong>中序遍历</strong></p>
+<p>访问顺序：<code>左-&gt;根-&gt;右</code>，首先将左子树的所有节点入栈，然后逐个弹出并打印出来，再遍历右子树。</p>
+<p>当栈不为空或当前节点不为空时进行迭代。</p>
+<p>判断当前节点是否存在。如果存在，将当前节点入栈，并将 <code>cur_node</code> 设置为其左子节点，继续迭代。</p>
+<p>如果当前节点不存在，说明已经遍历完了当前子树的所有左子节点，需要回溯到上一层。</p>
+<p>弹出栈顶节点，并将其值打印出来。</p>
+<p>将 <code>cur_node</code> 设置为栈顶节点的右子节点，用来遍历右子树。</p>
+<p>重复循环直至栈为空且当前节点为空。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">inorder_withoutRecursion</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">if</span> self.root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    stack=[]</span><br><span class="line">    cur_node=self.root</span><br><span class="line">    <span class="keyword">while</span> stack <span class="keyword">or</span> cur_node:</span><br><span class="line">        <span class="keyword">if</span> cur_node:</span><br><span class="line">            stack.append(cur_node)</span><br><span class="line">            cur_node=cur_node.lchild</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            cur_node=stack.pop()</span><br><span class="line">            <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">            cur_node=cur_node.rchild</span><br></pre></td></tr></table></figure>
+<p><strong>后序遍历</strong></p>
+<p>后序遍历的访问顺序是先访问左子树，再访问右子树，最后访问根节点，使用栈可以保存节点的访问顺序。</p>
+<p>先将根节点入栈，然后依次将左子节点入栈，直到遇到叶子节点，此时，设置当前节点 <code>cur_node</code> 为栈顶节点。</p>
+<p>判断当前节点的右子节点是否为空或者上一次访问的节点是否是当前节点的右子节点。如果条件满足，说明当前节点的左右子树都已经访问完毕，可以打印当前节点的值。将栈顶节点弹出，并将 <code>last_visited</code> 设置为当前节点，用于记录上一次访问的节点。将 <code>cur_node</code> 设置为 None，用于控制回溯到上一层。</p>
+<p>如果当前节点的右子节点不为空，并且不满足上述条件，说明当前节点的右子树还需要继续访问。将 <code>cur_node</code> 设置为当前节点的右子节点，继续迭代。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">postorder_withoutRecursion</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">if</span> self.root <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    stack = []</span><br><span class="line">    cur_node = self.root</span><br><span class="line">    last_visited = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> stack <span class="keyword">or</span> cur_node:</span><br><span class="line">        <span class="keyword">while</span> cur_node:</span><br><span class="line">            stack.append(cur_node)</span><br><span class="line">            cur_node = cur_node.lchild</span><br><span class="line">        cur_node = stack[-<span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cur_node.rchild <span class="keyword">or</span> last_visited == cur_node.rchild:</span><br><span class="line">            <span class="built_in">print</span>(cur_node.item, end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">            stack.pop()</span><br><span class="line">            last_visited = cur_node</span><br><span class="line">            cur_node = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            cur_node = cur_node.rchild</span><br></pre></td></tr></table></figure>
+<p><strong>无脑递归</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pre_order</span>(<span class="params">self,cur_node</span>):</span><br><span class="line">    <span class="keyword">if</span> cur_node <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">    self.pre_order(cur_node.lchild)</span><br><span class="line">    self.pre_order(cur_node.rchild)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">in_order</span>(<span class="params">self,cur_node</span>):</span><br><span class="line">    <span class="keyword">if</span> cur_node <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    self.in_order(cur_node.lchild)</span><br><span class="line">    <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br><span class="line">    self.in_order(cur_node.rchild)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_order</span>(<span class="params">self,cur_node</span>):</span><br><span class="line">    <span class="keyword">if</span> cur_node <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    self.post_order(cur_node.lchild)</span><br><span class="line">    self.post_order(cur_node.rchild)</span><br><span class="line">    <span class="built_in">print</span>(cur_node.item,end=<span class="string">&quot; &quot;</span>)</span><br></pre></td></tr></table></figure>
+<!-- **完整代码**
+
+```python
+class Node(object):
+    def __init__(self,item):
+        self.item=item
+        self.lchild=None
+        self.rchild=None
+
+class Tree(object):
+    def __init__(self):
+        self.root=None
+    def add(self,item):
+        node=Node(item)
+        if self.root is None:
+            self.root=node
+            return
+        queue=[self.root]
+        while queue:
+            cur_node=queue.pop(0)
+            if cur_node.lchild is None:
+                cur_node.lchild=node
+                return
+            else:
+                queue.append(cur_node.lchild)
+            if cur_node.rchild is None:
+                cur_node.rchild=node
+                return
+            else:
+                queue.append(cur_node.rchild)
+
+    def preorder(self):
+        res=[]
+        if self.root is None:
+            return res
+        stack=[]
+        stack.append(self.root)
+        while stack:
+            cur_node=stack.pop()
+            res.append(cur_node.item)
+            if cur_node.rchild is not None:
+                stack.append(cur_node.rchild)
+            if cur_node.lchild is not None:
+                stack.append(cur_node.lchild)
+        return res
+
+    def inorder(self):
+        res=[]
+        if self.root is None:
+            return res
+        stack = []
+        cur_node = self.root
+        while stack or cur_node:
+            if cur_node:
+                stack.append(cur_node)
+                cur_node = cur_node.lchild
+            else:
+                cur_node = stack.pop()
+                res.append(cur_node.item)
+                cur_node = cur_node.rchild
+        return res
+
+    def postorder(self):
+        res=[]
+        if self.root is None:
+            return res
+        stack = []
+        stack.append(self.root)
+        while stack:
+            cur_node = stack.pop()
+            res.insert(0,cur_node.item)
+            if cur_node.lchild:
+                stack.append(cur_node.lchild)
+            if cur_node.rchild:
+                stack.append(cur_node.rchild)
+        return res
+
+if __name__ == '__main__':
+    tree=Tree()
+    tree.add(1)
+    tree.add(2)
+    tree.add(3)
+    tree.add(4)
+    tree.add(5)
+    tree.add(6)
+    tree.add(7)
+    print(tree.preorder())
+    print(tree.inorder())
+    print(tree.postorder())
+
+# [1, 2, 4, 5, 3, 6, 7]
+# [4, 2, 5, 1, 6, 3, 7]
+# [4, 5, 2, 6, 7, 3, 1]
+``` -->
+
+
+<div class="article-footer reveal fs14"><section id="references"><div class="header"><span>参考资料</span></div><div class="body"><ul><li class="post-title"><a href="https://www.bilibili.com/video/BV1e4411s7Kw" target="_blank" rel="external nofollow noopener noreferrer">数据结构与算法（Python语言描述）—— 完整顺序版</a></li></ul></div></section><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/&title=查找算法 - Stellarium&pics=https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/wallhaven-qzmlj5.png&summary= 二分查找
+1234567891011121314151617181920212223242526272829303132def binary_search(lst,item):    length=len(lst)    first..."><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=查找算法 - Stellarium&amp;body=https://stellariumimpl.github.io/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/08/14/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2023\08\14\排序算法\" title="排序算法"><span class="title">排序算法</span></a><a class="item" href="\2023\08\09\Python-实现数据结构\" title="Python 实现数据结构"><span class="title">Python 实现数据结构</span></a><a class="item" href="\2023\07\14\C 指针与结构体\" title="C 指针与结构体"><span class="title">C 指针与结构体</span></a><a class="item" href="\2023\03\05\Python-super函数\" title="Python super函数"><span class="title">Python super函数</span></a><a class="item" href="\2023\08\03\完成一个图灵机\" title="完成一个图灵机"><span class="title">完成一个图灵机</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
   }
-  .l_body {
-    padding: 0;
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  // optional plugins
+  if ('false' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
   }
-  .l_body .l_left {
-    position: fixed;
-    transform: translateX(-320px);
-    margin: 0;
-    left: 0;
-    background: var(--site-bg);
-    box-shadow: $boxshadow-card-float;
-    z-index: 9;
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
   }
-  .l_body .l_main {
-    max-width: 100%;
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
-  .l_body.mobile .l_left {
-    transition: transform 0.3s ease-out;
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
   }
-  .l_body.mobile.sidebar .l_left {
-    transform: translateX(0px);
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
   }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if('true' == 'true'){
+  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
 }
-.social-wrap {
-  display: grid;
-  grid-gap: 0.25rem 0.25rem;
-  grid-template-columns: repeat(auto-fill, 32px);
-  margin-left: -10px;
-}
-*::-webkit-scrollbar {
-  height: 4px;
-  width: 4px;
-}
-*::-webkit-scrollbar-thumb {
-  background: #3dd9b6;
-  cursor: pointer;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-*::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-.steam-game-button::before {
-  border-radius: 4px;
-}
-.hitokoto {
-  padding: 0px !important;
-  text-align: left;
-  margin: 5px 0 5px 0;
-}
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+  <!-- 引用依赖 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
+
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = 'Copy'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = 'Copied'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = 'Copy'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('Copy')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+
+
+<!-- 我使用的APlayer本体 -->
+<!-- <div class="aplayer" 
+  data-id="8383366441" 
+  data-server="netease" 
+  data-type="playlist" 
+  data-fixed="true" 
+  data-autoplay="true" 
+  data-order="random" 
+  data-volume="0.55" 
+  data-theme="#cc543a" 
+  data-preload="auto" >
+  </div> -->
+<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+</html>
