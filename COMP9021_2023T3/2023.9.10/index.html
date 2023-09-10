@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>编程原理：合并链表 - Stellarium</title>
+
+  
+    <meta name="description" content="Merge Two Sorted Lists https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-two-sorted-lists&#x2F;https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-two-sorted-lists&#x2F; 123456789101112131415161718192021# Definition for singly-linked list.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="合并链表">
+<meta property="og:url" content="https://stellariumimpl.github.io/COMP9021_2023T3/2023.9.10/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="Merge Two Sorted Lists https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-two-sorted-lists&#x2F;https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-two-sorted-lists&#x2F; 123456789101112131415161718192021# Definition for singly-linked list.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-10T14:28:51.393Z">
+<meta property="article:modified_time" content="2023-09-10T14:28:51.393Z">
+<meta property="article:author" content="fygod">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='wiki'>
+    
+
+  
+
+
+
+
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9021_2023T3/2023.8.23/index.html"><div class="main" ff="title">编程原理</div></a></div></widget>
+
+<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">合并链表</span></div><div class="widget-body fs14"><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.23/index.html#start"><span class="toc-text">循环</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.22/index.html"><span class="toc-text">字符串 列表</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.24/index.html"><span class="toc-text">列表生成式的运用</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.28/index.html"><span class="toc-text">元组和列表</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.26/index.html"><span class="toc-text">列表再探讨</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.29/index.html"><span class="toc-text">字典和集合</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.8.30/index.html"><span class="toc-text">lambda函数 sorted函数</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.9.1/index.html"><span class="toc-text">两数相加</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.9.7/index.html"><span class="toc-text">反转 图搜索</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9021_2023T3/2023.9.9/index.html"><span class="toc-text">回文串</span></a></div><div class="doc-tree active"><a class="doc-tree-link active" href="/COMP9021_2023T3/2023.9.10/index.html"><span class="toc-text">合并链表</span></a><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merge-two-sorted-lists"><span class="toc-text"> Merge Two Sorted Lists</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%96%91%E9%97%AE"><span class="toc-text"> 疑问</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#head"><span class="toc-text"> head</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#headnext"><span class="toc-text"> head.next</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#merge-strings-alternately"><span class="toc-text"> Merge Strings Alternately</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find-the-difference"><span class="toc-text"> Find the Difference</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#find-the-index-of-the-first-occurrence-in-a-string"><span class="toc-text"> Find the Index of the First Occurrence in a String</span></a></li></ol></div></div></widget>
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+  
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9021_2023T3/2023.8.23/index.html">编程原理</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-09-10T14:28:51.393Z">2023-09-11</time></div></div>
+
+  <article class='md-text content wiki reveal'>
+  <h1 class="article-title"><span>合并链表</span></h1>
+  <h3 id="merge-two-sorted-lists"><a class="markdownIt-Anchor" href="#merge-two-sorted-lists"></a> Merge Two Sorted Lists</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/merge-two-sorted-lists/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/merge-two-sorted-lists/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, next=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.next = next</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mergeTwoLists</span>(<span class="params">self, list1: ListNode, list2: ListNode</span>) -&gt; ListNode:</span><br><span class="line">        dummy=ListNode(<span class="number">0</span>)</span><br><span class="line">        cur=dummy</span><br><span class="line">        <span class="keyword">while</span> list1 <span class="keyword">and</span> list2:</span><br><span class="line">            <span class="keyword">if</span> list1.val&gt;list2.val:</span><br><span class="line">                cur.<span class="built_in">next</span>=list2</span><br><span class="line">                cur=list2</span><br><span class="line">                list2=list2.<span class="built_in">next</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur.<span class="built_in">next</span>=list1</span><br><span class="line">                cur=list1</span><br><span class="line">                list1=list1.<span class="built_in">next</span></span><br><span class="line">        <span class="keyword">if</span> list1 <span class="keyword">or</span> list2:</span><br><span class="line">            cur.<span class="built_in">next</span>=list1 <span class="keyword">if</span> list1 <span class="keyword">else</span> list2</span><br><span class="line">        <span class="keyword">return</span> dummy.<span class="built_in">next</span></span><br></pre></td></tr></table></figure>
+<h3 id="疑问"><a class="markdownIt-Anchor" href="#疑问"></a> 疑问</h3>
+<p>我有一个疑问，快慢指针的初始化，有一种是将快指针初始化为head，另一种是初始化为head.next，到底哪一种对呢，还是两种都可以，但是后面需要注意边界情况呢？</p>
+<p>比如说那两道题来作比较：</p>
+<h4 id="head"><a class="markdownIt-Anchor" href="#head"></a> head</h4>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/palindrome-linked-list/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/palindrome-linked-list/</span><span class="cap desc fs12"></span></div></a></div>
+<p>创建一个空的哑节点（dummy node）。这个哑节点的作用是反转链表的后半部分，以便进行回文判断。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, next=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.next = next</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">isPalindrome</span>(<span class="params">self, head: ListNode</span>) -&gt; <span class="built_in">bool</span>:</span><br><span class="line">        slow=fast=head</span><br><span class="line">        <span class="keyword">while</span> fast <span class="keyword">and</span> fast.<span class="built_in">next</span>:</span><br><span class="line">            slow=slow.<span class="built_in">next</span></span><br><span class="line">            fast=fast.<span class="built_in">next</span>.<span class="built_in">next</span></span><br><span class="line">        dummy=<span class="literal">None</span></span><br><span class="line">        <span class="keyword">while</span> slow:</span><br><span class="line">            tmp=slow.<span class="built_in">next</span></span><br><span class="line">            slow.<span class="built_in">next</span>=dummy</span><br><span class="line">            dummy=slow</span><br><span class="line">            slow=tmp</span><br><span class="line">        left=head</span><br><span class="line">        right=dummy</span><br><span class="line">        <span class="keyword">while</span> left <span class="keyword">and</span> right:</span><br><span class="line">            <span class="keyword">if</span> left.val!=right.val:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">            left=left.<span class="built_in">next</span></span><br><span class="line">            right=right.<span class="built_in">next</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span>     </span><br></pre></td></tr></table></figure>
+<h4 id="headnext"><a class="markdownIt-Anchor" href="#headnext"></a> head.next</h4>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/sort-list/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/sort-list/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/sort-list/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, val=0, next=None):</span></span><br><span class="line"><span class="comment">#         self.val = val</span></span><br><span class="line"><span class="comment">#         self.next = next</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">sortList</span>(<span class="params">self, head: ListNode</span>) -&gt; ListNode:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> head <span class="keyword">or</span> <span class="keyword">not</span> head.<span class="built_in">next</span>:</span><br><span class="line">            <span class="keyword">return</span> head</span><br><span class="line">        slow=fast=head</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> fast <span class="keyword">and</span> fast.<span class="built_in">next</span>:</span><br><span class="line">            slow=slow.<span class="built_in">next</span></span><br><span class="line">            fast=fast.<span class="built_in">next</span>.<span class="built_in">next</span></span><br><span class="line">        </span><br><span class="line">        center=slow.<span class="built_in">next</span></span><br><span class="line">        slow.<span class="built_in">next</span>=<span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        left=self.sortList(head)</span><br><span class="line">        right=self.sortList(center)</span><br><span class="line">        </span><br><span class="line">        dummy=ListNode(<span class="number">0</span>)</span><br><span class="line">        cur=dummy</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> left <span class="keyword">and</span> right:</span><br><span class="line">            <span class="keyword">if</span> left.val&lt;right.val:</span><br><span class="line">                cur.<span class="built_in">next</span>=left</span><br><span class="line">                left=left.<span class="built_in">next</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                cur.<span class="built_in">next</span>=rigth</span><br><span class="line">                right=right.<span class="built_in">next</span></span><br><span class="line">            cur=cur.<span class="built_in">next</span></span><br><span class="line"></span><br><span class="line">        cur.<span class="built_in">next</span>=left <span class="keyword">or</span> right</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dummy.<span class="built_in">next</span></span><br></pre></td></tr></table></figure>
+<p><strong>两种初始化方式</strong></p>
+<ul>
+<li><code>fast = head.next slow = head</code> (这样初始化后如果链表长度为奇数，最终slow指向的是当前链表的正中间位置上的结点，如果链表长度为偶的话，则指向中间偏左的那个结点)</li>
+<li><code>fast = head slow = head</code> (这样初始化后如果链表长度为奇数，最终slow指向的是当前链表的正中间位置上的结点，如果链表长度为偶的话，则指向中间偏右的那个结点)</li>
+</ul>
+<p><strong>注意两个的区别，看题目要求来选择快慢指针的初始化方式</strong></p>
+<h3 id="merge-strings-alternately"><a class="markdownIt-Anchor" href="#merge-strings-alternately"></a> Merge Strings Alternately</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/merge-strings-alternately/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/merge-strings-alternately/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/merge-strings-alternately/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution1</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mergeAlternately</span>(<span class="params">self, word1: <span class="built_in">str</span>, word2: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        res = <span class="string">&quot;&quot;</span></span><br><span class="line">        length = <span class="built_in">min</span>(<span class="built_in">len</span>(word1), <span class="built_in">len</span>(word2))</span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">            res += word1[index] + word2[index]</span><br><span class="line">        res += word1[length:] + word2[length:]</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution2</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">mergeAlternately</span>(<span class="params">self, word1: <span class="built_in">str</span>, word2: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        res = <span class="string">&quot;&quot;</span>.join(w1 + w2 <span class="keyword">for</span> w1, w2 <span class="keyword">in</span> <span class="built_in">zip</span>(word1, word2))</span><br><span class="line">        length_word1 = <span class="built_in">len</span>(word1)</span><br><span class="line">        length_word2 = <span class="built_in">len</span>(word2)</span><br><span class="line">        <span class="keyword">if</span> length_word1 &gt; length_word2:</span><br><span class="line">            res += word1[-(length_word1 - length_word2):]</span><br><span class="line">        <span class="keyword">elif</span> length_word1 &lt; length_word2:</span><br><span class="line">            res += word2[-(length_word2 - length_word1):]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res = res</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">s1 = Solution1()</span><br><span class="line">s2 = Solution2()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    word1 = <span class="built_in">input</span>(<span class="string">&quot;word1: &quot;</span>)</span><br><span class="line">    word2 = <span class="built_in">input</span>(<span class="string">&quot;word2: &quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(s1.mergeAlternately(word1, word2), s2.mergeAlternately(word1, word2))</span><br></pre></td></tr></table></figure>
+<h3 id="find-the-difference"><a class="markdownIt-Anchor" href="#find-the-difference"></a> Find the Difference</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/find-the-difference/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/find-the-difference/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/find-the-difference/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution1</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">findTheDifference</span>(<span class="params">self, s: <span class="built_in">str</span>, t: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="comment"># 使用count</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> t:</span><br><span class="line">            <span class="keyword">if</span> s.count(item) != t.count(item):</span><br><span class="line">                <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution2</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">findTheDifference</span>(<span class="params">self, s: <span class="built_in">str</span>, t: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        dict_s = Counter(s)</span><br><span class="line">        dict_t = Counter(t)</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> t:</span><br><span class="line">            <span class="keyword">if</span> dict_s[item] != dict_t[item]:</span><br><span class="line">                <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">s1 = Solution1()</span><br><span class="line">s2 = Solution2()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    s = <span class="built_in">input</span>(<span class="string">&quot;s: &quot;</span>)</span><br><span class="line">    t = <span class="built_in">input</span>(<span class="string">&quot;t: &quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(s1.findTheDifference(s, t), s2.findTheDifference(s, t))</span><br></pre></td></tr></table></figure>
+<h3 id="find-the-index-of-the-first-occurrence-in-a-string"><a class="markdownIt-Anchor" href="#find-the-index-of-the-first-occurrence-in-a-string"></a> Find the Index of the First Occurrence in a String</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution1</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">strStr</span>(<span class="params">self, haystack: <span class="built_in">str</span>, needle: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        <span class="keyword">return</span> haystack.index(needle) <span class="keyword">if</span> needle <span class="keyword">in</span> haystack <span class="keyword">else</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution2</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">strStr</span>(<span class="params">self, haystack: <span class="built_in">str</span>, needle: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        length_haystack = <span class="built_in">len</span>(haystack)</span><br><span class="line">        length_needle = <span class="built_in">len</span>(needle)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(length_haystack - length_needle + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(length_needle):</span><br><span class="line">                <span class="keyword">if</span> needle[j] != haystack[i + j]:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">                <span class="keyword">if</span> j == length_needle - <span class="number">1</span>:</span><br><span class="line">                    <span class="keyword">return</span> i</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution3</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">strStr</span>(<span class="params">self, haystack: <span class="built_in">str</span>, needle: <span class="built_in">str</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> needle <span class="keyword">not</span> <span class="keyword">in</span> haystack:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        hay_list = <span class="built_in">list</span>(haystack)</span><br><span class="line">        idx_save, idx_iter = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        len_need_list = <span class="built_in">len</span>(needle)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> idx_iter &lt;= <span class="built_in">len</span>(hay_list):</span><br><span class="line">            idx_save = idx_iter</span><br><span class="line">            <span class="keyword">if</span> needle <span class="keyword">in</span> <span class="string">&#x27;&#x27;</span>.join(hay_list[idx_iter:len_need_list + idx_iter]):</span><br><span class="line">                <span class="keyword">return</span> idx_save</span><br><span class="line">            idx_iter += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">s1 = Solution1()</span><br><span class="line">s2 = Solution2()</span><br><span class="line">s3 = Solution3()</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    haystack = <span class="built_in">input</span>(<span class="string">&quot;haystack: &quot;</span>)</span><br><span class="line">    needle = <span class="built_in">input</span>(<span class="string">&quot;needle: &quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(s1.strStr(haystack, needle), s2.strStr(haystack, needle), s3.strStr(haystack, needle))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  
+
+
+  </article>
+  
+
+
+  
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  // optional plugins
+  if ('false' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if('true' == 'true'){
+  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
+}
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+  <!-- 引用依赖 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
+
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = 'Copy'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = 'Copied'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = 'Copy'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('Copy')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+
+
+<!-- 我使用的APlayer本体 -->
+<!-- <div class="aplayer" 
+  data-id="8383366441" 
+  data-server="netease" 
+  data-type="playlist" 
+  data-fixed="true" 
+  data-autoplay="true" 
+  data-order="random" 
+  data-volume="0.55" 
+  data-theme="#cc543a" 
+  data-preload="auto" >
+  </div> -->
+<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+</html>
