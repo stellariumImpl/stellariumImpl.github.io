@@ -716,7 +716,7 @@ table:not([class]) {
   outline: none;
 }
 html {
-  font-family: LXGW WenKai Screen, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
+  font-family: Ovo, Georgia, LXGW WenKai Screen, georgia, stzhongsong;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -3868,7 +3868,7 @@ nav.menu a.nav-item:hover {
   padding: 0.5rem 0;
   line-height: 1;
   box-sizing: border-box;
-  font-family: LXGW WenKai Screen, "Georgia", "STZhongsong", "Microsoft YaHei", serif;
+  font-family: Ovo, Georgia, LXGW WenKai Screen, georgia, stzhongsong;
   color: var(--text-p0);
 }
 .search-wrapper.noresult .search-icon {
