@@ -31,8 +31,8 @@
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:description" content="冲突 调度中的一对连续操作，如果满足，调换位置后，涉及的事务至少有一个事务的行为会发生改变，造成调度结果的变化 所以说，有冲突的两个操作是不可以交换次序的。 那如何直观地理解两个操作是否会产生冲突呢？    T1 T2     READ A     READ B   A&#x3D;A-10     B&#x3D;B-20   WRITE A     WRITE B   READ B     READ C   B&#x3D;B">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-11-10T08:07:22.672Z">
-<meta property="article:modified_time" content="2023-11-10T08:07:22.672Z">
+<meta property="article:published_time" content="2023-11-10T08:36:49.578Z">
+<meta property="article:modified_time" content="2023-11-10T08:36:49.578Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
   
@@ -96,7 +96,7 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html">数据库系统</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-11-10T08:07:22.672Z">2023-11-10</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html">数据库系统</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-11-10T08:36:49.578Z">2023-11-10</time></div></div>
 
   <article class='md-text content wiki reveal'>
   <h1 class="article-title"><span>事务处理</span></h1>
@@ -222,6 +222,131 @@
 </tbody>
 </table>
 <p>结果就会差生不一致，调整前，写入<code>A</code>为<code>A-10</code>，<code>B</code>先写入<code>B-20</code>，再修改成<code>B-10</code>，<code>C</code>写入为<code>C+20</code>；调整后，写入<code>A</code>为<code>A-10</code>，<code>B</code>先写入<code>B-20</code>，然而在写入之前读了<code>B</code>，还是<code>B</code>本身，最后<code>B</code>的值被覆盖成<code>B+10</code>，<code>C</code>写入仍然为<code>C+20</code>。</p>
+<p>总的来说，<strong>冲突发生的情况</strong>可以归纳为:</p>
+<ul>
+<li>不同事务对同一元素的<strong>两个写</strong>操作是冲突的</li>
+<li>不同事务对同一元素的<strong>一读一写</strong>操作是冲突的</li>
+</ul>
+<p><strong>什么叫冲突可串行化？</strong></p>
+<p>一个并行调度经过不停地交换相邻的不产生冲突的操作，可形成一个串行调度。</p>
+<table>
+<thead>
+<tr>
+<th>T1</th>
+<th>R(A)</th>
+<th>W(A)</th>
+<th></th>
+<th>R(B)</th>
+<th></th>
+<th>W(B)</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T2</td>
+<td></td>
+<td></td>
+<td>R(A)</td>
+<td></td>
+<td>W(A)</td>
+<td></td>
+<td>R(B)</td>
+<td>W(B)</td>
+</tr>
+</tbody>
+</table>
+<p>swap</p>
+<table>
+<thead>
+<tr>
+<th>T1</th>
+<th>R(A)</th>
+<th>W(A)</th>
+<th>R(B)</th>
+<th></th>
+<th></th>
+<th>W(B)</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T2</td>
+<td></td>
+<td></td>
+<td></td>
+<td>R(A)</td>
+<td>W(A)</td>
+<td></td>
+<td>R(B)</td>
+<td>W(B)</td>
+</tr>
+</tbody>
+</table>
+<p>swap</p>
+<table>
+<thead>
+<tr>
+<th>T1</th>
+<th>R(A)</th>
+<th>W(A)</th>
+<th>R(B)</th>
+<th></th>
+<th>W(B)</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T2</td>
+<td></td>
+<td></td>
+<td></td>
+<td>R(A)</td>
+<td></td>
+<td>W(A)</td>
+<td>R(B)</td>
+<td>W(B)</td>
+</tr>
+</tbody>
+</table>
+<p>swap</p>
+<table>
+<thead>
+<tr>
+<th>T1</th>
+<th>R(A)</th>
+<th>W(A)</th>
+<th>R(B)</th>
+<th>W(B)</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>R(A)</td>
+<td>W(A)</td>
+<td>R(B)</td>
+<td>W(B)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>如何验证是否冲突可串行化？</strong></p>
+<p>PRECEDENCE GRAPH!!!</p>
+<p>结点代表事务，如果Ti与Tj的<strong>一个操作</strong>发生冲突，且Ti在Tj之前执行，则连线从Ti指向Tj。如果该有向图不成环，则称为冲突可串行化。（可以不挨着，因为可以交换相邻不产生冲突的元素！）</p>
 <h3 id="基于锁的并发控制"><a class="markdownIt-Anchor" href="#基于锁的并发控制"></a> 基于锁的并发控制</h3>
 <p>为了在冲突不可串行化的调度中获得可串行化调度，引入锁协议。</p>
 <ul>
