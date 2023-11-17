@@ -1,73 +1,492 @@
-.l_body {
-  display: flex;
-  margin: auto;
-  padding: 0 var(--gap-l);
-  justify-content: center;
-}
-.l_body .l_left {
-  z-index: 8;
-  width: var(--width-left);
-  flex-shrink: 0;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-}
-.l_body .l_main {
-  flex-shrink: 1;
-  flex-grow: 1;
-  width: 320px;
-  max-width: var(--width-main);
-}
-@media screen and (max-width: $device-mobile-max) {
-  .mobile-only {
-    display: block !important;
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>正则表达式 - Stellarium</title>
+
+  
+    <meta name="description" content="元字符 .表示任意一个字符，除了\n \d表示0-9之间任意一个数字 1234print(re.match(&amp;#x27;\d&amp;#x27;,&amp;#x27;&amp;0web&amp;#x27;))#Noneprint(re.findall(&amp;#x27;\d&amp;#x27;,&amp;#x27;&amp;0web&amp;#x27;))#[&amp;#x27;0&amp;#x27;] 注：对于match方法，从左往右匹配第一个字符，如果不是则返">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式">
+<meta property="og:url" content="https://stellariumimpl.github.io/2023/05/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="元字符 .表示任意一个字符，除了\n \d表示0-9之间任意一个数字 1234print(re.match(&amp;#x27;\d&amp;#x27;,&amp;#x27;&amp;0web&amp;#x27;))#Noneprint(re.findall(&amp;#x27;\d&amp;#x27;,&amp;#x27;&amp;0web&amp;#x27;))#[&amp;#x27;0&amp;#x27;] 注：对于match方法，从左往右匹配第一个字符，如果不是则返">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-24T00:51:55.000Z">
+<meta property="article:modified_time" content="2023-05-25T08:45:50.000Z">
+<meta property="article:author" content="fygod">
+<meta property="article:tag" content="元字符">
+<meta property="article:tag" content="字符集">
+<meta property="article:tag" content="转义符">
+<meta property="article:tag" content="re模块">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">文档</a><a class="nav-item" href="/friends/">更多</a></nav>
+</header>
+
+
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">正则表达式</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%83%E5%AD%97%E7%AC%A6"><span class="toc-text"> 元字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-text"> 字符集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E4%B9%89%E7%AC%A6"><span class="toc-text"> 转义符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 贪婪模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%9E%E8%B4%AA%E5%A9%AA%E6%A8%A1%E5%BC%8F"><span class="toc-text"> 非贪婪模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E8%AF%8D%E8%BE%B9%E7%95%8C"><span class="toc-text"> 单词边界</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E7%BB%84%E5%8C%B9%E9%85%8D"><span class="toc-text"> 分组匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="toc-text"> 实际应用</span></a></li></ol></div></div></widget>
+
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/1999/09/14/comp9021_quiz/"><span class="title">comp9021_quiz</span></a><a class="item title" href="/2023/10/25/project1%E5%A6%82%E4%BD%95%E8%BF%9C%E7%A8%8B%E6%B5%8B%E8%AF%95/"><span class="title">project1如何远程测试</span></a><a class="item title" href="/1999/09/19/comp9311-project/"><span class="title">comp9311-project</span></a><a class="item title" href="/2023/09/25/Elementary-Cellular-Automata/"><span class="title">Elementary Cellular Automata</span></a><a class="item title" href="/2023/09/23/Monty-Hall-Problem/"><span class="title">Monty Hall Problem</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/">数据解析</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-05-24T00:51:55.000Z">2023-05-24</time></div></div>
+
+<article class='md-text content post reveal'>
+<h1 class="article-title"><span>正则表达式</span></h1>
+<h3 id="元字符"><a class="markdownIt-Anchor" href="#元字符"></a> 元字符</h3>
+<p><code>.</code>表示任意一个字符，除了<code>\n</code></p>
+<p><code>\d</code>表示0-9之间任意一个数字</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d&#x27;</span>,<span class="string">&#x27;&amp;0web&#x27;</span>))</span><br><span class="line"><span class="comment">#None</span></span><br><span class="line"><span class="built_in">print</span>(re.findall(<span class="string">&#x27;\d&#x27;</span>,<span class="string">&#x27;&amp;0web&#x27;</span>))</span><br><span class="line"><span class="comment">#[&#x27;0&#x27;]</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：对于match方法，从左往右匹配第一个字符，如果不是则返回None，不像findall方法</strong></p>
+<p><code>\D</code>表示结果与<code>\d</code>相反，除了数字0-9都能匹配</p>
+<p><code>\s</code>表示空白字符，所有的格式符如<code>\n</code>、<code>\t</code>都能匹配</p>
+<p><code>\S</code>表示结果与<code>\s</code>相反，除了空白字符都能匹配</p>
+<p><code>\w</code>表示结果大小写字母、数字以及下划线</p>
+<p><code>\W</code>表示结果与<code>\w</code>相反，除了大小写字母、数字以及下划线都能匹配</p>
+<h3 id="字符集"><a class="markdownIt-Anchor" href="#字符集"></a> 字符集</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;[abcd]&#x27;</span>,<span class="string">&#x27;ab&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match=&#x27;a&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;[abcd]&#x27;</span>,<span class="string">&#x27;zb&#x27;</span>))</span><br><span class="line"><span class="comment"># None</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;[^a-d]&#x27;</span>,<span class="string">&#x27;zb&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match=&#x27;z&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\w\w&#x27;</span>,<span class="string">&#x27;55&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 2), match=&#x27;55&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;[\w\W][\w\W][\w\W][\w\W][\w\W]&#x27;</span>,<span class="string">&#x27;我820#&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 5), match=&#x27;我820#&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="转义符"><a class="markdownIt-Anchor" href="#转义符"></a> 转义符</h3>
+<p><code>re.match()</code>函数的前两个参数都遵照Python的字符串表达式规则。其中，第一个参数pattern代表一个字符串，可以包含正则表达式语法和普通字符，第二个参数string也是一个字符串，<code>re.match()</code>函数会尝试在其开头位置匹配pattern。</p>
+<p>在pattern中，如果要匹配元字符，需要在它们前面加上<code>\</code>进行转义。如果要匹配<code>\</code>本身，则需要使用<code>\\</code>进行转义。而在string中，不需要进行转义，普通字符可以直接进行匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">str1=<span class="string">&#x27;c:\\python\ne\test.py&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(str1)</span><br><span class="line"><span class="comment"># e       est.py</span></span><br><span class="line">str1=<span class="string">&#x27;c:\\\python\\ne\\test.py&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(str1)</span><br><span class="line"><span class="comment"># c:\\python\ne\test.py</span></span><br><span class="line">str1=<span class="string">r&#x27;c:\\python\ne\test.py&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(str1)</span><br><span class="line"><span class="comment"># c:\\python\ne\test.py</span></span><br></pre></td></tr></table></figure>
+<p>Python中的<code>\</code>也是一个特殊字符，在字符串中表示转义序列的开始。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d&#x27;</span>,<span class="string">&#x27;\d&#x27;</span>))</span><br><span class="line"><span class="comment"># None</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\\d&#x27;</span>,<span class="string">&#x27;\d&#x27;</span>))</span><br><span class="line"><span class="comment"># None</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\\\d&#x27;</span>,<span class="string">&#x27;\d&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 2), match=&#x27;\\d&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;\n&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match=&#x27;\n&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以<code>\d</code>开始的字符串中匹配任意一个数字字符，但给定的目标字符串 <code>\d</code>并不是以数字字符开始的，因此返回None。如果想在 <code>\d</code>中匹配数字字符，可以使用 <code>re.match(r'\d', '\d')</code>。</p>
+<h4 id="贪婪模式"><a class="markdownIt-Anchor" href="#贪婪模式"></a> 贪婪模式</h4>
+<p>尽可能多的匹配字符，<code>*</code>代表0次或多次，<code>+</code>代表1次或多次</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d*&#x27;</span>,<span class="string">&#x27;a1234567890&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 0), match=&#x27;&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d*&#x27;</span>,<span class="string">&#x27;12345a67890&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 5), match=&#x27;12345&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d+&#x27;</span>,<span class="string">&#x27;12345a67890&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 5), match=&#x27;12345&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="非贪婪模式"><a class="markdownIt-Anchor" href="#非贪婪模式"></a> 非贪婪模式</h4>
+<p><code>?</code>代表0次或1次</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d+?&#x27;</span>,<span class="string">&#x27;1234567890&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 1), match=&#x27;1&#x27;&gt;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;\d*?&#x27;</span>,<span class="string">&#x27;1234567890&#x27;</span>))</span><br><span class="line"><span class="comment"># &lt;re.Match object; span=(0, 0), match=&#x27;&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="单词边界"><a class="markdownIt-Anchor" href="#单词边界"></a> 单词边界</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text=<span class="string">&#x27;bed behind the ted editor&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(re.findall(<span class="string">&#x27;ed\\b&#x27;</span>,text))</span><br><span class="line"><span class="comment"># [&#x27;ed&#x27;, &#x27;ed&#x27;]</span></span><br></pre></td></tr></table></figure>
+<h3 id="分组匹配"><a class="markdownIt-Anchor" href="#分组匹配"></a> 分组匹配</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">date=<span class="string">&#x27;2022-13-24&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date))</span><br><span class="line"><span class="comment"># None</span></span><br><span class="line">date1=<span class="string">&#x27;2022-07-34&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date1))</span><br><span class="line"><span class="comment"># None</span></span><br><span class="line">date2=<span class="string">&#x27;2022-07-24&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date2).group())</span><br><span class="line"><span class="comment"># 2022-07-24</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date2).group(<span class="number">0</span>))</span><br><span class="line"><span class="comment"># 2022-07-24</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date2).group(<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 2022</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date2).group(<span class="number">2</span>))</span><br><span class="line"><span class="comment"># 07</span></span><br><span class="line"><span class="built_in">print</span>(re.<span class="keyword">match</span>(<span class="string">&#x27;(\d&#123;4&#125;)-([0]\d|[1][0-2])-([0-2]\d|3[12])&#x27;</span>,date2).group(<span class="number">3</span>))</span><br><span class="line"><span class="comment"># 24</span></span><br></pre></td></tr></table></figure>
+<h3 id="实际应用"><a class="markdownIt-Anchor" href="#实际应用"></a> 实际应用</h3>
+<p>爬取<code>https://blog.stellariumimpl.cloud/</code>该网站中所有的post-cover标签的所有图片。</p>
+<p><code>&lt;div [^&gt;]*class=\&quot;post-cover\&quot;[^&gt;]*&gt;</code> 匹配包含 <code>post-cover</code> class 属性的 div 标签。<br />
+<code>&lt;img.+?src=\&quot;(\S+)\&quot;&gt;</code> 匹配包含 src 属性的 img 标签，并提取出该属性的值（即图片链接）。</p>
+<p><strong>这个正则表达式的工作过程如下：</strong></p>
+<ul>
+<li><code>&lt;div</code>：匹配以 <code>&lt;div</code> 开头的字符串，即 div 标签。</li>
+<li><code>[^&gt;]*</code>：匹配 0 到多个除了 <code>&gt;</code> 之外的字符。</li>
+<li><code>class=\&quot;post-cover\&quot;</code>：匹配包含 <code>class=&quot;post-cover&quot;</code> 的字符串。</li>
+<li><code>[^&gt;]*</code>：匹配 0 到多个除了 <code>&gt;</code> 之外的字符。</li>
+<li><code>&gt;&lt;img</code>：匹配 <code>&gt;&lt;img</code> 字符串，即 div 标签和 img 标签之间的空格。</li>
+<li><code>.+?</code>：匹配 1 到多个任意字符，且非贪婪匹配，即在满足匹配前提下取最少字符。</li>
+<li><code>src=\&quot;</code>：匹配以 <code>src=&quot;</code> 开头的字符串。</li>
+<li><code>(\S+)</code>：捕获以非空字符开头的字符串，圆括号的作用为捕获此部分。</li>
+<li><code>\&quot;</code>：匹配以 <code>&quot;</code> 结尾的字符串，即 img 标签中的 src 属性的终止符。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前分页的 HTML 内容</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_html_content</span>(<span class="params">url</span>):</span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    <span class="keyword">return</span> response.content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用正则表达式匹配当前分页中的所有图片链接</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_img_links</span>(<span class="params">html_content</span>):</span><br><span class="line">    img_regex = <span class="string">r&quot;&lt;div [^&gt;]*class=\&quot;post-cover\&quot;[^&gt;]*&gt;&lt;img.+?src=\&quot;(\S+)\&quot;&quot;</span></span><br><span class="line">    img_links = re.findall(img_regex, html_content)</span><br><span class="line">    <span class="keyword">return</span> img_links</span><br><span class="line"></span><br><span class="line"><span class="comment"># 爬取所有分页中的图片链接</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download_images</span>(<span class="params">start_url</span>):</span><br><span class="line">    <span class="comment"># 创建 &quot;images&quot; 文件夹</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&quot;images&quot;</span>):</span><br><span class="line">        os.makedirs(<span class="string">&quot;images&quot;</span>)</span><br><span class="line"></span><br><span class="line">    url = start_url</span><br><span class="line">    page_num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> url:</span><br><span class="line">        <span class="comment"># 获取当前分页的 HTML 内容和所有图片链接</span></span><br><span class="line">        html_content = get_html_content(url)</span><br><span class="line">        img_links = get_img_links(html_content)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 下载并保存当前分页的所有图片</span></span><br><span class="line">        <span class="keyword">for</span> link <span class="keyword">in</span> img_links:</span><br><span class="line">            response = requests.get(link)</span><br><span class="line">            filename = link.split(<span class="string">&quot;/&quot;</span>)[-<span class="number">1</span>]</span><br><span class="line">            filepath = os.path.join(<span class="string">&quot;images&quot;</span>, filename)</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(filepath, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(response.content)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;filename&#125;</span> saved successfully!&quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 获取下一页的链接，若不存在则退出循环</span></span><br><span class="line">        page_num += <span class="number">1</span></span><br><span class="line">        next_url = <span class="string">f&quot;<span class="subst">&#123;start_url&#125;</span>page/<span class="subst">&#123;page_num&#125;</span>/&quot;</span></span><br><span class="line">        <span class="keyword">if</span> get_html_content(next_url) <span class="keyword">and</span> page_num&lt;=<span class="number">5</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Now crawling: <span class="subst">&#123;next_url&#125;</span>&quot;</span>)</span><br><span class="line">            url = next_url</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开始爬取所有分页</span></span><br><span class="line">start_url = <span class="string">&quot;https://blog.stellariumimpl.cloud/&quot;</span></span><br><span class="line">download_images(start_url)</span><br></pre></td></tr></table></figure>
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2023/05/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2023/05/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/&title=正则表达式 - Stellarium&pics=https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/28.jpg&summary= 元字符
+.表示任意一个字符，除了\n
+\d表示0-9之间任意一个数字
+1234print(re.match(&#x27;\d&#x27;,&#x27;&amp;0web&#x27;))#Noneprint(re.findall(&#..."><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=正则表达式 - Stellarium&amp;body=https://stellariumimpl.github.io/2023/05/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2023/05/24/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html"/></div></div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2023/05/25/bs4%E8%A7%A3%E6%9E%90/">bs4解析</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/05/21/%E6%AF%95%E4%B8%9A%E4%B9%8B%E6%97%85%E7%AC%AC%E4%BA%8C%E7%AB%99-%E5%8D%97%E7%B2%A4/">毕业之旅第二站 南粤</a></div></section></div>
+
+
+<div class="related-wrap reveal" id="related-posts">
+    <section class='header'>
+      <div class='title cap theme'>您可能感兴趣的文章</div>
+    </section>
+    <section class='body'>
+    <div class="related-posts"><a class="item" href="\2023\05\25\bs4解析\" title="bs4解析"><span class="title">bs4解析</span></a></div></section></div>
+
+
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
   }
-  .l_body {
-    padding: 0;
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  // optional plugins
+  if ('false' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
   }
-  .l_body .l_left {
-    position: fixed;
-    transform: translateX(-320px);
-    margin: 0;
-    left: 0;
-    background: var(--site-bg);
-    box-shadow: $boxshadow-card-float;
-    z-index: 9;
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
   }
-  .l_body .l_main {
-    max-width: 100%;
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
-  .l_body.mobile .l_left {
-    transition: transform 0.3s ease-out;
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
   }
-  .l_body.mobile.sidebar .l_left {
-    transform: translateX(0px);
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
   }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if('true' == 'true'){
+  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
 }
-.social-wrap {
-  display: grid;
-  grid-gap: 0.25rem 0.25rem;
-  grid-template-columns: repeat(auto-fill, 32px);
-  margin-left: -10px;
-}
-*::-webkit-scrollbar {
-  height: 4px;
-  width: 4px;
-}
-*::-webkit-scrollbar-thumb {
-  background: #3dd9b6;
-  cursor: pointer;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-*::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-.steam-game-button::before {
-  border-radius: 4px;
-}
-.hitokoto {
-  padding: 0px !important;
-  text-align: left;
-  margin: 5px 0 5px 0;
-}
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+  <!-- 引用依赖 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
+
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = 'Copy'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = 'Copied'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = 'Copy'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('Copy')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+
+
+<!-- 我使用的APlayer本体 -->
+<!-- <div class="aplayer" 
+  data-id="8383366441" 
+  data-server="netease" 
+  data-type="playlist" 
+  data-fixed="true" 
+  data-autoplay="true" 
+  data-order="random" 
+  data-volume="0.55" 
+  data-theme="#cc543a" 
+  data-preload="auto" >
+  </div> -->
+<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+</html>

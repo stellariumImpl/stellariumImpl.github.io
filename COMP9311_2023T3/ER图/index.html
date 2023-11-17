@@ -1,73 +1,625 @@
-.l_body {
-  display: flex;
-  margin: auto;
-  padding: 0 var(--gap-l);
-  justify-content: center;
-}
-.l_body .l_left {
-  z-index: 8;
-  width: var(--width-left);
-  flex-shrink: 0;
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
-}
-.l_body .l_main {
-  flex-shrink: 1;
-  flex-grow: 1;
-  width: 320px;
-  max-width: var(--width-main);
-}
-@media screen and (max-width: $device-mobile-max) {
-  .mobile-only {
-    display: block !important;
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>数据库系统：ER图 - Stellarium</title>
+
+  
+    <meta name="description" content="Recap    Model Feature Example     conceptual abstract, high-level data model, no specific DBMS ER, ODL(Object data language)-user friendly   logical concrete, for implementation in specific DBMS rel">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ER图">
+<meta property="og:url" content="https://stellariumimpl.github.io/COMP9311_2023T3/ER%E5%9B%BE/index.html">
+<meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="Recap    Model Feature Example     conceptual abstract, high-level data model, no specific DBMS ER, ODL(Object data language)-user friendly   logical concrete, for implementation in specific DBMS rel">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/practice1.jpg">
+<meta property="article:published_time" content="2023-09-26T10:01:48.922Z">
+<meta property="article:modified_time" content="2023-09-26T10:01:48.922Z">
+<meta property="article:author" content="fygod">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/practice1.jpg">
+  
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+    <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
+    
+      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
+    
+  
+</head>
+
+<body>
+  
+
+<div class="l_cover wiki reveal"><article class="cover-wrap md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/postgresql.png" height="480px"></div><div class="cover-title"><span>Database Systems</span></div><div class="description">使用Postgre SQL</div><div class="start-wrap"><a class="button start gradient" href="#start">开始食用</a></div></article></div><hr>
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='wiki'>
+    
+
+  
+
+
+
+
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html"><div class="main" ff="title">数据库系统</div></a></div></widget>
+
+<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">ER图</span></div><div class="widget-body fs14"><div class="doc-tree active"><a class="doc-tree-link active" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html#start"><span class="toc-text">ER图</span></a><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#recap"><span class="toc-text"> Recap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#attribute"><span class="toc-text"> Attribute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#entity"><span class="toc-text"> Entity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-text"> Key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%B1%E5%AE%9E%E4%BD%93-%E5%BC%BA%E5%AE%9E%E4%BD%93"><span class="toc-text"> 弱实体 强实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E5%88%86%E5%8F%82%E4%B8%8E-%E5%85%A8%E9%83%A8%E5%8F%82%E4%B8%8E"><span class="toc-text"> 部分参与 全部参与</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exercise-1"><span class="toc-text"> exercise 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assignment_1_this_year"><span class="toc-text"> assignment_1_this_year</span></a></li></ol></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/index.html"><span class="toc-text">关系代数</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/%E5%88%B7%E9%A2%98/index.html"><span class="toc-text">SQL刷题</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/RDM%E5%9B%BE/index.html"><span class="toc-text">RDM图</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/plpgsql/index.html"><span class="toc-text">plpgsql</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96/index.html"><span class="toc-text">函数依赖</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86/index.html"><span class="toc-text">事务处理</span></a></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9311_2023T3/%E8%8C%83%E5%BC%8F/index.html"><span class="toc-text">范式</span></a></div></div></widget>
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+  
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html">数据库系统</a></div><div id="post-meta">更新于&nbsp;<time datetime="2023-09-26T10:01:48.922Z">2023-09-26</time></div></div>
+
+  <article class='md-text content wiki reveal'>
+  <h1 class="article-title"><span>ER图</span></h1>
+  <h3 id="recap"><a class="markdownIt-Anchor" href="#recap"></a> Recap</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Feature</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>conceptual</td>
+<td>abstract, high-level data model, no specific DBMS</td>
+<td>ER, ODL(Object data language)-user friendly</td>
+</tr>
+<tr>
+<td>logical</td>
+<td>concrete, for implementation in specific DBMS</td>
+<td>relational model</td>
+</tr>
+<tr>
+<td>physical</td>
+<td>actually implemented in real life</td>
+<td>inside a specific DBMS</td>
+</tr>
+</tbody>
+</table>
+<h3 id="attribute"><a class="markdownIt-Anchor" href="#attribute"></a> Attribute</h3>
+<table>
+<thead>
+<tr>
+<th>Simple(atomic) attribute</th>
+<th>Composite attribute</th>
+<th>Single-valued attribute</th>
+<th>Multi-valued attribute</th>
+<th>Derived attribute</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Attributes that are not divisible, don’t pay attention to substructure</td>
+<td>Which can be divided into smaller subparts</td>
+<td>单值属性是指一个实体的属性只能包含一个值。这意味着每个实体的这个属性只有一个单一值。</td>
+<td>多值属性指的是一个实体（或对象）的某个属性可以包含多个值，每个值通常是相同类型的。多值属性通常以集合、列表、数组等形式来表示。</td>
+<td>Some attributes like age are changed dynamically and age is said to be derivable from the attribute date of birth</td>
+</tr>
+</tbody>
+</table>
+<p>例如，一个人的出生日期通常是单值属性，因为每个人只有一个出生日期。</p>
+<p>多值属性表示一个属性可以包含多个值，但这些值通常是相同类型的。</p>
+<p>复合属性表示一个属性可以分解成多个子属性，这些子属性可以具有不同的数据类型。</p>
+<p>如果存在一个派生属性（Derived Attribute），那么必须也存在一个可以从其他属性计算或推导出来的属性。派生属性是指在数据模型中的属性，其值不是直接存储在数据库中，而是通过计算或基于其他属性的值来获得的属性。例如，一个人的年龄就可以从其出生日期和当前日期计算得出，因此年龄是一个派生属性。</p>
+<p>The derived attribute could have a business meaning, including it in the model helps to present a complete picture of the entity.</p>
+<!-- composite attribute 复合属性
+
+describe the attribute more concisely so that all the sub structures can be seperated.
+
+derived attribute 衍生属性
+
+比如说一个本来不存在的字段，比如说count sum aver，the attributes which can be calculated to a number.
+
+不经常存储衍生属性在数据库中，为什么呢？
+
+因为这个值可能是会变的，比如说年龄。但是为什么要展现在er图中呢？还是有一定的价值，比如说学生成绩表中成绩。
+
+What are their characters? -->
+<h3 id="entity"><a class="markdownIt-Anchor" href="#entity"></a> Entity</h3>
+<p>An entity type describes the schema or intension for a set of entities that share the same structure.</p>
+<p><strong>何为实体类型，何为实体集？</strong></p>
+<p>实体类型定义了一组具有相同属性的实体。</p>
+<p>实体集是属于特定实体类型的实际实体的集合。也就是说，它包含了符合该实体类型定义的所有具体实体。实体集是实际存在的数据集合，而实体类型是对这些实体的通用描述。</p>
+<p>The collection of entities of a particular entity type is grouped into an entity set, which is also called the extension of the entity type.</p>
+<p>例如：考虑实体类型 “员工”。该实体类型的定义可能包括属性如姓名、员工号、工资等。实体集 “员工集” 是所有实际的员工实体的集合，每个员工都是 “员工” 实体类型的一个成员，而 “员工集” 就是 “员工” 实体类型的扩展。</p>
+<h3 id="key"><a class="markdownIt-Anchor" href="#key"></a> Key</h3>
+<ul>
+<li>composite key: 复合键是数据库表中的一个或多个属性的组合，用于唯一标识表中的每一行数据，与单一主键不同，复合键是由两个或多个属性共同组成的键，它们一起确保了数据的唯一性。复合键通常用于那些没有单一属性可以唯一标识每一行的情况。</li>
+</ul>
+<p>举例：在表示学生选课记录的表中，可能需要使用学生ID和课程ID的组合作为复合键，因为单独的学生ID或课程ID并不能唯一标识一条记录，只有它们的组合才能做到。</p>
+<ul>
+<li>Super key: 超键是一个或多个属性（列）的组合，其组合的值能够唯一地标识表中的每一行。这意味着，超键可以包含一个或多个属性，可以唯一标识表中的行，但不一定是最小的唯一标识方式。超键可以包含主键，也可以包含其他属性，因此，主键<code>primary key</code>本身也是一种超键。</li>
+</ul>
+<p>举例：考虑一个员工表，超键可以是包含员工ID和员工姓名的组合，因为这个组合可以唯一标识每个员工。</p>
+<ul>
+<li>Primary Key: 主键是表中的一个特殊超键，它被选定为唯一标识表中的每一行的超键。也就是主键属性的值必须是唯一的，并且不能为空（即不允许空值）。表中只能有一个主键，因为主键的目的是提供唯一性标识。主键是确保数据完整性和一致性的重要工具，它确保每一行都有一个唯一的标识符。</li>
+</ul>
+<p>举例：在员工表中，员工ID可能会被选为主键，因为每个员工都应该有唯一的员工ID，并且员工ID不能为空。</p>
+<ul>
+<li>Candidate key: 候选键属于超键，是最小的超键，也就是如果再去掉候选键中的任何一个属性，它将不再是超键了。</li>
+</ul>
+<p><strong>如何区分复合键与超键？</strong></p>
+<p>唯一性：</p>
+<ul>
+<li>超键的目标是确保每一行都具有唯一的标识，但它可能包含多余的属性。超键并不一定是最小的唯一标识方式。</li>
+<li>复合键确保表中的每一行都具有唯一的标识，但它<strong>只由特定属性的组合构成，不包含多余的属性</strong>。复合键通常是最小的唯一标识方式。</li>
+</ul>
+<p>索引：</p>
+<ul>
+<li>超键通常可以用于创建索引，以提高查询性能。这包括主键以及其他唯一标识属性组合。</li>
+<li>复合键通常用于创建复合索引，以确保多个属性的组合的唯一性。</li>
+</ul>
+<p>总而言之，every entity must have a final <strong>primary key</strong>: a minimal set of attributes that can uniquely indentify its entity instances.</p>
+<p><strong>Super key</strong> is as set of one or more attributes that can uniquely identify an entity instance of an entity type.</p>
+<p><strong>Candidate key</strong> is the minimal super key.</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/33394962">超键、候选键、主键、外键</a></p>
+<!-- What is super key?
+
+A super key is a set of one or more attributes that uniquely identify any entity instance of an entity type
+
+We don't want to use all of the attribute to uniquely identify an entity instance, why ?
+
+super key
+
+for instance , the stu id stu name can be a super key,
+
+
+every entity must have a final primary key: a minimal set of attributes that can be uniquely identify its entity instances.
+
+
+
+key super key 
+
+primary key 
+
+candidate key
+
+![](https://zhuanlan.zhihu.com/p/33394962)
+
+比如说学号和名字和一起，如果学号保留，名字删除，但是学好还是主键，那么学号和名字在一起就不是candidate key -->
+<!-- ### 弱实体
+
+partial key（discriminator） with a primary key to represent 
+
+
+
+### 强实体
+
+TFN  like
+
+
+
+### participation
+
+total participation  一个实体必须属于另一个实体，双线
+
+partial paticipation  不是每一个实体都有那个实体，单线 -->
+<h3 id="弱实体-强实体"><a class="markdownIt-Anchor" href="#弱实体-强实体"></a> 弱实体 强实体</h3>
+<p>强实体：其实例的存在不依赖于任何其他实体类型的实例（有自己独立的主键），唯一地标识它的每个实例。</p>
+<p>弱实体：一个实体对于另一个实体（一般为强实体，也可以是依赖于其他强实体的弱实体）具有很强的依赖联系，而且该实体主键的一部分或全部从其强实体（或者对应的弱实体以来的强实体）中获得。</p>
+<p><strong>相关名词</strong>：</p>
+<ul>
+<li>A weak entity doesn’t have any primary key but does have a partial key(discriminator).</li>
+<li><code>partial key/discriminator</code>：a key that is partially unique, only a subset of attributes can be indentified using it</li>
+<li><code>Identifying relationship</code>: the relationship type between a weak entity type to the owner of the weak entity type</li>
+</ul>
+<h3 id="部分参与-全部参与"><a class="markdownIt-Anchor" href="#部分参与-全部参与"></a> 部分参与 全部参与</h3>
+<p>total: 每个实体必须参加关系<br />
+partial: 不是必须参加关系</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e1a6383c2af4">实体关系模型</a></p>
+<h3 id="exercise-1"><a class="markdownIt-Anchor" href="#exercise-1"></a> exercise 1</h3>
+<p>A civil aviation organization hires you to design a small database with the following requirements:</p>
+<ul>
+<li>
+<p>An aircraft is uniquely identified by its RegistrationCode. For each aircraft, we record its model and capacity. Each aircraft is owned by only one airline.</p>
+</li>
+<li>
+<p>An airline is uniquely identified by its AirlineCode. For each airline, its name, country will be recorded. Each airline could have multiple phone numbers. The number of aircrafts belonging to this airline is needed.</p>
+</li>
+<li>
+<p>A pilot is uniquely identified by his/her PilotID. For each pilot, we also record his/her name, gender and DoB (Date of Birth).</p>
+</li>
+<li>
+<p>A flight is uniquely identified by its FlightID. For each flight, its flight number, route and time are recorded. The route is composed by an origin and a destination.</p>
+</li>
+<li>
+<p>A passenger is uniquely identified by his/her PassengerID. For each passenger, we also record his/her name and contact number.</p>
+</li>
+<li>
+<p>A passenger must book at least one flight, and a flight could have zero or more passengers. Whenever a passenger books a flight, the booking reference is recorded.</p>
+</li>
+<li>
+<p>A flight must be performed by at least one pilot, but a pilot may perform zero or more flights.</p>
+</li>
+<li>
+<p>A flight must be operated by one aircraft, but an aircraft may operate zero or more flights.</p>
+</li>
+<li>
+<p>An airline should own at least one aircraft and at least one pilot. Whenever a pilot starts to work in an airline, his employment date is recorded.</p>
+</li>
+</ul>
+<p>Draw an ER diagram to represent the scenario, clearly state the assumptions you make if any.</p>
+<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/practice1.jpg" alt="" /></p>
+<p><strong>Assumption</strong><br />
+<strong>Each aircraft must be owned by an airline.</strong><br />
+<strong>Each pilot cannot work for multiple airlines at the same time.</strong><br />
+<strong>Each pilot must work for an airline, and the airlines that the pilot has previously worked for are not recorded.</strong></p>
+<h3 id="assignment_1_this_year"><a class="markdownIt-Anchor" href="#assignment_1_this_year"></a> assignment_1_this_year</h3>
+<p><a target="_blank" rel="noopener" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/assignment_1/Ass1-23T3.pdf">assignment_1.pdf</a></p>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://blog.stellariumimpl.cloud/1999/09/19/comp9311-assignment/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://blog.stellariumimpl.cloud/1999/09/19/comp9311-assignment/</span></div><div class="bottom"><span class="title">https://blog.stellariumimpl.cloud/1999/09/19/comp9311-assignment/</span><span class="cap desc fs12"></span></div></a></div>
+  
+
+
+  </article>
+  
+
+
+  
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
   }
-  .l_body {
-    padding: 0;
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  // optional plugins
+  if ('false' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
   }
-  .l_body .l_left {
-    position: fixed;
-    transform: translateX(-320px);
-    margin: 0;
-    left: 0;
-    background: var(--site-bg);
-    box-shadow: $boxshadow-card-float;
-    z-index: 9;
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
   }
-  .l_body .l_main {
-    max-width: 100%;
+  if ('true' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
-  .l_body.mobile .l_left {
-    transition: transform 0.3s ease-out;
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
   }
-  .l_body.mobile.sidebar .l_left {
-    transform: translateX(0px);
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
   }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if('true' == 'true'){
+  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
 }
-.social-wrap {
-  display: grid;
-  grid-gap: 0.25rem 0.25rem;
-  grid-template-columns: repeat(auto-fill, 32px);
-  margin-left: -10px;
-}
-*::-webkit-scrollbar {
-  height: 4px;
-  width: 4px;
-}
-*::-webkit-scrollbar-thumb {
-  background: #3dd9b6;
-  cursor: pointer;
-  border-radius: 2px;
-  -webkit-border-radius: 2px;
-}
-*::-webkit-scrollbar-track-piece {
-  background: transparent;
-}
-.steam-game-button::before {
-  border-radius: 4px;
-}
-.hitokoto {
-  padding: 0px !important;
-  text-align: left;
-  margin: 5px 0 5px 0;
-}
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+  <!-- 引用依赖 -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
+
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = 'Copy'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = 'Copied'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = 'Copy'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('Copy')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+
+
+<!-- 我使用的APlayer本体 -->
+<!-- <div class="aplayer" 
+  data-id="8383366441" 
+  data-server="netease" 
+  data-type="playlist" 
+  data-fixed="true" 
+  data-autoplay="true" 
+  data-order="random" 
+  data-volume="0.55" 
+  data-theme="#cc543a" 
+  data-preload="auto" >
+  </div> -->
+<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
+
+</html>
