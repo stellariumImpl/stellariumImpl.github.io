@@ -33,7 +33,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/isPalindrome.jpg">
 <meta property="article:published_time" content="2023-12-14T04:06:18.000Z">
-<meta property="article:modified_time" content="2023-12-20T11:10:36.108Z">
+<meta property="article:modified_time" content="2023-12-28T21:55:12.027Z">
 <meta property="article:author" content="fygod">
 <meta property="article:tag" content="指针">
 <meta property="article:tag" content="结构体">
@@ -188,12 +188,21 @@
 <tr>
 <td>操作</td>
 <td>数组名代表常量指针，不能作为左值被赋值，也不能修改。但是，通过下标进行索引，在数组位置替换新值是允许的。</td>
-<td>指针是一个可寻址的变量，因此左值操作是合法的，可以将指针指向不同位置的数据。</td>
+<td>指针是一个可寻址的变量，因此赋值操作是合法的，可以将指针指向不同位置的数据。</td>
 </tr>
 </tbody>
 </table>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> str[<span class="number">32</span>]=<span class="string">&quot;helloworld&quot;</span>;</span><br><span class="line"><span class="type">char</span> *p=<span class="string">&quot;helloworld&quot;</span>;</span><br><span class="line">str++; <span class="comment">// 数组名是常指针（地址常量），不能修改，不合法操作</span></span><br><span class="line">p++; <span class="comment">// 指向下一个元素</span></span><br><span class="line">str[<span class="number">5</span>]=<span class="string">&#x27; &#x27;</span>; <span class="comment">// 字符数组，合法操作</span></span><br><span class="line">p[<span class="number">5</span>]=<span class="string">&#x27; &#x27;</span>; <span class="comment">// 字符串常量，不能修改，不合法操作</span></span><br></pre></td></tr></table></figure>
 <p>上述代码中声明了一个指针变量p，并初始化为指向字符串常量<code>helloworld</code>的地址。注意，<code>helloworld</code>是一个字符串常量，它存放在只读数据区，因此不能被修改。在代码执行过程中，指针p是可以被修改的，即<code>p++</code>是有效的操作，它将p指向下一个字符。这是因为指针变量p本身是一个普通的变量，存放在栈空间中，它只是保存了字符串常量<code>helloworld</code>的地址。数组str被声明为字符数组，并初始化为<code>helloworld</code>。数组名是一个常量指针（也可以看作是一个常量），它指向存放字符串的内存地址。因此，<code>str++</code>是不允许的操作，由于数组名是常量指针，它的值不能被修改。声明字符数组并对其进行初始化时，可以修改数组中的各个元素，包括通过下标进行修改。</p>
+<p>So, 什么是常量指针？</p>
+<ul>
+<li>不动指针：const修饰指针，指针不可再移动</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="type">const</span> q;</span><br><span class="line">q=p+<span class="number">1</span>;<span class="comment">//不合法操作</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>不写指针：const修饰数据，指针所指向的目标不可被修改</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *p=<span class="built_in">malloc</span>(<span class="number">8</span>);</span><br><span class="line"><span class="type">const</span> *<span class="type">int</span> q;</span><br><span class="line">q=p;<span class="comment">//指针自身可以被赋值</span></span><br><span class="line">*q=<span class="number">5</span>;<span class="comment">//不合法操作</span></span><br></pre></td></tr></table></figure>
 <p>思考：求以下<code>p1[0]</code>、<code>p2[0]</code>、<code>p3[0]</code>的值。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">5</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="type">int</span> *p1=(<span class="type">int</span>*)(&amp;a+<span class="number">1</span>);</span><br><span class="line"><span class="type">int</span> *p2=(<span class="type">int</span>*)(<span class="type">int</span>(a)+<span class="number">1</span>);</span><br><span class="line"><span class="type">int</span> *p3=(<span class="type">int</span>*)(a+<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 <p><code>&amp;a</code>表示数组的地址，<code>a</code>表示数组首元素地址。<code>&amp;a+1</code>，则指的是此数组之后的20个字节地址，<code>int*</code>强转，则<code>p1</code>指向这20个字节地址中的首元素地址；<code>int(a)+1</code>表示先强转为整数然后直接加1，所以p2指向第一组4字节中的第2个字节，然而在C语言中，如果要访问一个整数，一定是从整数的第一个字节开始访问；如果首地址为<code>0X100</code>，那么<code>a+1</code>则表示<code>0X104</code>，所以p3指向的元素为2。</p>
