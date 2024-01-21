@@ -21,14 +21,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>COMP - Stellarium</title>
+  <title>数据结构：时间复杂度 - Stellarium</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="COMP">
-<meta property="og:url" content="https://stellariumimpl.github.io/wiki/tags/COMP/index.html">
+    <meta name="description" content="注意，以下插入操作均为在不查重的情况下  数组 无序数组 插入一个元素：O(1) 尾部追加一个元素即可 删除一个元素：O(n) 需要将删除元素索引后面的元素前移 查找一个元素：O(n) 遍历数组 删除所有元素：O(1) 如果是手动申请，可以使用free释放 有序数组 插入一个元素：O(n) 需要维护一个有序数组，所以需要遍历数组找到合适的位置插入，需要将插入元素索引位置后的元素挨个后移 删除一个元">
+<meta property="og:type" content="website">
+<meta property="og:title" content="时间复杂度">
+<meta property="og:url" content="https://stellariumimpl.github.io/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">
 <meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="注意，以下插入操作均为在不查重的情况下  数组 无序数组 插入一个元素：O(1) 尾部追加一个元素即可 删除一个元素：O(n) 需要将删除元素索引后面的元素前移 查找一个元素：O(n) 遍历数组 删除所有元素：O(1) 如果是手动申请，可以使用free释放 有序数组 插入一个元素：O(n) 需要维护一个有序数组，所以需要遍历数组找到合适的位置插入，需要将插入元素索引位置后的元素挨个后移 删除一个元">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-21T03:51:58.777Z">
+<meta property="article:modified_time" content="2024-01-21T03:51:58.777Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
   
@@ -66,53 +70,111 @@
 <body>
   
 
+<div class="l_cover wiki reveal"><article class="cover-wrap md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9020/discrete_logo.png" height="480px"></div><div class="cover-title"><span>Data Structure</span></div><div class="description">数据结构与算法</div><div class="start-wrap"><a class="button start gradient" href="#start">开始食用</a></div></article></div><hr>
+
 
   <div class='l_body' id='start'>
-    <aside class='l_left' layout='wiki_index'>
+    <aside class='l_left' layout='wiki'>
     
 
   
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div>
-
-<nav class="menu dis-select"><a class="nav-item" href="/">文章</a><a class="nav-item active" href="/wiki/">文档</a><a class="nav-item" href="/friends/">更多</a></nav>
-</header>
 
 
-<div class="widgets">
-<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/wiki/" placeholder="文档搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html"><span class="title"><strong>数据结构</strong><span class="dot"></span>时间复杂度</span></a><a class="item title" href="/COMP9021_2023T3/2023.11.15/index.html"><span class="title"><strong>编程原理</strong><span class="dot"></span>Final</span></a><a class="item title" href="/COMP9021_2023T3/2023.9.20/index.html"><span class="title"><strong>编程原理</strong><span class="dot"></span>QUIZ_2</span></a><a class="item title" href="/COMP9021_2023T3/2023.9.27/index.html"><span class="title"><strong>编程原理</strong><span class="dot"></span>QUIZ_3</span></a><a class="item title" href="/COMP9021_2023T3/2023.10.3/index.html"><span class="title"><strong>编程原理</strong><span class="dot"></span>ASSIGNMENT_1</span></a></div></widget>
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html"><div class="main" ff="title">数据结构</div></a></div></widget>
 
-<widget class="widget-wrapper timeline"><div class="widget-header cap theme dis-select"><span class="name">近期动态</span></div><div class="widget-body fs14"><div class="tag-plugin timeline stellar-timeline-api" api="https://api.github.com/repos/stellariumImpl/stellariumImpl.github.io/issues"></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">时间复杂度</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text"> 数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-text"> 链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E4%B8%89%E7%A7%8D%E8%A1%A8%E7%8E%B0%E5%BD%A2%E5%BC%8F"><span class="toc-text"> 图的三种表现形式</span></a></li></ol></div></div></widget>
 </div>
-<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+
 
     </aside>
-    <div class='l_main list'>
+    <div class='l_main'>
       
-  
-
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
-
-
 
       
 
   
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">数据结构</a></div><div id="post-meta">更新于&nbsp;<time datetime="2024-01-21T03:51:58.777Z">2024-01-21</time></div></div>
+
+  <article class='md-text content wiki reveal'>
+  <h1 class="article-title"><span>时间复杂度</span></h1>
+  <p>注意，以下插入操作均为在不查重的情况下</p>
+<h3 id="数组"><a class="markdownIt-Anchor" href="#数组"></a> 数组</h3>
+<p><strong>无序数组</strong></p>
+<p>插入一个元素：O(1) 尾部追加一个元素即可</p>
+<p>删除一个元素：O(n) 需要将删除元素索引后面的元素前移</p>
+<p>查找一个元素：O(n) 遍历数组</p>
+<p>删除所有元素：O(1) 如果是手动申请，可以使用free释放</p>
+<p><strong>有序数组</strong></p>
+<p>插入一个元素：O(n) 需要维护一个有序数组，所以需要遍历数组找到合适的位置插入，需要将插入元素索引位置后的元素挨个后移</p>
+<p>删除一个元素：O(n) 需要将删除元素索引后面的元素前移</p>
+<p>查找一个元素：O(logn) 二分查找</p>
+<p>删除所有元素：O(1) 同无序数组</p>
+<p><strong>思考</strong></p>
+<p>请叙述使用二分查找算法的优缺点：时间复杂度较线性搜索更快从O(n)提升到O(logn)；但是需要维护一个有序数组，插入时的时间复杂度降低，从O(1)降低到O(n)</p>
+<h3 id="链表"><a class="markdownIt-Anchor" href="#链表"></a> 链表</h3>
+<p><strong>无序链表</strong></p>
+<p>插入一个节点：O(1) 头插法即可</p>
+<p>删除一个节点：O(n) 遍历链表，找到待删除的节点</p>
+<p>查找一个节点：O(n) 遍历链表</p>
+<p>删除所有节点：O(n) 循环挨个释放节点</p>
+<p><strong>有序链表</strong></p>
+<p>插入一个节点：O(n) 需要维护一个有序链表，所以需要遍历链表节点的值找到合适的位置插入</p>
+<p>删除一个节点：O(n) 遍历链表，找到待删除的节点</p>
+<p>查找一个节点：O(n) 没有二分查找，如果使用跳转表，能够提高到O(n^1/2)</p>
+<p>删除所有节点：O(n) 循环挨个释放节点</p>
+<h3 id="图的三种表现形式"><a class="markdownIt-Anchor" href="#图的三种表现形式"></a> 图的三种表现形式</h3>
+<p><strong>Array of edges</strong></p>
+<p>插入一条边：O(1) 默认无序数组，尾插即可</p>
+<p>删除一条边：O(E) 需要将删除元素索引后面的元素前移</p>
+<p>查找一条边：O(E) 相当于无序数组查询一个元素</p>
+<p>删除所有边：O(1) 直接释放边数组</p>
+<p>初始化一个AOE：O(1)</p>
+<p><strong>注意</strong></p>
+<p>插入一条边：O(1) 是假设边数组还有空间，如果已经满了，需要分配一个更大的数组，将边都拷贝过来，时间复杂度为O(E)</p>
+<p>如果维护了一个有序的边数组，那么可以用二分查找（BST），来插入或者寻找，所以时间复杂度为O(logE)</p>
+<p><strong>Adjacency Matrix</strong></p>
+<p>插入一条边：O(1) 置1</p>
+<p>删除一条边：O(1) 置0</p>
+<p>查找一条边：O(1) 直接根据二维数组索引获取</p>
+<p>删除所有边：O(V) 循环每一个顶点，挨个释放数组</p>
+<p>创建一个AM：O(V) 首先申请一个一维指针数组O(1)，循环动态申请内存O(V)</p>
+<p>初始化一个AM：O(V^2)</p>
+<p>空间消耗：O(V^2) 如果图是稀疏的，大多数的存储空间都是被浪费的，可以存一小半，也就是存V(V-1)/2个</p>
+<p><strong>Adjacency List</strong></p>
+<p>插入一条边：O(1) 根据索引值找到待插入边的起始点O(1)，插入无序链表，尾插即可</p>
+<p>删除一条边：O(V) 根据索引值找到待插入边的起始点O(1)，遍历无序链表O(V)</p>
+<p>查找一条边：O(V)</p>
+<p>删除所有边：O(E) 因为对于一个V个节点，E条边的无向图，邻接表的表节点总数为2E（如果是有向图，节点总数为E），所以删除所有链表节点的时间复杂度为O(E)，而删除其邻接链表中的所有节点，每个边的节点会被访问一次，所以删除所有边的时间复杂度也是O(E)</p>
+<p>删除所有顶点：O(V)</p>
+<p>删除整个邻接表：O(V+E)</p>
+<p>创建一个AL：O(1) 只需要创建一位指针数组，动态分配内存空间</p>
+<p>初始化一个AL：O(v) 循环指针数组中的每一个指针指向NULL</p>
+
+  
+
+
+  </article>
+  
 
 
   
 
-<div class="nav-wrap"><nav class="sub wiki cap"><a href="/wiki/">所有文档</a></a><a class="active" href="/wiki/tags/COMP/index.html">COMP</a></a></nav></div>
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
 
-  <div class="post-list wiki filter"><a class="post-card wiki  reveal" href="/COMP9021_2023T3/2023.8.23/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/python-logo.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Basic Principle of Programming</h2><p>一门关于Python编程的课程</p></div></article>
-</a></div><div class="post-list wiki filter"><a class="post-card wiki  reveal" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/postgresql.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Database Systems</h2><p>使用Postgre SQL</p></div></article>
-</a></div><div class="post-list wiki filter"><a class="post-card wiki  reveal" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9020/discrete_logo.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Data Structure</h2><p>数据结构与算法</p></div></article>
-</a></div>
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
 
 
 
@@ -286,6 +348,34 @@
 
 
 <!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
 
 
 
