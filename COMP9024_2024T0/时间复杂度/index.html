@@ -31,8 +31,8 @@
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:description" content="注意，以下插入操作均为在不查重的情况下  数组 无序数组 插入一个元素：O(1) 尾部追加一个元素即可 删除一个元素：O(n) 需要将删除元素索引后面的元素前移 查找一个元素：O(n) 遍历数组 删除所有元素：O(1) 如果是手动申请，可以使用free释放 有序数组 插入一个元素：O(n) 需要维护一个有序数组，所以需要遍历数组找到合适的位置插入，需要将插入元素索引位置后的元素挨个后移 删除一个元">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-01-21T03:51:58.777Z">
-<meta property="article:modified_time" content="2024-01-21T03:51:58.777Z">
+<meta property="article:published_time" content="2024-01-21T15:25:01.906Z">
+<meta property="article:modified_time" content="2024-01-21T15:25:01.906Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
   
@@ -84,7 +84,7 @@
 
 <div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html"><div class="main" ff="title">数据结构</div></a></div></widget>
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">时间复杂度</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text"> 数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-text"> 链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E4%B8%89%E7%A7%8D%E8%A1%A8%E7%8E%B0%E5%BD%A2%E5%BC%8F"><span class="toc-text"> 图的三种表现形式</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc multi" id="data-toc"><div class="widget-header cap dis-select"><span class="name">时间复杂度</span></div><div class="widget-body fs14"><div class="doc-tree active"><a class="doc-tree-link active" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html#start"><span class="toc-text">时间复杂度</span></a><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text"> 数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8"><span class="toc-text"> 链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%9A%84%E4%B8%89%E7%A7%8D%E8%A1%A8%E7%8E%B0%E5%BD%A2%E5%BC%8F"><span class="toc-text"> 图的三种表现形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dfs"><span class="toc-text"> DFS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bfs"><span class="toc-text"> BFS</span></a></li></ol></div><div class="doc-tree"><a class="doc-tree-link" href="/COMP9024_2024T0/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%20%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/index.html"><span class="toc-text">深度优先 广度优先</span></a></div></div></widget>
 </div>
 
 
@@ -96,7 +96,7 @@
 
   
   
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">数据结构</a></div><div id="post-meta">更新于&nbsp;<time datetime="2024-01-21T03:51:58.777Z">2024-01-21</time></div></div>
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">数据结构</a></div><div id="post-meta">更新于&nbsp;<time datetime="2024-01-21T15:25:01.906Z">2024-01-22</time></div></div>
 
   <article class='md-text content wiki reveal'>
   <h1 class="article-title"><span>时间复杂度</span></h1>
@@ -152,6 +152,23 @@
 <p>删除整个邻接表：O(V+E)</p>
 <p>创建一个AL：O(1) 只需要创建一位指针数组，动态分配内存空间</p>
 <p>初始化一个AL：O(v) 循环指针数组中的每一个指针指向NULL</p>
+<h3 id="dfs"><a class="markdownIt-Anchor" href="#dfs"></a> DFS</h3>
+<p><strong>假设使用邻接表来实现</strong></p>
+<p>All vertices marked as unvisited, each vertex visited at most once =&gt; O(V)</p>
+<p>Visit all edges incident on visible vertices =&gt; O(E)</p>
+<p>Time complexity: O(V+E)</p>
+<p><em>The larger of V,E determines the complexity.</em></p>
+<p>对于稠密图，E趋近于V<sup>2，所以O(V+E)=O(V</sup>2)</p>
+<p>对于稠密图，E趋近于V，所以O(V+E)=O(E)</p>
+<p><strong>假设使用边数组来实现</strong></p>
+<p>Visit all edges incident on visible vertices =&gt; O(V.E)</p>
+<p>So the cost of DFS is O(V.E)</p>
+<p><strong>假设使用邻接矩阵来实现</strong></p>
+<p>Visit all edges incident on visible vertices =&gt; O(V^2)</p>
+<p>So the cost of DFS is O(V^2)</p>
+<h3 id="bfs"><a class="markdownIt-Anchor" href="#bfs"></a> BFS</h3>
+<p><strong>假设使用邻接表来实现</strong></p>
+<p>Time complexity of BFS: O(V+E) (adjacency list representation, same as DFS)</p>
 
   
 
