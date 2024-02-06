@@ -21,14 +21,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
   
-  <title>文档 - Stellarium</title>
+  <title>轻舟已过万重山：Merge Two - Stellarium</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="文档">
-<meta property="og:url" content="https://stellariumimpl.github.io/wiki/index.html">
+    <meta name="description" content="Merge Sorted Array https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-sorted-array&#x2F;https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-sorted-array&#x2F; 12345678910111213141516171819202122&#x2F;&#x2F; Input: nums1 &#x3D; [1,2,3,0,0,0], m &#x3D; 3, nums2">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Merge Two">
+<meta property="og:url" content="https://stellariumimpl.github.io/PERFECTWORLD/Merge%20Two/index.html">
 <meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="Merge Sorted Array https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-sorted-array&#x2F;https:&#x2F;&#x2F;leetcode.com&#x2F;problems&#x2F;merge-sorted-array&#x2F; 12345678910111213141516171819202122&#x2F;&#x2F; Input: nums1 &#x3D; [1,2,3,0,0,0], m &#x3D; 3, nums2">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-06T16:05:21.816Z">
+<meta property="article:modified_time" content="2024-02-06T16:05:21.816Z">
 <meta property="article:author" content="fygod">
 <meta name="twitter:card" content="summary">
   
@@ -66,55 +70,64 @@
 <body>
   
 
+<div class="l_cover wiki reveal"><article class="cover-wrap md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/kPvSfYbJ_icons8-danganronpa-480.png" height="480px"></div><div class="cover-title"><span>Practice</span></div><div class="description">After 9311 9024 9021</div><div class="start-wrap"><a class="button start gradient" href="#start">开始食用</a></div></article></div><hr>
+
 
   <div class='l_body' id='start'>
-    <aside class='l_left' layout='wiki_index'>
+    <aside class='l_left' layout='wiki'>
     
 
   
 
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div>
-
-<nav class="menu dis-select"><a class="nav-item" href="/">文章</a><a class="nav-item active" href="/wiki/">文档</a><a class="nav-item" href="/friends/">更多</a></nav>
-</header>
 
 
-<div class="widgets">
-<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/wiki/" placeholder="文档搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/PERFECTWORLD/Merge%20Two/index.html"><span class="title"><strong>轻舟已过万重山</strong><span class="dot"></span>Merge Two</span></a><a class="item title" href="/COMP9024_2024T0/%E5%89%B2%E4%B8%8E%E6%9C%80%E5%B0%8F%E5%89%B2/index.html"><span class="title"><strong>数据结构</strong><span class="dot"></span>割与最小割</span></a><a class="item title" href="/COMP9024_2024T0/%E5%A4%A7%E4%BD%9C%E4%B8%9A/index.html"><span class="title"><strong>数据结构</strong><span class="dot"></span>大作业</span></a><a class="item title" href="/COMP9024_2024T0/%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/index.html"><span class="title"><strong>数据结构</strong><span class="dot"></span>平衡二叉搜索树</span></a><a class="item title" href="/COMP9024_2024T0/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%20%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88/index.html"><span class="title"><strong>数据结构</strong><span class="dot"></span>深度优先 广度优先</span></a></div></widget>
+<div class="widgets"><widget class="widget-wrapper logo-wrap wiki"><div class="widget-body"><a style="filter: grayscale(100%)" class="wiki-home cap" href="/"><svg aria-hidden="true" viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor"><path fill-rule="evenodd" d="M7.78 12.53a.75.75 0 01-1.06 0L2.47 8.28a.75.75 0 010-1.06l4.25-4.25a.75.75 0 011.06 1.06L4.81 7h7.44a.75.75 0 010 1.5H4.81l2.97 2.97a.75.75 0 010 1.06z"></path></svg>所有文档</a><a class="title" href="/PERFECTWORLD/Merge%20Two/index.html"><div class="main" ff="title">轻舟已过万重山</div></a></div></widget>
 
-<widget class="widget-wrapper timeline"><div class="widget-header cap theme dis-select"><span class="name">近期动态</span></div><div class="widget-body fs14"><div class="tag-plugin timeline stellar-timeline-api" api="https://api.github.com/repos/stellariumImpl/stellariumImpl.github.io/issues"></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">Merge Two</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#merge-sorted-array"><span class="toc-text"> Merge Sorted Array</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#merge-sorted-lists"><span class="toc-text"> Merge Sorted Lists</span></a></li></ol></div></div></widget>
 </div>
-<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+
 
     </aside>
-    <div class='l_main list'>
+    <div class='l_main'>
       
-  
-
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
-
-
 
       
 
   
+  
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" id="home" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" id="menu" href="/wiki/">文档</a><span class="sep"></span><a class="cap breadcrumb" id="proj" href="/PERFECTWORLD/Merge%20Two/index.html">轻舟已过万重山</a></div><div id="post-meta">更新于&nbsp;<time datetime="2024-02-06T16:05:21.816Z">2024-02-07</time></div></div>
+
+  <article class='md-text content wiki reveal'>
+  <h1 class="article-title"><span>Merge Two</span></h1>
+  <h3 id="merge-sorted-array"><a class="markdownIt-Anchor" href="#merge-sorted-array"></a> Merge Sorted Array</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/merge-sorted-array/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/merge-sorted-array/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3</span></span><br><span class="line"><span class="comment">// Output: [1,2,2,3,5,6]</span></span><br><span class="line"><span class="comment">// Explanation: The arrays we are merging are [1,2,3] and [2,5,6].</span></span><br><span class="line"><span class="comment">// The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>* nums1, <span class="type">int</span> nums1Size, <span class="type">int</span> m, <span class="type">int</span>* nums2, <span class="type">int</span> nums2Size, <span class="type">int</span> n)</span>&#123;</span><br><span class="line">   <span class="comment">// need three pointers, i for nums1 existed part, j for nums2, k for whole part of nums1</span></span><br><span class="line">   <span class="type">int</span> i=m<span class="number">-1</span>,j=n<span class="number">-1</span>,k=m+n<span class="number">-1</span>;</span><br><span class="line">   <span class="comment">// at least one of i and j need to be no less than 0</span></span><br><span class="line">   <span class="keyword">while</span>(i&gt;=<span class="number">0</span>||j&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(i&lt;<span class="number">0</span>&amp;&amp;j&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">         <span class="comment">// i to the leftmost of nums1, but j hasn&#x27;t been to the leftmost of nums2</span></span><br><span class="line">         nums1[k--]=nums2[j--];</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>(j&lt;<span class="number">0</span>&amp;&amp;i&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">         <span class="comment">// j to the leftmost of nums2, but i hasn&#x27;t been to the leftmost of nums1</span></span><br><span class="line">         nums1[k--]=nums1[i--];</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums1[i]&gt;nums2[j])&#123;</span><br><span class="line">         nums1[k--]=nums1[i--];</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">         nums1[k--]=nums2[j--];</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="merge-sorted-lists"><a class="markdownIt-Anchor" href="#merge-sorted-lists"></a> Merge Sorted Lists</h3>
+<div class="tag-plugin link dis-select"><a class="link-card rich" title="" href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="external nofollow noopener noreferrer" cardlink autofill="title,icon,desc"><div class="top"><div class="lazy img" style="background-image:url(&quot;https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/link/8f277b4ee0ecd.svg&quot;)"></div><span class="cap link fs12">https://leetcode.com/problems/merge-two-sorted-lists/</span></div><div class="bottom"><span class="title">https://leetcode.com/problems/merge-two-sorted-lists/</span><span class="cap desc fs12"></span></div></a></div>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Input: list1 = [1,2,4], list2 = [1,3,4]</span></span><br><span class="line"><span class="comment">// Output: [1,1,2,3,4,4]</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     struct ListNode *next;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">mergeTwoLists</span><span class="params">(<span class="keyword">struct</span> ListNode* list1, <span class="keyword">struct</span> ListNode* list2)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(list1==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> list2;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(list2==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> list1;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(list1-&gt;val&lt;list2-&gt;val)&#123;</span><br><span class="line">        list1-&gt;next=mergeTwoLists(list1-&gt;next,list2);</span><br><span class="line">        <span class="keyword">return</span> list1;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        list2-&gt;next=mergeTwoLists(list1,list2-&gt;next);</span><br><span class="line">        <span class="keyword">return</span> list2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  
+
+
+  </article>
+  
 
 
   
 
-<div class="nav-wrap"><nav class="sub wiki cap"><a class="active" href="/wiki/">所有文档</a></a><a href="/wiki/tags/COMP/index.html">COMP</a></a></nav></div>
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body giscus'>
+      
 
-  <div class="post-list wiki"><a class="post-card wiki  reveal" href="/COMP9021_2023T3/2023.8.23/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9021/python-logo.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Basic Principle of Programming</h2><p>一门关于Python编程的课程</p></div></article>
-</a></div><div class="post-list wiki"><a class="post-card wiki  reveal" href="/COMP9311_2023T3/ER%E5%9B%BE/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9311/postgresql.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Database Systems</h2><p>使用Postgre SQL</p></div></article>
-</a></div><div class="post-list wiki"><a class="post-card wiki  reveal" href="/COMP9024_2024T0/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9020/discrete_logo.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Data Structure</h2><p>数据结构与算法</p></div></article>
-</a></div><div class="post-list wiki"><a class="post-card wiki  reveal" href="/PERFECTWORLD/Merge%20Two/index.html">
-<article class="md-text"><div class="preview"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/kPvSfYbJ_icons8-danganronpa-480.png" alt="logo" height="112px"/></div><div class="excerpt"><div class="cap breadcrumb">COMP</div><h2 class="post-title">Practice</h2><p>After 9311 9024 9021</p></div></article>
-</a></div>
+<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
 
 
 
@@ -288,6 +301,34 @@
 
 
 <!-- optional -->
+
+  <script>
+  function loadJS() {
+    const els = document.querySelectorAll("#comments #giscus");
+    if (els.length === 0) return;
+    els.forEach((el, i) => {
+      try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.log(error);
+      }
+      var script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      for (let key of Object.keys(el.attributes)) {
+        let attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    loadJS();
+  });
+</script>
+
 
 
 
