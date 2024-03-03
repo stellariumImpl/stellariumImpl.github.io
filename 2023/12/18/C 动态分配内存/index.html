@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang='zh-CN'>
+
+<!DOCTYPE html><html lang="zh-CN">
 
 <head>
-  <meta name="generator" content="Hexo 6.3.0">
-  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
   <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
   
-
+  <meta name="generator" content="Hexo 6.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
-  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
-  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
-  <link rel='dns-prefetch' href='//unpkg.com'>
-  <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-
+  
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
@@ -38,32 +33,30 @@
 <meta property="og:image" content="https://picx.zhimg.com/80/v2-4983ef320cfa5ea06bce7dc6d79d0d59_1440w.webp?source=1def8aca">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-57c050ef6047ba734e756eceb0463945_1440w.webp?source=1def8aca">
 <meta property="article:published_time" content="2023-12-18T01:24:31.000Z">
-<meta property="article:modified_time" content="2023-12-28T22:09:16.584Z">
+<meta property="article:modified_time" content="2024-03-02T15:39:59.490Z">
 <meta property="article:author" content="fygod">
-<meta property="article:tag" content="C 基础">
+<meta property="article:tag" content="全局变量">
+<meta property="article:tag" content="局部变量">
+<meta property="article:tag" content="内存泄漏">
+<meta property="article:tag" content="野指针">
 <meta property="article:tag" content="malloc">
 <meta property="article:tag" content="realloc">
 <meta property="article:tag" content="calloc">
 <meta property="article:tag" content="free">
-<meta property="article:tag" content="内存泄漏">
-<meta property="article:tag" content="野指针">
-<meta property="article:tag" content="全局变量">
-<meta property="article:tag" content="局部变量">
+<meta property="article:tag" content="C 基础">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/Malloc-function-in-c.png">
   
   
+  
+  <meta name="keywords" content="全局变量,局部变量,内存泄漏,野指针,malloc,realloc,calloc,free,C 基础">
 
   <!-- feed -->
   
     <link rel="alternate" href="/atom.xml" title="Stellarium" type="application/atom+xml">
   
 
-  
-    
-<link rel="stylesheet" href="/css/main.css">
-
-  
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
 
   
     <link rel="shortcut icon" href="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png">
@@ -72,57 +65,48 @@
   
 
   
-
-
-  
-    
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous">
-    
-      <script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
-    
-  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.css" integrity="sha384-1IGr2Yb8xuHjwTG+WoGjj2+I/a/N6z0gDD5YIGCQxywPROOKc3+orbn/R7arWQxD" crossorigin="anonymous"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.js" integrity="sha384-I2b1Pcl48X93GxEkGkaMo1hrd6n+IX8H2wgSsMimGbkZoGTve/87h1FjaDNvlpQi" crossorigin="anonymous"></script>
 </head>
-
 <body>
-  
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
 
 
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
 
 
-  <div class='l_body' id='start'>
-    <aside class='l_left' layout='post'>
-    
-
-  
-
-<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div>
-
-<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/wiki/">文档</a><a class="nav-item" href="/friends/">更多</a></nav>
-</header>
-
-
-<div class="widgets">
-
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">C 动态分配内存</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-text"> 全局变量 局部变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#malloc"><span class="toc-text"> malloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#calloc"><span class="toc-text"> calloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="toc-text"> 内存泄漏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8E%E6%8C%87%E9%92%88"><span class="toc-text"> 野指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#free"><span class="toc-text"> free</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#realloc"><span class="toc-text"> realloc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8"><span class="toc-text"> 什么时候使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#malloc%E6%98%AF%E5%A6%82%E4%BD%95%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98%E7%9A%84"><span class="toc-text"> malloc是如何分配内存的</span></a></li></ol></div></div></widget>
-
-<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
-
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="/atom.xml"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8938"><path d="M800.966 947.251c0-404.522-320.872-732.448-716.69-732.448V62.785c477.972 0 865.44 395.987 865.44 884.466h-148.75z m-162.273 0h-148.74c0-228.98-181.628-414.598-405.678-414.598v-152.01c306.205 0 554.418 253.68 554.418 566.608z m-446.24-221.12c59.748 0 108.189 49.503 108.189 110.557 0 61.063-48.44 110.563-108.188 110.563-59.747 0-108.18-49.5-108.18-110.563 0-61.054 48.433-110.556 108.18-110.556z" p-id="8939"></path></svg></a></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/"><span class="title">C 动态分配内存</span></a><a class="item title" href="/2023/12/14/C%20%E6%8C%87%E9%92%88%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%93/"><span class="title">C 指针与结构体</span></a><a class="item title" href="/2023/12/16/%E6%A0%88%E7%9A%84%E7%B1%BB%E5%88%AB%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/"><span class="title">栈的类别及其应用</span></a><a class="item title" href="/2023/08/17/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/"><span class="title">查找算法</span></a><a class="item title" href="/2023/08/14/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/"><span class="title">排序算法</span></a></div></widget>
+<nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
 </div>
-<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
-
-    </aside>
-    <div class='l_main'>
-      
-
-      
+<div class="widgets">
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title active" href="/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/"><span class="title">C 动态分配内存</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a><a class="social" href="https://discord.gg/ajxBn8ASF8" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/discord.png"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
 
 
-<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AF%B9%E4%BA%8ECOMP9024%E7%9A%84%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87/">对于COMP9024的一些准备</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-12-18T01:24:31.000Z">2023-12-18</time></div></div>
 
-<article class='md-text content post reveal'>
-<h1 class="article-title"><span>C 动态分配内存</span></h1>
-<p>首先，为什么叫动态分配内存？</p>
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AF%B9%E4%BA%8ECOMP9024%E7%9A%84%E4%B8%80%E4%BA%9B%E5%87%86%E5%A4%87/">对于COMP9024的一些准备</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2023-12-18T01:24:31.000Z">2023-12-18</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-02T15:39:59.490Z">2024-03-03</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>C 动态分配内存</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><p>首先，为什么叫动态分配内存？</p>
 <p>因为内存宝贵，存储在静态内存空间的全局变量，常量不能在使用完成之后立即释放，需要随着程序的结束而终止，如果程序规模庞大，就会引起<strong>内存泄漏</strong>；而动态内存分配可以按需申请内存，用完就将内存归还给操作系统。</p>
 <h3 id="全局变量-局部变量"><a class="markdownIt-Anchor" href="#全局变量-局部变量"></a> 全局变量 局部变量</h3>
 <ul>
@@ -134,14 +118,14 @@
 <p>用来动态地分配一个独立的指定大小的内存单元，返回一个void类型的指针，可以转化成任意形式的指针。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *ptr=(<span class="type">int</span> *)<span class="built_in">malloc</span>(<span class="number">5</span>*<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br></pre></td></tr></table></figure>
 <p>以32位机器为例，int占4字节，如果空间<strong>总长度</strong>不满20字节，<strong>返回NULL指针</strong>。</p>
-<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/Malloc-function-in-c.png" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/Malloc-function-in-c.png" alt="" /></p>
 <p><strong>循环为数组动态申请内存</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">  <span class="type">int</span> n;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Enter number of elements: &quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> *ptr=(<span class="type">int</span> *)<span class="built_in">malloc</span>(n*<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(ptr==<span class="literal">NULL</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Memory not allocated.\n&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Memory successfully allocated using malloc.\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">      ptr[i]=i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;The elements of the array are: &quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>,ptr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="calloc"><a class="markdownIt-Anchor" href="#calloc"></a> calloc</h3>
 <p><code>contiguous allocation</code>，用于动态分配指定数量、指定类型<strong>连续的</strong>内存块，和malloc函数相比，calloc是为指定长度的对象，分配能够容纳其指定个数的存储空间。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *ptr=(<span class="type">int</span> *)<span class="built_in">calloc</span>(<span class="number">5</span>,<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br></pre></td></tr></table></figure>
 <p>在内存中为 5 个元素分配连续空间，每个元素的大小为整型数。</p>
-<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/calloc-function-in-c.png" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/calloc-function-in-c.png" alt="" /></p>
 <h3 id="内存泄漏"><a class="markdownIt-Anchor" href="#内存泄漏"></a> 内存泄漏</h3>
 <p>内存溢出：OOM <code>Out Of Memory</code>，程序在申请内存时，没有足够的内存空间供其使用，比如申请一个int型变量，但是让它存了long类型的数。</p>
 <p>内存泄漏：<code>Memory Leak</code>，程序在申请内存后，没有及时释放申请过的内存空间，结果这部分内存空间就像被互斥锁了，无法访问，长此以往，最终会导致内存溢出，内存迟早会被占光。</p>
@@ -173,10 +157,10 @@
 <p>除了避免越界访问，需要对指针指向地址初始化，可以使用malloc分配堆内存，如果分配失败，则返回NULL，使用时，判断指针是否为NULL就可以避免了。</p>
 <h3 id="free"><a class="markdownIt-Anchor" href="#free"></a> free</h3>
 <p>既然有动态分配内存，那么也有动态取消分配内存，因为使用函数malloc和calloc分配的内存不会被自行取消分配。</p>
-<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/Free-function-in-c.png" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/Free-function-in-c.png" alt="" /></p>
 <h3 id="realloc"><a class="markdownIt-Anchor" href="#realloc"></a> realloc</h3>
 <p>顾名思义，re-allocated，再次分配，当已经使用malloc或者calloc分配了一部分存储空间，并且已经使用完，需再分配，即使用realloc。</p>
-<p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/realloc-function-in-c.png" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/comp9024/realloc-function-in-c.png" alt="" /></p>
 <p><strong>在现有内存空间下扩展存储空间</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">int</span> n,n1;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Enter number of elements: &quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> *ptr=(<span class="type">int</span> *)<span class="built_in">calloc</span>(n,<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(ptr==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Memory not allocated.\n&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Memory successfully allocated using calloc.\n&quot;</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">        ptr[i]=i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;The elements of the array are: &quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, ptr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Enter bigger number of elements: &quot;</span>);</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n1);</span><br><span class="line">        ptr=(<span class="type">int</span> *)<span class="built_in">realloc</span>(ptr,n*<span class="keyword">sizeof</span>(<span class="type">int</span>));</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = n; i &lt; n1; ++i) &#123;</span><br><span class="line">            ptr[i]=i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;The elements of the new array are: &quot;</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n1; ++i) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, ptr[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">free</span>(ptr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="什么时候使用"><a class="markdownIt-Anchor" href="#什么时候使用"></a> 什么时候使用</h3>
@@ -194,12 +178,12 @@
 <li>方式1：通过 <code>brk()</code> 系统调用从堆分配内存</li>
 </ul>
 <p>通过brk函数将堆顶指针向高地址移动，获取新的内存空间。</p>
-<p><img src="https://picx.zhimg.com/80/v2-4983ef320cfa5ea06bce7dc6d79d0d59_1440w.webp?source=1def8aca" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://picx.zhimg.com/80/v2-4983ef320cfa5ea06bce7dc6d79d0d59_1440w.webp?source=1def8aca" alt="" /></p>
 <ul>
 <li>方式2：通过 <code>mmap()</code> 系统调用在文件映射区分配内存</li>
 </ul>
 <p>通过mmap系统调用中<strong>私有匿名映射</strong>的方式，在文件映射区分配一款内存，也就是从文件映射区偷了一块内存。</p>
-<p><img src="https://pic1.zhimg.com/80/v2-57c050ef6047ba734e756eceb0463945_1440w.webp?source=1def8aca" alt="" /></p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://pic1.zhimg.com/80/v2-57c050ef6047ba734e756eceb0463945_1440w.webp?source=1def8aca" alt="" /></p>
 <ul>
 <li>使用场景</li>
 </ul>
@@ -211,58 +195,45 @@
 <p>有没有想过一个问题，<strong>free函数只是传入一个内存地址，是怎么直到要释放多大的内存的？</strong></p>
 <p>malloc返回给用户态的内存起始地址比进程的堆空间起始地址多了16个字节，这一部分就是用来保存内存块的描述信息，比如该内存块的大小。</p>
 
-
-<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
-</div></section><section id="share"><div class="header"><span>分享文章</span></div><div class="body"><div class="link"><input class="copy-area" readonly="true" id="copy-link" value="https://stellariumimpl.github.io/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/" /></div><div class="social-wrap dis-select"><a class="social share-item wechat" onclick="util.toggle(&quot;qrcode-wechat&quot)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/b32ef3da1162a.svg"/></a><a class="social share-item weibo" target="_blank" rel="external nofollow noopener noreferrer" href="https://service.weibo.com/share/share.php?url=https://stellariumimpl.github.io/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/&title=C 动态分配内存 - Stellarium&pics=https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/wallhaven-6d7ql6.png&summary=首先，为什么叫动态分配内存？
-因为内存宝贵，存储在静态内存空间的全局变量，常量不能在使用完成之后立即释放，需要随着程序的结束而终止，如果程序规模庞大，就会引起内存泄漏；而动态内存分配可以按需申请内存，用完就将内存归还给操作系统。
- 全..."><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/80c07e4dbb303.svg"/></a><a class="social share-item email" href="mailto:?subject=C 动态分配内存 - Stellarium&amp;body=https://stellariumimpl.github.io/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/a1b00e20f425d.svg"/></a><a class="social share-item link" onclick="util.copy(&quot;copy-link&quot;, &quot;复制成功&quot;)"><img src="https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/social/8411ed322ced6.svg"/></a></div><div class="qrcode" id="qrcode-wechat" style="visibility:hidden;height:0"><img src="https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=https://stellariumimpl.github.io/2023/12/18/C%20%E5%8A%A8%E6%80%81%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98/index.html"/></div></div></section></div>
-
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/12/16/%E6%A0%88%E7%9A%84%E7%B1%BB%E5%88%AB%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/">栈的类别及其应用</a></div></section></div>
-
-
-<div class="related-wrap reveal" id="related-posts">
-    <section class='header'>
-      <div class='title cap theme'>您可能感兴趣的文章</div>
-    </section>
-    <section class='body'>
-    <div class="related-posts"><a class="item" href="\2023\12\14\C 指针与结构体\" title="C 指针与结构体"><span class="title">C 指针与结构体</span></a><a class="item" href="\2023\08\14\排序算法\" title="排序算法"><span class="title">排序算法</span></a><a class="item" href="\2023\08\17\查找算法\" title="查找算法"><span class="title">查找算法</span></a><a class="item" href="\2023\12\16\栈的类别及其应用\" title="栈的类别及其应用"><span class="title">栈的类别及其应用</span></a></div></section></div>
 
 
 
-  <div class='related-wrap md-text reveal' id="comments">
+
+  <div class="related-wrap md-text" id="comments">
     <section class='header cmt-title cap theme'>
       快来参与讨论吧
     </section>
     <section class='body cmt-body giscus'>
       
 
-<svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
 
-<div id="giscus" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+<div id="giscus" src="https://giscus.app/client.js" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
 
     </section>
   </div>
 
 
 
-      
-<footer class="page-footer reveal fs12"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs14">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs14">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs14">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs14">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
+<footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/wiki">开源库</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@fygod</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br />
 本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
-
-
-      <div class='float-panel mobile-only blur' style='display:none'>
+<div class='float-panel mobile-only blur' style='display:none'>
   <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
-    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
   </button>
 </div>
-
-    </div>
-  </div>
-  <div class='scripts'>
-    <script type="text/javascript">
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
   const stellar = {
     // 懒加载 css https://github.com/filamentgroup/loadCSS
     loadCSS: (href, before, media, attributes) => {
@@ -326,6 +297,9 @@
     // 从 butterfly 和 volantis 获得灵感
     loadScript: (src, opt) => new Promise((resolve, reject) => {
       var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
       script.src = src;
       if (opt) {
         for (let key of Object.keys(opt)) {
@@ -354,8 +328,8 @@
       }
     }
   };
-  stellar.version = '1.18.5';
-  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
   stellar.config = {
     date_suffix: {
       just: '刚刚',
@@ -364,11 +338,12 @@
       day: '天前',
       month: '个月前',
     },
+    root : '/',
   };
 
   // required plugins (only load if needs)
   stellar.plugins = {
-    jQuery: 'https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/jquery.min.js'
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
   };
 
   if ('local_search') {
@@ -381,39 +356,35 @@
   }
 
   // stellar js
-  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
 
-  stellar.plugins.marked = Object.assign("https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/marked.min.js");
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
   // optional plugins
-  if ('false' == 'true') {
-    stellar.plugins.lazyload = Object.assign({"enable":false,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/lazyload.min.js","transition":"blur"});
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
   }
   if ('true' == 'true') {
-    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper-bundle.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper-bundle.min.js"});
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
   }
   if ('true' == 'true') {
-    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/flying-pages.min.js"});
-  }
-  if ('true' == 'true') {
-    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/fancybox.umd.js","css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/fancybox.css","selector":".swiper-slide img"});
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
   }
   if ('false' == 'true') {
     stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
   }
-  if('true' == 'true'){
-  stellar.plugins.customSwiperTopArticle=Object.assign({"theme":null,"enable":true,"css":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/css/swiper.min.css","js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper.min.js","init_js":"https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/js/swiper_init.js"});
-}
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
 </script>
 
 <!-- required -->
-
-  
-<script src="/js/main.js" async></script>
-
-
+<script src="/js/main.js?v=1.26.8" async></script>
 
 <!-- optional -->
 
@@ -425,10 +396,9 @@
       try {
         el.innerHTML = '';
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
       var script = document.createElement('script');
-      script.src = 'https://giscus.app/client.js';
       script.async = true;
       for (let key of Object.keys(el.attributes)) {
         let attr = el.attributes[key];
@@ -447,100 +417,9 @@
 
 
 
+
+
+
 <!-- inject -->
 
-
-  </div>
-  <!-- 引用依赖 -->
-<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script> -->
-
-<!-- hexo injector body_end start -->
-  <style>
-    .highlight {
-      position: relative;
-    }
-    .highlight .code .copy-btn{
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 4px 0.5rem;
-      opacity: 0.25;
-      font-weight: 700;
-      color: var(--theme);
-      cursor: pointer;
-      transination: opacity 0.3s;
-    }
-    .highlight .code .copy-btn:hover{
-      color: var(--text-code);
-      opacity: 0.75;
-    }
-    .highlight .code .copy-btn.success {
-      color: var(--swiper-theme-color);
-      opacity: 0.75;
-
-    }
-    
-  </style>
-  <script>
-    const codeElementArr = document.querySelectorAll('.code')
-    codeElementArr.forEach(code => {
-      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
-      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
-  
-      // copy btn 
-      const codeCopyBtn = document.createElement('div')
-      codeCopyBtn.classList.add('copy-btn')
-      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
-      codeCopyBtn.innerText = 'Copy'
-      code.appendChild(codeCopyBtn)
-  
-      codeCopyBtn.addEventListener('click', async () => {
-        const currentCodeElement = code.children[0]?.innerText
-        await copyCode(currentCodeElement)
-
-
-        codeCopyBtn.innerText = 'Copied'
-        codeCopyBtn.classList.add('success')
-
-        setTimeout(() => {
-          codeCopyBtn.innerText = 'Copy'
-          codeCopyBtn.classList.remove('success')
-        },1000)
-      })
-    })
-    
-    async function copyCode(currentCode) {
-      console.log(currentCode)
-      console.log('Copy')
-      if (navigator.clipboard) {
-        try {
-          await navigator.clipboard.writeText(currentCode)
-        } catch (error) {
-          // 未获得用户许可
-          console.error(error)
-        }
-      } else {
-        console.error('当前浏览器不支持此api')
-      }
-    }
-  </script>
-  <!-- hexo injector body_end end --></body>
-
-
-<!-- 我使用的APlayer本体 -->
-<!-- <div class="aplayer" 
-  data-id="8383366441" 
-  data-server="netease" 
-  data-type="playlist" 
-  data-fixed="true" 
-  data-autoplay="true" 
-  data-order="random" 
-  data-volume="0.55" 
-  data-theme="#cc543a" 
-  data-preload="auto" >
-  </div> -->
-<!--如果将本体放在body里面导致页面加载出现问题，请尝试放到body体后面-->
-
-</html>
+</div></body></html>
