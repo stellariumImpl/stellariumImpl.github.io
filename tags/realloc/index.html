@@ -24,7 +24,7 @@
 <meta property="og:url" content="https://stellariumimpl.github.io/tags/realloc/index.html">
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="fygod">
+<meta property="article:author" content="Felix">
 <meta name="twitter:card" content="summary">
   
   
@@ -113,7 +113,7 @@
     ctx.search = {};
     ctx.search.service = `local_search`;
     if (ctx.search.service == 'local_search') {
-      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
       ctx.search[ctx.search.service] = service_obj;
     }
   }

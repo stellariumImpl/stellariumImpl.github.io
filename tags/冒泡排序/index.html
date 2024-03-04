@@ -24,7 +24,7 @@
 <meta property="og:url" content="https://stellariumimpl.github.io/tags/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="Stellarium">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="fygod">
+<meta property="article:author" content="Felix">
 <meta name="twitter:card" content="summary">
   
   
@@ -112,7 +112,7 @@
     ctx.search = {};
     ctx.search.service = `local_search`;
     if (ctx.search.service == 'local_search') {
-      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
       ctx.search[ctx.search.service] = service_obj;
     }
   }

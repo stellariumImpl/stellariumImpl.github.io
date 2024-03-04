@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-04T22:17:09.000Z">
 <meta property="article:modified_time" content="2024-03-04T00:51:01.196Z">
-<meta property="article:author" content="fygod">
+<meta property="article:author" content="Felix">
 <meta property="article:tag" content="Python 基础">
 <meta property="article:tag" content="super函数">
 <meta property="article:tag" content="方法解析顺序">
@@ -194,7 +194,7 @@
     ctx.search = {};
     ctx.search.service = `local_search`;
     if (ctx.search.service == 'local_search') {
-      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"sort":"-date"}`);
+      let service_obj = Object.assign({}, `{"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"}`);
       ctx.search[ctx.search.service] = service_obj;
     }
   }
