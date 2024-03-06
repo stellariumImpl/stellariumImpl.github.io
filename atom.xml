@@ -382,9 +382,9 @@
     <category term="面向对象" scheme="https://stellariumimpl.github.io/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
     
     
-    <category term="Python 基础" scheme="https://stellariumimpl.github.io/tags/Python-%E5%9F%BA%E7%A1%80/"/>
-    
     <category term="Python对象" scheme="https://stellariumimpl.github.io/tags/Python%E5%AF%B9%E8%B1%A1/"/>
+    
+    <category term="Python 基础" scheme="https://stellariumimpl.github.io/tags/Python-%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
@@ -408,13 +408,13 @@
     <category term="面向对象" scheme="https://stellariumimpl.github.io/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/"/>
     
     
+    <category term="Python 基础" scheme="https://stellariumimpl.github.io/tags/Python-%E5%9F%BA%E7%A1%80/"/>
+    
     <category term="super函数" scheme="https://stellariumimpl.github.io/tags/super%E5%87%BD%E6%95%B0/"/>
     
     <category term="方法解析顺序" scheme="https://stellariumimpl.github.io/tags/%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90%E9%A1%BA%E5%BA%8F/"/>
     
     <category term="补充" scheme="https://stellariumimpl.github.io/tags/%E8%A1%A5%E5%85%85/"/>
-    
-    <category term="Python 基础" scheme="https://stellariumimpl.github.io/tags/Python-%E5%9F%BA%E7%A1%80/"/>
     
   </entry>
   
