@@ -6,7 +6,7 @@
   <link href="https://stellariumimpl.github.io/atom.xml" rel="self"/>
   
   <link href="https://stellariumimpl.github.io/"/>
-  <updated>2024-07-01T04:55:06.745Z</updated>
+  <updated>2024-07-12T19:49:20.684Z</updated>
   <id>https://stellariumimpl.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python 正則表達式</title>
+    <link href="https://stellariumimpl.github.io/2024/07/13/Python-%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F/"/>
+    <id>https://stellariumimpl.github.io/2024/07/13/Python-%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F/</id>
+    <published>2024-07-12T17:29:22.000Z</published>
+    <updated>2024-07-12T19:49:20.684Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="raw-string"><a class="markdownIt-Anchor" href="#raw-string"></a> Raw string</h3><p>寫在<code>Raw string</code>裏的任何轉義字符在其中也就不進行轉義了，特指反斜杠，例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pattern1 = <span class="string">r&#x27;hello\nworld&#x27;</span> </span><br><span class="line"><span class="comment"># hello</span></span><br><span class="line"><span class="comment"># world</span></span><br><span class="line">pattern2 = <span class="string">&#x27;hello\nworld&#x27;</span> <span class="comment"># hello\nworld</span></span><br></pre></td></tr></table></figure><p><strong>需要注意</strong></p><p>通配符之流在<code>Raw string</code>中似乎還都是有其含義的，比如説：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pattern1 = <span class="string">r&#x27;\.&#x27;</span></span><br><span class="line">pattern2 = <span class="string">r&#x27;.&#x27;</span></span><br><span class="line"></span><br><span class="line">text = <span class="string">&quot;This is a sentence.&quot;</span></span><br><span class="line"></span><br><span class="line">matches1 = re.findall(pattern1, text)</span><br><span class="line"><span class="built_in">print</span>(matches1)  <span class="comment"># [&#x27;.&#x27;]</span></span><br><span class="line"></span><br><span class="line">matches2 = re.findall(pattern2, text)</span><br><span class="line"><span class="built_in">print</span>(matches2)  <span class="comment"># [&#x27;T&#x27;, &#x27;h&#x27;, &#x27;i&#x27;, &#x27;s&#x27;, &#x27; &#x27;, &#x27;i&#x27;, &#x27;s&#x27;, &#x27; &#x27;, &#x27;a&#x27;, &#x27; &#x27;, &#x27;s&#x27;, &#x27;e&#x27;, &#x27;n&#x27;, &#x27;t&#x27;, &#x27;e&#x27;, &#x27;n&#x27;, &#x27;c&#x27;, &#x27;e&#x27;, &#x27;.&#x27;]</span></span><br></pre></td></tr></table></figure><h3 id="特殊字符"><a class="markdownIt-Anchor" href="#特殊字符"></a> 特殊字符</h3><ul><li><p><code>\d</code>代表任意數字<code>[0-9]</code>，<code>\D</code>代表任何非數字<code>[^0-9]</code></p></li><li><p><code>\w</code>代表任意字符<code>[a-zA-Z0-9]</code>，<code>\W</code>代表任意非字符<code>[^a-zA-Z0-9]</code></p></li><li><p><code>\s</code>代表任意空白符<code>[\t\n\r\f]</code>，<code>\S</code>代表任意非空白符<code>[^\t\n\r\f]</code></p></li><li><p><code>\b</code>代表任意單詞邊界，<code>\B</code>代表非單詞邊界</p></li><li><p><code>\A</code>代表字符串的開始，相當於<code>^</code>，<code>\Z</code>代表字符串的末尾，相當於<code>$</code></p></li></ul><h3 id="raw-string與特殊字符的關係"><a class="markdownIt-Anchor" href="#raw-string與特殊字符的關係"></a> Raw string與特殊字符的關係</h3><p>爲了在正則表達式中正確使用這些轉義字符，統一使用<code>Raw string</code>來定義正則表達式</p><p>沒有<code>r</code>前綴的字符串 的 普通字符串，需要對反斜杠進行雙重轉義，<strong>因爲其中的反斜杠<code>\</code>會被解釋爲轉義字符</strong>，需要<code>\\</code>才能表示一個反斜杠，注意，是對轉義字符，對通配符和<code>Raw string</code>效果大差不差。</p><h3 id="对通配符和特殊字符的影响"><a class="markdownIt-Anchor" href="#对通配符和特殊字符的影响"></a> 对通配符和特殊字符的影响</h3><p>通配符（如 <code>.、*、[]</code> 等）：普通字符串和 <code>Raw string</code> 在这些通配符的表示上并没有区别，因为这些字符在字符串解析阶段就已经被转义或者不需要转义。</p><p>转义字符（如 <code>\n、\t、\\</code> 等）：普通字符串中需要使用双反斜杠 <code>\\</code> 表示字面上的反斜杠，而 <code>Raw string</code> 则直接使用单反斜杠 <code>\</code>，不需要额外的转义。</p><h3 id="小結-1"><a class="markdownIt-Anchor" href="#小結-1"></a> 小結 1</h3><ul><li>普通字符串（没有 <code>r</code> 前缀）：</li></ul><p>在普通字符串中，反斜杠 <code>\</code> 是一个转义字符，用于转义后面的字符。<br />如果要表示一个反斜杠字符本身，需要使用两个反斜杠 <code>\\</code>，因为第一个反斜杠会转义第二个反斜杠，使其变成一个字面上的反斜杠字符。</p><ul><li><code>Raw String</code>（有 <code>r</code> 前缀）：</li></ul><p><code>Raw string</code> 不会解释反斜杠 <code>\</code> 作为转义字符，它会把反斜杠后面的字符当作字面上的字符对待。<br />在 <code>Raw string</code> 中，如果你写 <code>\</code>，它就是 <code>\</code> 字符本身，不会转义后面的字符。</p><p>所以在Python讀文件的時候，進場會遇到這樣的問題，比如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通字符串中的转义字符</span></span><br><span class="line">path = <span class="string">&quot;C:\\Users\\Username\\Documents\\File.txt&quot;</span></span><br><span class="line"><span class="comment"># C:\Users\Username\Documents\File.txt</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 Raw string，反斜杠不进行转义</span></span><br><span class="line">path = <span class="string">r&quot;C:\Users\Username\Documents\File.txt&quot;</span></span><br><span class="line"><span class="comment"># C:\Users\Username\Documents\File.txt</span></span><br></pre></td></tr></table></figure><h3 id="python-正則"><a class="markdownIt-Anchor" href="#python-正則"></a> Python 正則</h3><ul><li><p><code>re.findall(regex,content,flag)</code>：查找滿足<code>regex</code>的字符串，以列表形式返回；<code>flag</code>用來修改正則表達式匹配行爲的標志，默認爲0</p></li><li><p><code>re.sub(regex,replacement,string,count,flag)</code>：替換<code>string</code>中與<code>regex</code>匹配的字符串；<code>count</code>表示需要替換的最大數量，<strong>默認爲0即替換所有匹配項</strong>；<code>flag</code>用來修改正則表達式行爲的標志，默認爲0</p></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="Python編程" scheme="https://stellariumimpl.github.io/categories/Python%E7%B7%A8%E7%A8%8B/"/>
+    
+    
+    <category term="正則表達式" scheme="https://stellariumimpl.github.io/tags/%E6%AD%A3%E5%89%87%E8%A1%A8%E9%81%94%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>Spark学习记录</title>
