@@ -27,7 +27,7 @@
 <meta property="og:description" content="函数or块级作用域 块级作用域：变量在块外不可访问 12345678910111213141516171819202122&#x2F;&#x2F; 1. if 块if (true) &amp;#123;  let x &#x3D; 1;  const y &#x3D; 2;  &#x2F;&#x2F; x 和 y 只在这个块内可用&amp;#125;&#x2F;&#x2F; console.log(x);  &#x2F;&#x2F; 错误：x 在块外不可访问&#x2F;&#x2F; 2. for 循环块for (let i &#x3D;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-10-29T14:32:20.000Z">
-<meta property="article:modified_time" content="2024-11-17T09:34:03.724Z">
+<meta property="article:modified_time" content="2024-11-17T23:45:11.901Z">
 <meta property="article:author" content="Felix">
 <meta property="article:tag" content="闭包陷阱">
 <meta property="article:tag" content="作用域">
@@ -81,7 +81,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-29T14:32:20.000Z">2024-10-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-11-17T09:34:03.724Z">2024-11-17</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-10-29T14:32:20.000Z">2024-10-30</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-11-17T23:45:11.901Z">2024-11-18</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -226,201 +226,23 @@ const StateUpdateDemo = () => {
 ReactDOM.render(<StateUpdateDemo />, document.getElementById('react-root'));
 </script>
 
-<h3 id="js的众多循环"><a class="markdownIt-Anchor" href="#js的众多循环"></a> JS的众多循环</h3>
-<blockquote>
-<p>本文将通过可交互的示例，详细介绍 JavaScript 中各种迭代方法的使用。</p>
-</blockquote>
-
-<div id="react-root-iteration"></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
-<script type="text/babel">
-const { useState, useEffect } = React;
-
-function IterationDemo() {
-  const [method, setMethod] = useState('for');
-  const [currentIndex, setCurrentIndex] = useState(-1);
-  const [result, setResult] = useState([]);
-  const [isRunning, setIsRunning] = useState(false);
-  
-  const demoData = [1, 2, 3, 4, 5];
-  
-  const processElement = (num, methodType) => {
-    switch(methodType) {
-      case 'for':
-        return num;
-      case 'forEach':
-        return `处理: ${num}`;
-      case 'map':
-        return num * 2;
-      case 'filter':
-        return num > 2 ? num : null;
-      default:
-        return num;
-    }
-  };
-
-  const runDemo = () => {
-    setIsRunning(true);
-    setResult([]);
-    setCurrentIndex(-1);
-    
-    let interval = setInterval(() => {
-      setCurrentIndex(prev => {
-        const newIndex = prev + 1;
-        if (newIndex >= demoData.length) {
-          clearInterval(interval);
-          setIsRunning(false);
-          return -1;
-        }
-        
-        const processedValue = processElement(demoData[newIndex], method);
-        if (processedValue !== null) {
-          setResult(prev => [...prev, processedValue]);
-        }
-        
-        return newIndex;
-      });
-    }, 1000);
-  };
-
-  return (
-    <div style={{ 
-      padding: 20, 
-      backgroundColor: '#f5f5f5', 
-      borderRadius: 8,
-      fontFamily: 'system-ui'
-    }}>
-      <div style={{ marginBottom: 20 }}>
-        {['for', 'forEach', 'map', 'filter'].map(m => (
-          <button 
-            key={m}
-            onClick={() => {
-              setMethod(m);
-              setResult([]);
-              setCurrentIndex(-1);
-            }}
-            style={{
-              backgroundColor: method === m ? '#1890ff' : '#fff',
-              color: method === m ? '#fff' : '#000',
-              margin: 5,
-              padding: '8px 16px',
-              border: 'none',
-              borderRadius: 4,
-              cursor: 'pointer',
-              fontWeight: 500
-            }}
-          >
-            {m}
-          </button>
-        ))}
-      </div>
-
-      <div style={{ marginBottom: 20 }}>
-        <div style={{ fontWeight: 500, marginBottom: 10 }}>方法说明：</div>
-        <div style={{ 
-          backgroundColor: '#fff', 
-          padding: 10, 
-          borderRadius: 4,
-          marginBottom: 10 
-        }}>
-          {method === 'for' && '基本循环: 直接访问每个元素'}
-          {method === 'forEach' && '遍历处理: 对每个元素执行操作'}
-          {method === 'map' && '映射转换: 将每个元素翻倍'}
-          {method === 'filter' && '过滤筛选: 只保留大于2的元素'}
-        </div>
-      </div>
-
-      <button 
-        onClick={runDemo}
-        disabled={isRunning}
-        style={{
-          backgroundColor: '#52c41a',
-          color: '#fff',
-          padding: '8px 16px',
-          border: 'none',
-          borderRadius: 4,
-          cursor: isRunning ? 'not-allowed' : 'pointer',
-          opacity: isRunning ? 0.5 : 1,
-          fontWeight: 500,
-          marginBottom: 20
-        }}
-      >
-        运行演示
-      </button>
-
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column',
-        gap: 10 
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontWeight: 500 }}>原始数组:</span>
-          <div style={{ display: 'flex', gap: 5 }}>
-            {demoData.map((num, idx) => (
-              <div
-                key={idx}
-                style={{
-                  width: 40,
-                  height: 40,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: currentIndex === idx ? '#ffd591' : '#fff',
-                  border: '2px solid #1890ff',
-                  borderRadius: 4,
-                  transition: 'all 0.3s'
-                }}
-              >
-                {num}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontWeight: 500 }}>处理结果:</span>
-          <div style={{ display: 'flex', gap: 5 }}>
-            {result.map((num, idx) => (
-              <div
-                key={idx}
-                style={{
-                  minWidth: 40,
-                  height: 40,
-                  padding: '0 10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#e6f7ff',
-                  border: '2px solid #1890ff',
-                  borderRadius: 4,
-                  animation: 'fadeIn 0.5s'
-                }}
-              >
-                {num}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
-
-const root = ReactDOM.createRoot(document.getElementById('react-root-iteration'));
-root.render(<IterationDemo />);
-</script>
-
+<h3 id="js对象迭代特性"><a class="markdownIt-Anchor" href="#js对象迭代特性"></a> JS对象迭代特性</h3>
+<h4 id="forin的陷阱"><a class="markdownIt-Anchor" href="#forin的陷阱"></a> for…in的陷阱</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个父对象</span></span><br><span class="line"><span class="keyword">const</span> parent = &#123;</span><br><span class="line">    <span class="attr">parentMethod</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个继承自parent的对象</span></span><br><span class="line"><span class="keyword">const</span> child = <span class="title class_">Object</span>.<span class="title function_">create</span>(parent);</span><br><span class="line">child.<span class="property">name</span> = <span class="string">&#x27;张三&#x27;</span>;</span><br><span class="line">child.<span class="property">age</span> = <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用for...in遍历</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===for...in遍历===&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> child) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(key);  <span class="comment">// 输出: name, age, parentMethod</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 正确的做法：使用hasOwnProperty过滤</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===使用hasOwnProperty===&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> child) &#123;</span><br><span class="line">    <span class="keyword">if</span>(child.<span class="title function_">hasOwnProperty</span>(key)) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(key);  <span class="comment">// 输出: name, age</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="objectkeys和objectentries"><a class="markdownIt-Anchor" href="#objectkeys和objectentries"></a> Object.keys()和Object.entries()</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> person = &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;张三&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>: <span class="number">25</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义一个不可枚举的属性</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(person, <span class="string">&#x27;password&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">value</span>: <span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">false</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 只获取可枚举的键</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===Object.keys()===&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">keys</span>(person));  <span class="comment">// [&#x27;name&#x27;, &#x27;age&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取键值对数组</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===Object.entries()===&#x27;</span>);</span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">entries</span>(person).<span class="title function_">forEach</span>(<span class="function">(<span class="params">[key, value]</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;key&#125;</span>: <span class="subst">$&#123;value&#125;</span>`</span>);  </span><br><span class="line">    <span class="comment">// name: 张三</span></span><br><span class="line">    <span class="comment">// age: 25</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="objectgetownpropertydescriptor查看属性特性"><a class="markdownIt-Anchor" href="#objectgetownpropertydescriptor查看属性特性"></a> Object.getOwnPropertyDescriptor()查看属性特性</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加属性并设置特性</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(obj, <span class="string">&#x27;name&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">value</span>: <span class="string">&#x27;张三&#x27;</span>,</span><br><span class="line">    <span class="attr">writable</span>: <span class="literal">true</span>,     <span class="comment">// 可写</span></span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,   <span class="comment">// 可枚举</span></span><br><span class="line">    <span class="attr">configurable</span>: <span class="literal">true</span>  <span class="comment">// 可配置</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查看属性描述符</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===属性描述符===&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getOwnPropertyDescriptor</span>(obj, <span class="string">&#x27;name&#x27;</span>));</span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//   value: &#x27;张三&#x27;,</span></span><br><span class="line"><span class="comment">//   writable: true,</span></span><br><span class="line"><span class="comment">//   enumerable: true,</span></span><br><span class="line"><span class="comment">//   configurable: true</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="迭代器与生成器的高级用法"><a class="markdownIt-Anchor" href="#迭代器与生成器的高级用法"></a> 迭代器与生成器的高级用法</h3>
+<h4 id="自定义可迭代对象"><a class="markdownIt-Anchor" href="#自定义可迭代对象"></a> 自定义可迭代对象</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个自定义的课程列表对象</span></span><br><span class="line"><span class="keyword">const</span> courses = &#123;</span><br><span class="line">    <span class="attr">_list</span>: [<span class="string">&#x27;JavaScript&#x27;</span>, <span class="string">&#x27;Python&#x27;</span>, <span class="string">&#x27;Java&#x27;</span>],</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 实现迭代器</span></span><br><span class="line">    [<span class="title class_">Symbol</span>.<span class="property">iterator</span>]() &#123;</span><br><span class="line">        <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">const</span> self = <span class="variable language_">this</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="title function_">next</span>(<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (index &lt; self.<span class="property">_list</span>.<span class="property">length</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span> &#123;</span><br><span class="line">                        <span class="attr">value</span>: self.<span class="property">_list</span>[index++],</span><br><span class="line">                        <span class="attr">done</span>: <span class="literal">false</span></span><br><span class="line">                    &#125;;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在可以使用for...of遍历了</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===课程列表遍历===&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> course <span class="keyword">of</span> courses) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(course);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="生成器函数的实际应用"><a class="markdownIt-Anchor" href="#生成器函数的实际应用"></a> 生成器函数的实际应用</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 分页数据生成器</span></span><br><span class="line"><span class="keyword">function</span>* <span class="title function_">createPageGenerator</span>(<span class="params">totalItems, pageSize</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> totalPages = <span class="title class_">Math</span>.<span class="title function_">ceil</span>(totalItems / pageSize);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> page = <span class="number">1</span>; page &lt;= totalPages; page++) &#123;</span><br><span class="line">        <span class="keyword">const</span> start = (page - <span class="number">1</span>) * pageSize;</span><br><span class="line">        <span class="keyword">const</span> end = <span class="title class_">Math</span>.<span class="title function_">min</span>(start + pageSize, totalItems);</span><br><span class="line">        <span class="keyword">yield</span> &#123;</span><br><span class="line">            page,</span><br><span class="line">            start,</span><br><span class="line">            end,</span><br><span class="line">            <span class="attr">isLastPage</span>: page === totalPages</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用分页生成器</span></span><br><span class="line"><span class="keyword">const</span> pageGen = <span class="title function_">createPageGenerator</span>(<span class="number">95</span>, <span class="number">10</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===分页示例===&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> pageInfo <span class="keyword">of</span> pageGen) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`第<span class="subst">$&#123;pageInfo.page&#125;</span>页: <span class="subst">$&#123;pageInfo.start&#125;</span>-<span class="subst">$&#123;pageInfo.end&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 树形结构遍历生成器</span></span><br><span class="line"><span class="keyword">function</span>* <span class="title function_">traverseTree</span>(<span class="params">node</span>) &#123;</span><br><span class="line">    <span class="keyword">yield</span> node.<span class="property">value</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(node.<span class="property">children</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> child <span class="keyword">of</span> node.<span class="property">children</span>) &#123;</span><br><span class="line">            <span class="keyword">yield</span>* <span class="title function_">traverseTree</span>(child);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用树形遍历</span></span><br><span class="line"><span class="keyword">const</span> tree = &#123;</span><br><span class="line">    <span class="attr">value</span>: <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">    <span class="attr">children</span>: [</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="attr">value</span>: <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">            <span class="attr">children</span>: [</span><br><span class="line">                &#123; <span class="attr">value</span>: <span class="string">&#x27;A1&#x27;</span> &#125;,</span><br><span class="line">                &#123; <span class="attr">value</span>: <span class="string">&#x27;A2&#x27;</span> &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123; <span class="attr">value</span>: <span class="string">&#x27;B&#x27;</span> &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===树形遍历===&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> value <span class="keyword">of</span> <span class="title function_">traverseTree</span>(tree)) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(value);  <span class="comment">// root, A, A1, A2, B</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="async迭代器的实战应用"><a class="markdownIt-Anchor" href="#async迭代器的实战应用"></a> async迭代器的实战应用</h3>
+<h4 id="异步数据流处理"><a class="markdownIt-Anchor" href="#异步数据流处理"></a> 异步数据流处理</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 模拟异步数据源</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span>* <span class="title function_">asyncDataSource</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> data = [</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">&#x27;用户1&#x27;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">&#x27;用户2&#x27;</span> &#125;,</span><br><span class="line">        &#123; <span class="attr">id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">&#x27;用户3&#x27;</span> &#125;</span><br><span class="line">    ];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> item <span class="keyword">of</span> data) &#123;</span><br><span class="line">        <span class="comment">// 模拟网络延迟</span></span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(resolve, <span class="number">1000</span>));</span><br><span class="line">        <span class="keyword">yield</span> item;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用异步迭代器处理数据</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">processUsers</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===开始处理用户数据===&#x27;</span>);</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> user <span class="keyword">of</span> <span class="title function_">asyncDataSource</span>()) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`处理用户: <span class="subst">$&#123;user.name&#125;</span>`</span>);</span><br><span class="line">        <span class="comment">// 这里可以添加实际的数据处理逻辑</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;===用户数据处理完成===&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用异步迭代器处理API请求</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span>* <span class="title function_">fetchPaginatedData</span>(<span class="params">url, pageSize = <span class="number">10</span></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> page = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> hasMore = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(hasMore) &#123;</span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(</span><br><span class="line">            <span class="string">`<span class="subst">$&#123;url&#125;</span>?page=<span class="subst">$&#123;page&#125;</span>&amp;pageSize=<span class="subst">$&#123;pageSize&#125;</span>`</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">yield</span> data.<span class="property">items</span>;</span><br><span class="line">        </span><br><span class="line">        hasMore = data.<span class="property">hasMore</span>;</span><br><span class="line">        page++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">downloadAllData</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> pageData <span class="keyword">of</span> <span class="title function_">fetchPaginatedData</span>(<span class="string">&#x27;/api/data&#x27;</span>)) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;获取到一页数据:&#x27;</span>, pageData);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span>(error) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;数据获取失败:&#x27;</span>, error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实用的迭代器工具函数"><a class="markdownIt-Anchor" href="#实用的迭代器工具函数"></a> 实用的迭代器工具函数</h4>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 合并多个异步迭代器</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span>* <span class="title function_">mergeAsyncIterators</span>(<span class="params">...iterators</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> promises = iterators.<span class="title function_">map</span>(<span class="keyword">async</span> iterator =&gt; &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> item <span class="keyword">of</span> iterator) &#123;</span><br><span class="line">            <span class="keyword">yield</span> item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>(promises);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 异步迭代器转换函数</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span>* <span class="title function_">mapAsyncIterator</span>(<span class="params">iterator, mapFn</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> item <span class="keyword">of</span> iterator) &#123;</span><br><span class="line">        <span class="keyword">yield</span> <span class="title function_">mapFn</span>(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 异步迭代器过滤函数</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span>* <span class="title function_">filterAsyncIterator</span>(<span class="params">iterator, filterFn</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> item <span class="keyword">of</span> iterator) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">await</span> <span class="title function_">filterFn</span>(item)) &#123;</span><br><span class="line">            <span class="keyword">yield</span> item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用示例</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">demo</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> asyncData = <span class="title function_">asyncDataSource</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 转换数据</span></span><br><span class="line">    <span class="keyword">const</span> transformedData = <span class="title function_">mapAsyncIterator</span>(</span><br><span class="line">        asyncData,</span><br><span class="line">        <span class="function"><span class="params">item</span> =&gt;</span> (&#123; ...item, <span class="attr">processed</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 过滤数据</span></span><br><span class="line">    <span class="keyword">const</span> filteredData = <span class="title function_">filterAsyncIterator</span>(</span><br><span class="line">        transformedData,</span><br><span class="line">        <span class="keyword">async</span> item =&gt; item.<span class="property">id</span> &gt; <span class="number">1</span></span><br><span class="line">    );</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 处理结果</span></span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">let</span> item <span class="keyword">of</span> filteredData) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;处理后的数据:&#x27;</span>, item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <div class="article-footer fs14">
     <section id="license">
@@ -480,7 +302,7 @@ root.render(<IterationDemo />);
 
 
 
-<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0or%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text"> 函数or块级作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E9%97%AD%E5%8C%85%E9%99%B7%E9%98%B1"><span class="toc-text"> 避免闭包陷阱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react-%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-text"> React 状态更新方式对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js%E7%9A%84%E4%BC%97%E5%A4%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text"> JS的众多循环</span></a></li></ol></div><div class="widget-footer">
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0or%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text"> 函数or块级作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E9%97%AD%E5%8C%85%E9%99%B7%E9%98%B1"><span class="toc-text"> 避免闭包陷阱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#react-%E7%8A%B6%E6%80%81%E6%9B%B4%E6%96%B0%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-text"> React 状态更新方式对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#js%E5%AF%B9%E8%B1%A1%E8%BF%AD%E4%BB%A3%E7%89%B9%E6%80%A7"><span class="toc-text"> JS对象迭代特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#forin%E7%9A%84%E9%99%B7%E9%98%B1"><span class="toc-text"> for…in的陷阱</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#objectkeys%E5%92%8Cobjectentries"><span class="toc-text"> Object.keys()和Object.entries()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#objectgetownpropertydescriptor%E6%9F%A5%E7%9C%8B%E5%B1%9E%E6%80%A7%E7%89%B9%E6%80%A7"><span class="toc-text"> Object.getOwnPropertyDescriptor()查看属性特性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95"><span class="toc-text"> 迭代器与生成器的高级用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="toc-text"> 自定义可迭代对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="toc-text"> 生成器函数的实际应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#async%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8"><span class="toc-text"> async迭代器的实战应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5%E6%95%B0%E6%8D%AE%E6%B5%81%E5%A4%84%E7%90%86"><span class="toc-text"> 异步数据流处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E7%94%A8%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0"><span class="toc-text"> 实用的迭代器工具函数</span></a></li></ol></li></ol></div><div class="widget-footer">
 
 <a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a></div></widget>
 </div></aside><div class='float-panel blur'>
