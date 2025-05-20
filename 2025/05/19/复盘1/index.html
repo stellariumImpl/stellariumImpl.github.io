@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/learning_rate.png">
 <meta property="article:published_time" content="2025-05-19T05:33:20.000Z">
-<meta property="article:modified_time" content="2025-05-20T02:42:07.597Z">
+<meta property="article:modified_time" content="2025-05-20T03:00:30.744Z">
 <meta property="article:author" content="Felix">
 <meta property="article:tag" content="梯度下降">
 <meta property="article:tag" content="学习率">
@@ -90,7 +90,7 @@
   <div class="content">
     <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%A4%87%E6%88%98%E9%9D%A2%E8%AF%95/">备战面试</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-19T05:33:20.000Z">2025-05-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-20T02:42:07.597Z">2025-05-20</time></span></div></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-19T05:33:20.000Z">2025-05-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-20T03:00:30.744Z">2025-05-20</time></span></div></div></div>
     
     <div class="bottom only-title">
       
@@ -245,24 +245,68 @@
 <li><strong>Momentum：</strong> 提供稳定方向  </li>
 <li><strong>RMSProp：</strong> 提供自适应步长</li>
 </ul>
-<p><strong>完整流程：</strong></p>
-<ol>
-<li>一阶动量（梯度均值）：<br>$$ m_t &#x3D; \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t $$</li>
-<li>二阶动量（梯度方差）：<br>$$ v_t &#x3D; \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2 $$</li>
-<li>偏差修正（初期动量偏小）：<br>$$ \hat{m}_t &#x3D; \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t &#x3D; \frac{v_t}{1 - \beta_2^t} $$</li>
-<li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} $$</li>
-</ol>
-<p><strong>默认参数：</strong><br>$\beta_1 &#x3D; 0.9$，$\beta_2 &#x3D; 0.999$，$\epsilon &#x3D; 10^{-8}$</p>
-<p><strong>优点总结：</strong></p>
+<p><strong>一阶矩估计（First Moment Estimate）</strong></p>
+<p>一阶矩是指 <strong>梯度的期望</strong>，即动量的思想：记录梯度的“平均方向”。</p>
+<p>Adam 中的表示方式为：</p>
+<p>$$<br>m_t &#x3D; \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t<br>$$</p>
 <ul>
-<li>初期下降快，后期震荡小  </li>
-<li>自适应每个参数的学习率  </li>
-<li>对稀疏梯度和非平稳目标都表现稳定</li>
+<li>$m_t$ 是当前时刻的动量（类似 Momentum）；</li>
+<li>$\beta_1$ 是动量衰减系数，通常取 0.9；</li>
+<li>本质是梯度的 <strong>指数加权平均</strong>（Exponential Moving Average）；</li>
+<li>目的：<strong>平滑震荡梯度，指引更新方向</strong>。</li>
 </ul>
-<p><strong>本质总结：</strong></p>
+<p><strong>二阶矩估计（Second Moment Estimate）</strong></p>
+<p>二阶矩是指 <strong>梯度平方的期望</strong>，即对梯度的尺度做估计，用来调整学习率。</p>
+<p>Adam 中的表示方式为：</p>
+<p>$$<br>v_t &#x3D; \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2<br>$$</p>
 <ul>
-<li>Adam 利用了“历史方向 + 局部步长”两种机制，使得每次更新既高效又稳定，是当前最通用的优化器之一。</li>
+<li>$v_t$ 是当前时刻的平方梯度平均（来自 RMSProp）；</li>
+<li>$\beta_2$ 是衰减系数，通常取 0.999；</li>
+<li>目的：估计梯度的“波动程度”，<strong>调整每个参数的自适应学习率</strong>。</li>
 </ul>
+<p><strong>偏差修正（Bias Correction）</strong></p>
+<p>Adam 初始化时，$m_0 &#x3D; 0$ 和 $v_0 &#x3D; 0$，所以在前几步迭代中：</p>
+<ul>
+<li>$m_t$ 和 $v_t$ 被低估，尤其是在 $t$ 很小时；</li>
+<li>为了纠正这个初始偏小的问题，引入了<strong>偏差修正项</strong>：</li>
+</ul>
+<p>修正后的动量和平方项为：</p>
+<p>$$<br>\hat{m}_t &#x3D; \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t &#x3D; \frac{v_t}{1 - \beta_2^t}<br>$$</p>
+<ul>
+<li>当 $t$ 较小时，$\beta_1^t$ 接近 0，修正效果显著；</li>
+<li>当 $t$ 较大时，$\beta_1^t$ 接近 1，修正趋于无效。</li>
+</ul>
+<p>整合三者后，Adam 的参数更新为：</p>
+<p>$$<br>\theta_{t+1} &#x3D; \theta_t - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}<br>$$</p>
+<ul>
+<li>分子是平滑方向（动量）；</li>
+<li>分母是自适应步长；</li>
+<li>加上 $\epsilon$ 是为了避免除 0（通常设为 $10^{-8}$）。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一阶矩估计</td>
+<td>$m_t$</td>
+<td>平滑梯度方向，控制方向变化</td>
+</tr>
+<tr>
+<td>二阶矩估计</td>
+<td>$v_t$</td>
+<td>平滑梯度幅度，自适应步长</td>
+</tr>
+<tr>
+<td>偏差修正</td>
+<td>$\hat{m}_t$, $\hat{v}_t$</td>
+<td>修正初期估计偏小，提高稳定性</td>
+</tr>
+</tbody></table>
 
 <div class="article-footer fs14">
     <section id="license">
