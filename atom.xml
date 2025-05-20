@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-05-01T05:00:06.388Z</updated>
+  <updated>2025-05-20T02:42:07.597Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,42 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>复盘1</title>
+    <link href="http://example.com/2025/05/19/%E5%A4%8D%E7%9B%981/"/>
+    <id>http://example.com/2025/05/19/%E5%A4%8D%E7%9B%981/</id>
+    <published>2025-05-19T05:33:20.000Z</published>
+    <updated>2025-05-20T02:42:07.597Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="梯度与梯度下降"><a href="#梯度与梯度下降" class="headerlink" title="梯度与梯度下降"></a>梯度与梯度下降</h2><p>首先，梯度是一个向量，指向函数在某点上增长最快的方向，那么梯度的负方向，也就是<strong>负梯度</strong>，指向函数值下降最快的方向</p><p>在模型训练中，我们会定义一个损失函数$L(\theta)$，等于模型输出与真实标签之间的差异，我们希望找到一组参数$\theta$，使得损失最小，这就变成了一个最优化问题minimize $L(\theta)$，于是我们用梯度下降法$\theta \leftarrow \theta - \alpha \cdot \nabla L(\theta)$，意义就是每次沿着负梯度方向走一点，逐步让损失减少，逼近<strong>局部极小值</strong>或者鞍点</p><table><thead><tr><th>方法</th><th>BGD（Batch Gradient Descent）</th><th>SGD（Stochastic Gradient Descent）</th><th>Mini-batch Gradient Descent</th></tr></thead><tbody><tr><td>每次更新用数据量</td><td>全部样本</td><td>一个样本</td><td>一部分样本（如 32、64）</td></tr><tr><td>梯度估计</td><td>精确，无噪声</td><td>噪声大，变化剧烈</td><td>有一定噪声，平衡两者</td></tr><tr><td>更新频率</td><td>每轮 1 次</td><td>每轮 $n$ 次（$n$ 为样本数）</td><td>每轮 $n &#x2F; b$ 次（$b$ 为 batch 大小）</td></tr><tr><td>收敛路径</td><td>平滑、稳定</td><td>抖动、震荡明显</td><td>相对平滑，偶有波动</td></tr><tr><td>收敛速度</td><td>慢（每步贵）</td><td>快（每步便宜）</td><td>快速而稳定</td></tr><tr><td>最终精度</td><td>高，容易收敛到最优点</td><td>较低，常震荡于最优点附近</td><td>高，可精确收敛</td></tr><tr><td>是否能跳出局部最优</td><td>难（因无噪声）</td><td>容易（噪声大可扰动）</td><td>适中（适度噪声）</td></tr><tr><td>资源占用</td><td>高（需一次加载所有数据）</td><td>低（单样本）</td><td>中等（小批量）</td></tr><tr><td>实现复杂度</td><td>简单</td><td>简单</td><td>稍复杂（需划分 batch）</td></tr><tr><td>实用性（深度学习）</td><td>差（不常用）</td><td>中（用于在线学习或高频任务）</td><td>高（主流方法，适合 GPU 并行）</td></tr></tbody></table><h2 id="学习率及其影响"><a href="#学习率及其影响" class="headerlink" title="学习率及其影响"></a>学习率及其影响</h2><p>上述公式中的$\alpha$也就是学习率，控制步长，影响收敛的速度，稳定性和最终性能</p><p><img src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/learning_rate.png"></p><p>过大：参数更新步长过大，可能导致模型在损失函数极小值附近<strong>震荡</strong>（来回跳跃，无法收敛）；更严重时会导致训练过程<strong>发散</strong>（不断越过最优解，甚至Loss越来越大）</p><p>过小：虽然模型在理论上可以收敛，但是收敛速度极慢，训练迭代次数大大增加，耗时耗资源；再者因为步子小，难以跳出陷阱，所以更容易陷入局部极小值或鞍点，对于<strong>非凸函数</strong>而言，陷入局部极小值或鞍点就意味着提前停止优化，导致模型性能不佳（言外之意，如果是凸函数梯度降到0后，停止了也无所谓，因为不存在鞍点，已经达到了全局极小值）</p><h2 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h2><p>AdaGrad 是最早提出的<strong>自适应学习率算法</strong>，思想是：<strong>历史梯度大 → 降低学习率，避免震荡</strong>；历史梯度小 → 保持学习率，继续优化。</p><p><strong>更新公式：</strong></p><ul><li>累积梯度平方：<br>$$ G_t &#x3D; G_{t-1} + g_t^2 $$</li><li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \frac{\alpha}{\sqrt{G_t + \epsilon}} \cdot g_t $$</li></ul><p>其中：</p><ul><li>$g_t$：当前梯度  </li><li>$G_t$：历史梯度平方累积  </li><li>$\epsilon$：防止除以 0 的小常数</li></ul><p><strong>优点：</strong></p><ul><li>自适应调整每个参数的学习率  </li><li>稀疏特征效果好（如 NLP）</li></ul><p><strong>缺点：</strong></p><ul><li>学习率会一直减小，后期可能“停止学习”</li></ul><h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><p>RMSProp 是对 AdaGrad 的改进，<strong>用滑动平均代替累积和</strong>，避免学习率过早衰减。</p><p><strong>更新公式：</strong></p><ul><li>指数加权平均梯度平方：<br>$$ r_t &#x3D; \rho \cdot r_{t-1} + (1 - \rho) \cdot g_t^2 $$</li><li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \frac{\alpha}{\sqrt{r_t + \epsilon}} \cdot g_t $$</li></ul><p>其中：</p><ul><li>$\rho$：衰减系数（通常设为 0.9）  </li><li>$r_t$：当前梯度平方的平滑值</li></ul><p><strong>优点：</strong></p><ul><li>始终维持较稳定的局部学习率  </li><li>适用于非凸优化（如深度神经网络）</li></ul><p><strong>本质：</strong> RMSProp 解决了 AdaGrad 学习率“衰减太快”的问题，让参数能持续更新。</p><h2 id="动量法"><a href="#动量法" class="headerlink" title="动量法"></a>动量法</h2><p>Momentum 是为了解决<strong>震荡与收敛慢</strong>问题，引入“惯性”概念：当前更新方向受过去梯度影响。</p><p><strong>更新公式：</strong></p><ul><li>累积梯度动量：<br>$$ v_t &#x3D; \beta \cdot v_{t-1} + (1 - \beta) \cdot g_t $$</li><li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \alpha \cdot v_t $$</li></ul><p>其中：</p><ul><li>$v_t$：当前动量（方向）  </li><li>$\beta$：动量因子（一般为 0.9）</li></ul><p><strong>优点：</strong></p><ul><li>加速收敛（方向一致时）</li></ul><p>如果当前和历史梯度方向一致，$v_t$ 趋于加大（增强“信号”）；如果方向反复变化，$v_t$ 被抵消，趋于减小（抑制“噪声”）；所以 Momentum 在<strong>方向稳定的平滑区域加速收敛</strong>，而在不稳定区域自适应减速。</p><ul><li>可减缓梯度震荡（如锯齿函数、鞍点处）</li></ul><p>当梯度方向频繁来回变动（如锯齿函数的左右跳动），Momentum 会<strong>平滑更新方向</strong>，当前 $g_t$ 与历史 $v_{t-1}$ 方向相反时，它们在 $v_t$ 中部分抵消，这让更新方向<strong>更加稳定，不跟着瞬时梯度乱跳</strong></p><p>例如：梯度一会儿是 +1，一会儿是 -1，GD 就会左右大幅震荡，Momentum 会自动平滑成趋近 0 的小更新，使路径更“直”</p><ul><li>突破鞍点（局部平缓区）</li></ul><p>在鞍点或者局部极小值点区域（梯度为 0，但不是最小值），GD 因当前梯度接近 0，更新几乎停止，Momentum 因历史梯度仍有积累，$v_t$ 不为 0，<strong>能继续滑出困境</strong></p><h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><p>Adam 是目前最常用的优化器，结合了：</p><ul><li><strong>Momentum：</strong> 提供稳定方向  </li><li><strong>RMSProp：</strong> 提供自适应步长</li></ul><p><strong>完整流程：</strong></p><ol><li>一阶动量（梯度均值）：<br>$$ m_t &#x3D; \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t $$</li><li>二阶动量（梯度方差）：<br>$$ v_t &#x3D; \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2 $$</li><li>偏差修正（初期动量偏小）：<br>$$ \hat{m}_t &#x3D; \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t &#x3D; \frac{v_t}{1 - \beta_2^t} $$</li><li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} $$</li></ol><p><strong>默认参数：</strong><br>$\beta_1 &#x3D; 0.9$，$\beta_2 &#x3D; 0.999$，$\epsilon &#x3D; 10^{-8}$</p><p><strong>优点总结：</strong></p><ul><li>初期下降快，后期震荡小  </li><li>自适应每个参数的学习率  </li><li>对稀疏梯度和非平稳目标都表现稳定</li></ul><p><strong>本质总结：</strong></p><ul><li>Adam 利用了“历史方向 + 局部步长”两种机制，使得每次更新既高效又稳定，是当前最通用的优化器之一。</li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;梯度与梯度下降&quot;&gt;&lt;a href=&quot;#梯度与梯度下降&quot; class=&quot;headerlink&quot; title=&quot;梯度与梯度下降&quot;&gt;&lt;/a&gt;梯度与梯度下降&lt;/h2&gt;&lt;p&gt;首先，梯度是一个向量，指向函数在某点上增长最快的方向，那么梯度的负方向，也就是&lt;strong&gt;负梯度</summary>
+      
+    
+    
+    
+    <category term="备战面试" scheme="http://example.com/categories/%E5%A4%87%E6%88%98%E9%9D%A2%E8%AF%95/"/>
+    
+    
+    <category term="梯度下降" scheme="http://example.com/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D/"/>
+    
+    <category term="学习率" scheme="http://example.com/tags/%E5%AD%A6%E4%B9%A0%E7%8E%87/"/>
+    
+    <category term="非凸函数" scheme="http://example.com/tags/%E9%9D%9E%E5%87%B8%E5%87%BD%E6%95%B0/"/>
+    
+    <category term="动量法" scheme="http://example.com/tags/%E5%8A%A8%E9%87%8F%E6%B3%95/"/>
+    
+    <category term="AdaGrad" scheme="http://example.com/tags/AdaGrad/"/>
+    
+    <category term="RMSProp" scheme="http://example.com/tags/RMSProp/"/>
+    
+    <category term="Adam" scheme="http://example.com/tags/Adam/"/>
+    
+  </entry>
   
   <entry>
     <title>9820线上</title>

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,20 +17,33 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>归档 - Stellarium</title>
+  <title>复盘1 - Stellarium</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2025/05/index.html">
+    <meta name="description" content="梯度与梯度下降首先，梯度是一个向量，指向函数在某点上增长最快的方向，那么梯度的负方向，也就是负梯度，指向函数值下降最快的方向 在模型训练中，我们会定义一个损失函数$L(\theta)$，等于模型输出与真实标签之间的差异，我们希望找到一组参数$\theta$，使得损失最小，这就变成了一个最优化问题minimize $L(\theta)$，于是我们用梯度下降法$\theta \leftarrow \t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="复盘1">
+<meta property="og:url" content="http://example.com/2025/05/19/%E5%A4%8D%E7%9B%981/index.html">
 <meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="梯度与梯度下降首先，梯度是一个向量，指向函数在某点上增长最快的方向，那么梯度的负方向，也就是负梯度，指向函数值下降最快的方向 在模型训练中，我们会定义一个损失函数$L(\theta)$，等于模型输出与真实标签之间的差异，我们希望找到一组参数$\theta$，使得损失最小，这就变成了一个最优化问题minimize $L(\theta)$，于是我们用梯度下降法$\theta \leftarrow \t">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/learning_rate.png">
+<meta property="article:published_time" content="2025-05-19T05:33:20.000Z">
+<meta property="article:modified_time" content="2025-05-20T02:42:07.597Z">
 <meta property="article:author" content="Felix">
+<meta property="article:tag" content="梯度下降">
+<meta property="article:tag" content="学习率">
+<meta property="article:tag" content="非凸函数">
+<meta property="article:tag" content="动量法">
+<meta property="article:tag" content="AdaGrad">
+<meta property="article:tag" content="RMSProp">
+<meta property="article:tag" content="Adam">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/learning_rate.png">
   
   
   
-  
+  <meta name="keywords" content="梯度下降,学习率,非凸函数,动量法,AdaGrad,RMSProp,Adam">
 
   <!-- feed -->
   
@@ -50,7 +63,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="undefined" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
@@ -62,21 +75,236 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="atom.xml"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19q0-.825.588-1.412T5 17q.825 0 1.413.588T7 19q0 .825-.587 1.413T5 21m13.5 0q-.65 0-1.088-.475T16.9 19.4q-.275-2.425-1.312-4.537T12.9 11.1q-1.65-1.65-3.762-2.687T4.6 7.1q-.65-.075-1.125-.512T3 5.5q0-.65.45-1.062t1.075-.363q3.075.275 5.763 1.563t4.737 3.337q2.05 2.05 3.338 4.738t1.562 5.762q.05.625-.363 1.075T18.5 21m-6 0q-.625 0-1.075-.437T10.85 19.5q-.225-1.225-.787-2.262T8.65 15.35q-.85-.85-1.888-1.412T4.5 13.15q-.625-.125-1.062-.575T3 11.5q0-.65.45-1.075t1.075-.325q1.825.25 3.413 1.063t2.837 2.062q1.25 1.25 2.063 2.838t1.062 3.412q.1.625-.325 1.075T12.5 21"/></svg></a></div><div class="widget-body fs14"><a class="item title" href="/2025/05/19/%E5%A4%8D%E7%9B%981/"><span class="title">复盘1</span></a><a class="item title" href="/2025/05/01/hello-world/"><span class="title">9820线上</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a></div></footer>
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
-
- 
 
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a href="/categories/">分类</a><a href="/tags/">标签</a><a class="active" href="/archives/">归档</a></nav></div><div class="post-list archives"><article class="" id="archive"><div class='archive-header h4'>2025</div><div class="archive-list"><a class='post fs14' href="/2025/05/19/%E5%A4%8D%E7%9B%981/"><time>05-19</time><span>复盘1</span></a></div><div class="archive-list"><a class='post fs14' href="/2025/05/01/hello-world/"><time>05-01</time><span>9820线上</span></a></div></article></div>
+
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%A4%87%E6%88%98%E9%9D%A2%E8%AF%95/">备战面试</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-05-19T05:33:20.000Z">2025-05-19</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-05-20T02:42:07.597Z">2025-05-20</time></span></div></div></div>
+    
+    <div class="bottom only-title">
+      
+      <div class="text-area">
+        <h1 class="text title"><span>复盘1</span></h1>
+        
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="梯度与梯度下降"><a href="#梯度与梯度下降" class="headerlink" title="梯度与梯度下降"></a>梯度与梯度下降</h2><p>首先，梯度是一个向量，指向函数在某点上增长最快的方向，那么梯度的负方向，也就是<strong>负梯度</strong>，指向函数值下降最快的方向</p>
+<p>在模型训练中，我们会定义一个损失函数$L(\theta)$，等于模型输出与真实标签之间的差异，我们希望找到一组参数$\theta$，使得损失最小，这就变成了一个最优化问题minimize $L(\theta)$，于是我们用梯度下降法$\theta \leftarrow \theta - \alpha \cdot \nabla L(\theta)$，意义就是每次沿着负梯度方向走一点，逐步让损失减少，逼近<strong>局部极小值</strong>或者鞍点</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>BGD（Batch Gradient Descent）</th>
+<th>SGD（Stochastic Gradient Descent）</th>
+<th>Mini-batch Gradient Descent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每次更新用数据量</td>
+<td>全部样本</td>
+<td>一个样本</td>
+<td>一部分样本（如 32、64）</td>
+</tr>
+<tr>
+<td>梯度估计</td>
+<td>精确，无噪声</td>
+<td>噪声大，变化剧烈</td>
+<td>有一定噪声，平衡两者</td>
+</tr>
+<tr>
+<td>更新频率</td>
+<td>每轮 1 次</td>
+<td>每轮 $n$ 次（$n$ 为样本数）</td>
+<td>每轮 $n &#x2F; b$ 次（$b$ 为 batch 大小）</td>
+</tr>
+<tr>
+<td>收敛路径</td>
+<td>平滑、稳定</td>
+<td>抖动、震荡明显</td>
+<td>相对平滑，偶有波动</td>
+</tr>
+<tr>
+<td>收敛速度</td>
+<td>慢（每步贵）</td>
+<td>快（每步便宜）</td>
+<td>快速而稳定</td>
+</tr>
+<tr>
+<td>最终精度</td>
+<td>高，容易收敛到最优点</td>
+<td>较低，常震荡于最优点附近</td>
+<td>高，可精确收敛</td>
+</tr>
+<tr>
+<td>是否能跳出局部最优</td>
+<td>难（因无噪声）</td>
+<td>容易（噪声大可扰动）</td>
+<td>适中（适度噪声）</td>
+</tr>
+<tr>
+<td>资源占用</td>
+<td>高（需一次加载所有数据）</td>
+<td>低（单样本）</td>
+<td>中等（小批量）</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>简单</td>
+<td>简单</td>
+<td>稍复杂（需划分 batch）</td>
+</tr>
+<tr>
+<td>实用性（深度学习）</td>
+<td>差（不常用）</td>
+<td>中（用于在线学习或高频任务）</td>
+<td>高（主流方法，适合 GPU 并行）</td>
+</tr>
+</tbody></table>
+<h2 id="学习率及其影响"><a href="#学习率及其影响" class="headerlink" title="学习率及其影响"></a>学习率及其影响</h2><p>上述公式中的$\alpha$也就是学习率，控制步长，影响收敛的速度，稳定性和最终性能</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/%E7%AE%97%E6%B3%95%E9%9D%A2%E8%AF%95%E5%87%86%E5%A4%87/learning_rate.png"></p>
+<p>过大：参数更新步长过大，可能导致模型在损失函数极小值附近<strong>震荡</strong>（来回跳跃，无法收敛）；更严重时会导致训练过程<strong>发散</strong>（不断越过最优解，甚至Loss越来越大）</p>
+<p>过小：虽然模型在理论上可以收敛，但是收敛速度极慢，训练迭代次数大大增加，耗时耗资源；再者因为步子小，难以跳出陷阱，所以更容易陷入局部极小值或鞍点，对于<strong>非凸函数</strong>而言，陷入局部极小值或鞍点就意味着提前停止优化，导致模型性能不佳（言外之意，如果是凸函数梯度降到0后，停止了也无所谓，因为不存在鞍点，已经达到了全局极小值）</p>
+<h2 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h2><p>AdaGrad 是最早提出的<strong>自适应学习率算法</strong>，思想是：<strong>历史梯度大 → 降低学习率，避免震荡</strong>；历史梯度小 → 保持学习率，继续优化。</p>
+<p><strong>更新公式：</strong></p>
+<ul>
+<li>累积梯度平方：<br>$$ G_t &#x3D; G_{t-1} + g_t^2 $$</li>
+<li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \frac{\alpha}{\sqrt{G_t + \epsilon}} \cdot g_t $$</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>$g_t$：当前梯度  </li>
+<li>$G_t$：历史梯度平方累积  </li>
+<li>$\epsilon$：防止除以 0 的小常数</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>自适应调整每个参数的学习率  </li>
+<li>稀疏特征效果好（如 NLP）</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>学习率会一直减小，后期可能“停止学习”</li>
+</ul>
+<h2 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h2><p>RMSProp 是对 AdaGrad 的改进，<strong>用滑动平均代替累积和</strong>，避免学习率过早衰减。</p>
+<p><strong>更新公式：</strong></p>
+<ul>
+<li>指数加权平均梯度平方：<br>$$ r_t &#x3D; \rho \cdot r_{t-1} + (1 - \rho) \cdot g_t^2 $$</li>
+<li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \frac{\alpha}{\sqrt{r_t + \epsilon}} \cdot g_t $$</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>$\rho$：衰减系数（通常设为 0.9）  </li>
+<li>$r_t$：当前梯度平方的平滑值</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>始终维持较稳定的局部学习率  </li>
+<li>适用于非凸优化（如深度神经网络）</li>
+</ul>
+<p><strong>本质：</strong> RMSProp 解决了 AdaGrad 学习率“衰减太快”的问题，让参数能持续更新。</p>
+<h2 id="动量法"><a href="#动量法" class="headerlink" title="动量法"></a>动量法</h2><p>Momentum 是为了解决<strong>震荡与收敛慢</strong>问题，引入“惯性”概念：当前更新方向受过去梯度影响。</p>
+<p><strong>更新公式：</strong></p>
+<ul>
+<li>累积梯度动量：<br>$$ v_t &#x3D; \beta \cdot v_{t-1} + (1 - \beta) \cdot g_t $$</li>
+<li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \alpha \cdot v_t $$</li>
+</ul>
+<p>其中：</p>
+<ul>
+<li>$v_t$：当前动量（方向）  </li>
+<li>$\beta$：动量因子（一般为 0.9）</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>加速收敛（方向一致时）</li>
+</ul>
+<p>如果当前和历史梯度方向一致，$v_t$ 趋于加大（增强“信号”）；如果方向反复变化，$v_t$ 被抵消，趋于减小（抑制“噪声”）；所以 Momentum 在<strong>方向稳定的平滑区域加速收敛</strong>，而在不稳定区域自适应减速。</p>
+<ul>
+<li>可减缓梯度震荡（如锯齿函数、鞍点处）</li>
+</ul>
+<p>当梯度方向频繁来回变动（如锯齿函数的左右跳动），Momentum 会<strong>平滑更新方向</strong>，当前 $g_t$ 与历史 $v_{t-1}$ 方向相反时，它们在 $v_t$ 中部分抵消，这让更新方向<strong>更加稳定，不跟着瞬时梯度乱跳</strong></p>
+<p>例如：梯度一会儿是 +1，一会儿是 -1，GD 就会左右大幅震荡，Momentum 会自动平滑成趋近 0 的小更新，使路径更“直”</p>
+<ul>
+<li>突破鞍点（局部平缓区）</li>
+</ul>
+<p>在鞍点或者局部极小值点区域（梯度为 0，但不是最小值），GD 因当前梯度接近 0，更新几乎停止，Momentum 因历史梯度仍有积累，$v_t$ 不为 0，<strong>能继续滑出困境</strong></p>
+<h2 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h2><p>Adam 是目前最常用的优化器，结合了：</p>
+<ul>
+<li><strong>Momentum：</strong> 提供稳定方向  </li>
+<li><strong>RMSProp：</strong> 提供自适应步长</li>
+</ul>
+<p><strong>完整流程：</strong></p>
+<ol>
+<li>一阶动量（梯度均值）：<br>$$ m_t &#x3D; \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot g_t $$</li>
+<li>二阶动量（梯度方差）：<br>$$ v_t &#x3D; \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot g_t^2 $$</li>
+<li>偏差修正（初期动量偏小）：<br>$$ \hat{m}_t &#x3D; \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t &#x3D; \frac{v_t}{1 - \beta_2^t} $$</li>
+<li>参数更新：<br>$$ \theta_{t+1} &#x3D; \theta_t - \alpha \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} $$</li>
+</ol>
+<p><strong>默认参数：</strong><br>$\beta_1 &#x3D; 0.9$，$\beta_2 &#x3D; 0.999$，$\epsilon &#x3D; 10^{-8}$</p>
+<p><strong>优点总结：</strong></p>
+<ul>
+<li>初期下降快，后期震荡小  </li>
+<li>自适应每个参数的学习率  </li>
+<li>对稀疏梯度和非平稳目标都表现稳定</li>
+</ul>
+<p><strong>本质总结：</strong></p>
+<ul>
+<li>Adam 利用了“历史方向 + 局部步长”两种机制，使得每次更新既高效又稳定，是当前最通用的优化器之一。</li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/05/01/hello-world/">9820线上</a></div></section></div>
+
+
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
+
+
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/wiki">文档</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@Felix</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8E%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="toc-text">梯度与梯度下降</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87%E5%8F%8A%E5%85%B6%E5%BD%B1%E5%93%8D"><span class="toc-text">学习率及其影响</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AdaGrad"><span class="toc-text">AdaGrad</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMSProp"><span class="toc-text">RMSProp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E9%87%8F%E6%B3%95"><span class="toc-text">动量法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Adam"><span class="toc-text">Adam</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
@@ -466,6 +694,30 @@
 
 <!-- optional -->
 
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
+
 
 
 <script defer>
@@ -681,6 +933,26 @@
       })
     }
   });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+  }
+});
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+});
+MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for(i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
