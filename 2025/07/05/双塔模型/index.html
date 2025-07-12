@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,20 +17,36 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>分类 - Stellarium</title>
+  <title>双塔模型 - Stellarium</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://example.com/categories/index.html">
+    <meta name="description" content="离散特征何为离散特征？性别：男、女国籍：中国、美国…英文单词：常见的英文单词有几万个物品ID：小红书有几亿篇笔记，每篇笔记都有一个ID用户ID：小红书有几亿个用户，每个用户有一个ID 离散特征的处理  建立字典：把类别映射成序号   中国-&gt;1 美国-&gt;2 澳洲-&gt;3   向量化：把序号映射成向量   One-hot编码：把序号映射成高维稀疏向量 Embedding：把序号映射成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双塔模型">
+<meta property="og:url" content="http://example.com/2025/07/05/%E5%8F%8C%E5%A1%94%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="离散特征何为离散特征？性别：男、女国籍：中国、美国…英文单词：常见的英文单词有几万个物品ID：小红书有几亿篇笔记，每篇笔记都有一个ID用户ID：小红书有几亿个用户，每个用户有一个ID 离散特征的处理  建立字典：把类别映射成序号   中国-&gt;1 美国-&gt;2 澳洲-&gt;3   向量化：把序号映射成向量   One-hot编码：把序号映射成高维稀疏向量 Embedding：把序号映射成">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/image.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/%E7%9F%A9%E9%98%B5%E8%A1%A5%E5%85%85.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/alldualtower.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/userattribute.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/itemattribute.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/pariwise.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/listwise.png">
+<meta property="og:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/qqrh.png">
+<meta property="article:published_time" content="2025-07-05T11:32:52.000Z">
+<meta property="article:modified_time" content="2025-07-12T14:14:41.091Z">
 <meta property="article:author" content="Felix">
+<meta property="article:tag" content="离散特征处理">
+<meta property="article:tag" content="矩阵补充">
+<meta property="article:tag" content="双塔模型">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/image.png">
   
   
   
-  
+  <meta name="keywords" content="离散特征处理,矩阵补充,双塔模型">
 
   <!-- feed -->
   
@@ -50,7 +66,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="categories" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
@@ -62,37 +78,237 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="atom.xml"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19q0-.825.588-1.412T5 17q.825 0 1.413.588T7 19q0 .825-.587 1.413T5 21m13.5 0q-.65 0-1.088-.475T16.9 19.4q-.275-2.425-1.312-4.537T12.9 11.1q-1.65-1.65-3.762-2.687T4.6 7.1q-.65-.075-1.125-.512T3 5.5q0-.65.45-1.062t1.075-.363q3.075.275 5.763 1.563t4.737 3.337q2.05 2.05 3.338 4.738t1.562 5.762q.05.625-.363 1.075T18.5 21m-6 0q-.625 0-1.075-.437T10.85 19.5q-.225-1.225-.787-2.262T8.65 15.35q-.85-.85-1.888-1.412T4.5 13.15q-.625-.125-1.062-.575T3 11.5q0-.65.45-1.075t1.075-.325q1.825.25 3.413 1.063t2.837 2.062q1.25 1.25 2.063 2.838t1.062 3.412q.1.625-.325 1.075T12.5 21"/></svg></a></div><div class="widget-body fs14"><a class="item title" href="/2025/07/05/%E5%8F%8C%E5%A1%94%E6%A8%A1%E5%9E%8B/"><span class="title">双塔模型</span></a><a class="item title" href="/2025/07/05/Swing/"><span class="title">Swing</span></a><a class="item title" href="/2025/07/03/Item-CF/"><span class="title">Item-CF</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a></div></footer>
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
 
 
-  
-  
-  
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a class="active" href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></nav></div>
-  <div class='post-list'>
-    <article class='' id='cats'>
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-05T11:32:52.000Z">2025-07-05</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-12T14:14:41.091Z">2025-07-13</time></span></div></div></div>
+    
+    <div class="bottom only-title">
       
-        <div>
-          <a class="cat" href="/categories/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>推荐系统</span>
-            <span class='badge'>(3)</span>
-          </a>
-        </div>
-      
-    </article>
+      <div class="text-area">
+        <h1 class="text title"><span>双塔模型</span></h1>
+        
+      </div>
+    </div>
+    
   </div>
+  </div><article class="md-text content"><h3 id="离散特征"><a href="#离散特征" class="headerlink" title="离散特征"></a>离散特征</h3><p><strong>何为离散特征？</strong><br>性别：男、女<br>国籍：中国、美国…<br>英文单词：常见的英文单词有几万个<br>物品ID：小红书有几亿篇笔记，每篇笔记都有一个ID<br>用户ID：小红书有几亿个用户，每个用户有一个ID</p>
+<p><strong>离散特征的处理</strong></p>
+<ol>
+<li>建立字典：把类别映射成序号</li>
+</ol>
+<ul>
+<li>中国-&gt;1</li>
+<li>美国-&gt;2</li>
+<li>澳洲-&gt;3</li>
+</ul>
+<ol start="2">
+<li>向量化：把序号映射成向量</li>
+</ol>
+<ul>
+<li>One-hot编码：把序号映射成高维稀疏向量</li>
+<li>Embedding：把序号映射成低维稠密向量</li>
+</ul>
+<p><strong>One-hot是怎么做的</strong><br>比如用200维稀疏向量表示国籍</p>
+<ul>
+<li>未知-&gt;0-&gt;[0,0,0,…,0]</li>
+<li>中国-&gt;1-&gt;[1,0,0,…,0]</li>
+<li>美国-&gt;2-&gt;[0,1,0,…,0]</li>
+</ul>
+<p><strong>One-hot的局限</strong><br>对于性别这样的特征用One-hot还算可以，但是对于很多其他场景就不合适了，自然语言处理中，对单词做编码，英文有几万个单词，那么One-hot向量的维度是几万；推荐系统中，对物品ID做编码，小红书有几亿篇笔记，那么One-hot向量的维度是几亿。</p>
+<p><strong>Embedding是怎么做的</strong><br><strong>参数数量</strong>：向量维度*类别数量</p>
+<ul>
+<li>设Embedding得到的向量都是4维的</li>
+<li>一共有200个国籍</li>
+<li>参数数量&#x3D;4*200&#x3D;800</li>
+</ul>
+<p><strong>编程实现</strong>：TensorFlow、Pytorch提供的embedding层</p>
+<ul>
+<li>参数以矩阵形式保存，矩阵大小也就是参数数量</li>
+<li>输入是序号，比如美国的序号是2</li>
+<li>输出是向量，比如美国对应参数矩阵的第2列</li>
+</ul>
+<p>Embedding其实就是<strong>参数矩阵</strong>乘One-hot向量<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/image.png" alt="Embedding"></p>
+<h3 id="矩阵补充"><a href="#矩阵补充" class="headerlink" title="矩阵补充"></a>矩阵补充</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/%E7%9F%A9%E9%98%B5%E8%A1%A5%E5%85%85.png" alt="矩阵补充"><br>上图a和b分别是用户ID和物品ID的Embedding层输出的某一列，每一列代表一个用户或者物品，两个Embedding层不共享参数，a和b向量做内积得到a用户对b物品预估的偏好得分，<strong>模型训练</strong>的目的就是学习矩阵A和B，使得预估值拟合真是观测的兴趣分数</p>
+<ul>
+<li><p>把用户 ID、物品 ID 映射成向量：</p>
+<ul>
+<li>第 $u$ 号用户 $\rightarrow$ 向量 $\mathbf{a}_u$</li>
+<li>第 $i$ 号物品 $\rightarrow$ 向量 $\mathbf{b}_i$</li>
+</ul>
+</li>
+<li><p>求解优化问题，得到参数 $\mathbf{A}$ 和 $\mathbf{B}$：</p>
+</li>
+</ul>
+<p>$$<br>\min_{\mathbf{A}, \mathbf{B}} \sum_{(u, i, y) \in \Omega} \left( y - \langle \mathbf{a}_u, \mathbf{b}_i \rangle \right)^2<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$\Omega$ 表示训练集中已观察的评分集合；</li>
+<li>$\langle \mathbf{a}_u, \mathbf{b}_i \rangle$ 表示用户与物品向量的内积；</li>
+<li>$y$ 是用户 $u$ 对物品 $i$ 的真实评分。</li>
+</ul>
+<p><strong>矩阵补充在实践中效果不好</strong></p>
+<ul>
+<li>缺点1:仅用ID embedding，没有利用物品、用户属性</li>
+<li>缺点2:负样本的选取方式不对，样本为用户-物品二元组，记作(u,i)，正样本的选择是正确的，曝光之后，有点击、交互就算正样本；但是负样本的选择为曝光之后，没有点击、交互，这是错误的，因为虽然有一部分是系统认为用户喜欢的，但用户确实不喜欢，这一部分是真正的负样本，但还有一部分可能是用户可能感兴趣但没看到，这些不是真正的负样本，把它们强行标记为负样本，会误导模型</li>
+<li>缺点3：做训练的方法不好，内积不如余弦相似度；并且用平方损失（回归）也不如用交叉熵损失（分类）</li>
+</ul>
+<p><strong>模型存储</strong></p>
+<ul>
+<li>训练得到矩阵A和B，A的每一列对应一个用户，B的每一列对应一个物品</li>
+<li>对于矩阵A，可以把A的列存储到key-value表，key是用户ID，value是A的一列</li>
+</ul>
+<p><strong>线上服务</strong><br>把用户ID作为key，查询key-value表，得到该用户的向量，记作a<br>最近邻查找：查找用户最有可能感兴趣的k个物品，作为召回结果</p>
+<ul>
+<li>第i号物品的embedding向量记作$b_i$</li>
+<li>内积$&lt;a,b_i&gt;$是用户对第i号物品兴趣的预估</li>
+<li>返回内积最大的k个物品<br>如果枚举所有物品，时间复杂度正比于物品数量</li>
+</ul>
+<p><strong>如何加速最近邻查找</strong></p>
+<p>近似最近邻查找 Approximate Nearest Neighbor Search</p>
+<p>支持最近邻查找的系统：Milvus、Faiss、HnswLib</p>
+<p>衡量最近邻的标准：</p>
+<ul>
+<li>欧式距离最小（L2距离）</li>
+<li>向量内积最大（内积相似度）</li>
+<li>向量夹角余弦最大（cosine相似度）</li>
+</ul>
+<p><strong>加速最近邻查找的方法</strong></p>
+<p>划分扇形图，按照最近邻衡量标准不同的划分方法，划分为n个区域，每个区域用一个向量代表这个区域，将n个代表向量为key，每个区域中的点为value。</p>
+<p>这样就可以快速做线上召回了，只用将某个用户embedding和每个物品代表向量做相似度计算，以找到最相似的代表向量，也就找到了里面的value，再对这个区域里所有的点做相似度计算，大大减小了计算次数</p>
+<p><strong>线上召回</strong></p>
+<p>把用户向量a作为query，查找使得$&lt;a,b_i&gt;$最大化的物品i</p>
+<p>暴力枚举速度太慢，实践中用近似最近邻查找</p>
+<p>工业界会用一些开源的向量数据库Milvus、Faiss、HnswLib，支持最近邻查找</p>
+<h3 id="双塔模型"><a href="#双塔模型" class="headerlink" title="双塔模型"></a>双塔模型</h3><p>矩阵补充模型的升级版，矩阵补充只用到了用户和物品的ID，比较弱，没有用到两者分别的属性</p>
+<p>下图为得到用户表征向量和物品表征向量就可以做余弦相似度计算相似度score</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/alldualtower.png" alt="双塔模型总览"></p>
+<h4 id="用户属性"><a href="#用户属性" class="headerlink" title="用户属性"></a>用户属性</h4><p>用户ID，同矩阵补充模型，使用一个Embedding Layer</p>
+<p>用户离散特征，每个特征使用一个Embedding Layer，有n个离散特征（如果特征值比较少，比如性别这样的，可以用one-hot）</p>
+<p>用户连续特征，归一化、分桶等处理</p>
+<p>拼接起来输送到神经网络，输出用户的表征</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/userattribute.png" alt="用户属性embedding"></p>
+<h4 id="物品属性"><a href="#物品属性" class="headerlink" title="物品属性"></a>物品属性</h4><p>同用户属性，得到物品的表征</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/itemattribute.png" alt="用户属性embedding"></p>
+<h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><ul>
+<li>Pointwise：独立看待每个正样本、负样本，做简单的二元分类</li>
+<li>Pairwise：每次取一个正样本、一个负样本</li>
+<li>Listwise：每次取一个正样本、多个负样本</li>
+</ul>
+<p><strong>正负样本的选择</strong></p>
+<p>正样本：用户点击的物品<br>负样本：</p>
+<ul>
+<li>没有被召回的？</li>
+<li>召回但是被粗排、精排淘汰的？</li>
+<li>曝光但是没有被点击的？</li>
+</ul>
+<h4 id="Pointwise"><a href="#Pointwise" class="headerlink" title="Pointwise"></a>Pointwise</h4><p>好处：召回阶段的目标是判断用户-物品对的“相关性”（如点击&#x2F;未点击），本质是二分类问题（正样本&#x3D;用户感兴趣，负样本&#x3D;不感兴趣）。</p>
+<p>对于正样本，鼓励$cos(a,b)$接近1，<br>对于负样本，鼓励$cos(a,b)$接近-1。</p>
+<p>控制正负样本的数量为1:2或者1:3，为什么？</p>
+<p><strong>解决数据不平衡问题</strong></p>
+<p>真实场景中，正样本（点击&#x2F;交互）远少于负样本（比如说未点击），若负样本过多，模型会偏向预测为负（准确率虽高但召回率低），1:2 或 1:3 的比例 是对负样本的降采样，平衡类别分布，避免模型偏见。</p>
+<p>Pointwise 简单高效，适合大规模召回</p>
+<p>在召回阶段，快速筛选候选集比精确排序更重要，因此 Pointwise 更常用。</p>
+<h4 id="Pairwise"><a href="#Pairwise" class="headerlink" title="Pairwise"></a>Pairwise</h4><p>物品不管正负样本，神经网络中的参数共享</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/pariwise.png" alt="pairwise"></p>
+<p>鼓励$cos(a,b^+)$大于$cos(a,b^-)$</p>
+<ul>
+<li>如果$cos(a,b^+)$大于$cos(a,b^-)+m$，则没有损失，其中m是一个超参数</li>
+<li>否则，损失等于$cos(a,b^-)+m-cos(a,b^+)$，那就说明有损失</li>
+</ul>
+<p>可以推出Triplet hinge loss</p>
+<p>$$<br>L(a,b^+,b^-)&#x3D;max\{0,cos(a,b^-)+m-cos(a,b^+)\}<br>$$</p>
+<p>Triplet logistic loss</p>
+<p>$$<br>L(a,b^+,b^-)&#x3D;log(1+exp[\sigma.(cos(a,b^-)-cos(a,b^+))])<br>$$</p>
+<h4 id="Listwise"><a href="#Listwise" class="headerlink" title="Listwise"></a>Listwise</h4><p>一条数据包含：</p>
+<ul>
+<li>一个用户，特征向量记作a</li>
+<li>一个正样本，特征向量记作$b^+$</li>
+<li>多个负样本，特征向量记作$b_1^-,…,b_n^-$</li>
+</ul>
+<p>鼓励$cos(a,b^+)$尽量大<br>鼓励$cos(a,b_1^-),…,cos(a,b_n^-)$尽量小</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/listwise.png" alt="listwise"></p>
+<h3 id="前期融合or后期融合"><a href="#前期融合or后期融合" class="headerlink" title="前期融合or后期融合"></a>前期融合or后期融合</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/qqrh.png" alt="前期融合"></p>
+<p>该图展示的是一种前期融合模型，将用户和物品的特征（如 ID、离散特征、连续特征）分别处理后concatenate输入到一个神经网络中预测用户对物品的兴趣。</p>
+<p>这种结构常用于 CTR 预估，但并不适用于召回阶段。</p>
+<p><strong>双塔模型适合召回阶段的原因</strong></p>
+<p>双塔模型将用户和物品的特征分别通过神经网络编码为独立向量（Embedding），分别记作 u 和 v，用点积或余弦相似度计算两者之间的匹配度 <code>score = dot(u, v)</code>。</p>
+<p>优点在于可以提前离线计算物品向量，只需在线计算用户向量后检索相似物品（如用 Faiss）。</p>
+<p>适合大规模召回，在大规模候选集中（百万级、亿级物品），提前建好物品向量索引，用户进来后快速检索相似物品，效率高。</p>
+<p><strong>后期融合？</strong></p>
+<p>后期融合指的是：用户向量、物品向量先各自独立学习和生成，最后在推理阶段进行后期的相似度计算或打分。</p>
+<p>在训练阶段可以使用点积 + Sigmoid 或 Softmax loss，优化匹配概率。</p>
+<p>后期融合的特点是：结构上是解耦的，可扩展的，可缓存的，完全适合召回。</p>
+<p><strong>前期融合不适用于召回阶段的原因</strong></p>
+<ul>
+<li><p>用户和物品强耦合，无法分开计算，因为模型结构上将用户特征和物品特征拼接在一起输入神经网络，无法事先计算用户或物品的独立向量，每次都要组合后重新计算——不能提前离线建立索引。</p>
+</li>
+<li><p>无法实现向量检索，输出不是标准向量对之间的相似度，而是神经网络回归结果，缺乏对称性与嵌入空间的结构化表达，不适用于 Faiss 等库</p>
+</li>
+<li><p>设计本质是“打分”不是“召回”，适用于排序阶段的小规模候选集打分，不适合百亿级候选池的粗筛。</p>
+</li>
+</ul>
+<p><strong>使用建议</strong></p>
+<ul>
+<li><p>双塔模型用于召回（粗排）；</p>
+</li>
+<li><p>前期融合或深度交叉模型（如DIN、DeepFM）用于排序阶段。这样才能兼顾召回效率与排序精度。</p>
+</li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2025/07/05/Swing/">Swing</a></div></section></div>
+
+
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
 
 
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/wiki">文档</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@Felix</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E7%89%B9%E5%BE%81"><span class="toc-text">离散特征</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E8%A1%A5%E5%85%85"><span class="toc-text">矩阵补充</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%A1%94%E6%A8%A1%E5%9E%8B"><span class="toc-text">双塔模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E5%B1%9E%E6%80%A7"><span class="toc-text">用户属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%A9%E5%93%81%E5%B1%9E%E6%80%A7"><span class="toc-text">物品属性</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83"><span class="toc-text">训练</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pointwise"><span class="toc-text">Pointwise</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pairwise"><span class="toc-text">Pairwise</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Listwise"><span class="toc-text">Listwise</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E6%9C%9F%E8%9E%8D%E5%90%88or%E5%90%8E%E6%9C%9F%E8%9E%8D%E5%90%88"><span class="toc-text">前期融合or后期融合</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
@@ -482,6 +698,30 @@
 
 <!-- optional -->
 
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
+
 
 
 <script defer>
@@ -697,6 +937,26 @@
       })
     }
   });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+  }
+});
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+});
+MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for(i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {

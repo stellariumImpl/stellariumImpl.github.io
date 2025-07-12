@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.29.1" theme-name="Stellar" theme-version="1.29.1">
-  <meta name="robots" content="noindex,follow">
+  
   <meta name="generator" content="Hexo 7.3.0">
   <meta http-equiv='x-dns-prefetch-control' content='on' />
   
@@ -17,20 +17,27 @@
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000">
   <meta name="theme-color" content="#f9fafb">
   
-  <title>分类 - Stellarium</title>
+  <title>Item-CF - Stellarium</title>
 
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://example.com/categories/index.html">
+    <meta name="description" content="对ItemCF算法的整体理解请简述ItemCF的核心思想及其主要步骤 核心思想：当很多用户同时喜欢两个物品时，认为这两个物品具有较高的相似度。 计算物品相似度：基于用户-物品交互记录（如点击、评分等）计算所有物品之间的相似度。 召回阶段逻辑  找到用户交互过的物品集合I_u 对于每个i∈I_u，找与之相似的物品 将这些相似物品合并去重、排序后推荐给用户  对候选物品进行打分&#x2F;排序的预测">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Item-CF">
+<meta property="og:url" content="http://example.com/2025/07/03/Item-CF/index.html">
 <meta property="og:site_name" content="Stellarium">
+<meta property="og:description" content="对ItemCF算法的整体理解请简述ItemCF的核心思想及其主要步骤 核心思想：当很多用户同时喜欢两个物品时，认为这两个物品具有较高的相似度。 计算物品相似度：基于用户-物品交互记录（如点击、评分等）计算所有物品之间的相似度。 召回阶段逻辑  找到用户交互过的物品集合I_u 对于每个i∈I_u，找与之相似的物品 将这些相似物品合并去重、排序后推荐给用户  对候选物品进行打分&#x2F;排序的预测">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-07-03T07:39:55.000Z">
+<meta property="article:modified_time" content="2025-07-05T08:37:22.164Z">
 <meta property="article:author" content="Felix">
+<meta property="article:tag" content="协同过滤">
+<meta property="article:tag" content="物品间的相似度计算">
+<meta property="article:tag" content="冷启动">
 <meta name="twitter:card" content="summary">
   
   
   
-  
+  <meta name="keywords" content="协同过滤,物品间的相似度计算,冷启动">
 
   <!-- feed -->
   
@@ -50,7 +57,7 @@
 </head>
 <body>
 
-<div class="l_body s:aa index tech" id="start" layout="categories" ><aside class="l_left"><div class="leftbar-container">
+<div class="l_body s:aa content tech" id="start" layout="post" ><aside class="l_left"><div class="leftbar-container">
 
 
 <header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
@@ -62,37 +69,177 @@
 <nav class="menu dis-select"><a class="nav-item active" title="博客" href="/" style="color:#1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="文档" href="/wiki/" style="color:#3DC550"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M14.25 4.48v3.057c0 .111 0 .27.02.406a.936.936 0 0 0 .445.683a.96.96 0 0 0 .783.072c.13-.04.272-.108.378-.159L17 8.005l1.124.534c.106.05.248.119.378.16a.958.958 0 0 0 .783-.073a.936.936 0 0 0 .444-.683c.021-.136.021-.295.021-.406V3.031c.113-.005.224-.01.332-.013C21.154 2.98 22 3.86 22 4.933v11.21c0 1.112-.906 2.01-2.015 2.08c-.97.06-2.108.179-2.985.41c-1.082.286-1.99 1.068-3.373 1.436c-.626.167-1.324.257-1.627.323V5.174c.32-.079 1.382-.203 1.674-.371c.184-.107.377-.216.576-.323m5.478 8.338a.75.75 0 0 1-.546.91l-4 1a.75.75 0 0 1-.364-1.456l4-1a.75.75 0 0 1 .91.546" clip-rule="evenodd"/><path fill="currentColor" d="M18.25 3.151c-.62.073-1.23.18-1.75.336a8.2 8.2 0 0 0-.75.27v3.182l.75-.356l.008-.005a1.13 1.13 0 0 1 .492-.13c.047 0 .094.004.138.01c.175.029.315.1.354.12l.009.005l.749.356V3.647z"/><path fill="currentColor" d="M12 5.214c-.334-.064-1.057-.161-1.718-.339C8.938 4.515 8.05 3.765 7 3.487c-.887-.234-2.041-.352-3.018-.412C2.886 3.007 2 3.9 2 4.998v11.146c0 1.11.906 2.01 2.015 2.079c.97.06 2.108.179 2.985.41c.486.129 1.216.431 1.873.726c1.005.451 2.052.797 3.127 1.034z" opacity=".5"/><path fill="currentColor" d="M4.273 12.818a.75.75 0 0 1 .91-.545l4 1a.75.75 0 1 1-.365 1.455l-4-1a.75.75 0 0 1-.545-.91m.909-4.545a.75.75 0 1 0-.364 1.455l4 1a.75.75 0 0 0 .364-1.455z"/></svg></a><a class="nav-item" title="探索" href="/explore/" style="color:#FA6400"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M20 12a8 8 0 1 1-16 0a8 8 0 0 1 16 0" opacity=".5"/><path fill="currentColor" d="M17.712 5.453c1.047-.193 2.006-.259 2.797-.152c.77.103 1.536.393 1.956 1.064c.446.714.312 1.542-.012 2.258c-.33.728-.918 1.499-1.672 2.268c-1.516 1.547-3.836 3.226-6.597 4.697c-2.763 1.472-5.495 2.484-7.694 2.92c-1.095.217-2.098.299-2.923.201c-.8-.095-1.6-.383-2.032-1.075c-.47-.752-.296-1.63.07-2.379c.375-.768 1.032-1.586 1.872-2.403L4 12.416c0 .219.083.71.168 1.146c.045.23.09.444.123.596c-.652.666-1.098 1.263-1.339 1.756c-.277.567-.208.825-.145.925c.072.116.305.305.937.38c.609.073 1.44.018 2.455-.183c2.02-.4 4.613-1.351 7.28-2.772c2.667-1.42 4.85-3.015 6.23-4.423c.694-.707 1.15-1.334 1.377-1.836c.233-.515.167-.75.107-.844c-.07-.112-.289-.294-.883-.374c-.542-.072-1.272-.041-2.163.112L16.87 5.656c.338-.101.658-.17.842-.203"/></svg></a><a class="nav-item" title="社交" href="/friends/" style="color:#F44336"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="m13.629 20.472l-.542.916c-.483.816-1.69.816-2.174 0l-.542-.916c-.42-.71-.63-1.066-.968-1.262c-.338-.197-.763-.204-1.613-.219c-1.256-.021-2.043-.098-2.703-.372a5 5 0 0 1-2.706-2.706C2 14.995 2 13.83 2 11.5v-1c0-3.273 0-4.91.737-6.112a5 5 0 0 1 1.65-1.651C5.59 2 7.228 2 10.5 2h3c3.273 0 4.91 0 6.113.737a5 5 0 0 1 1.65 1.65C22 5.59 22 7.228 22 10.5v1c0 2.33 0 3.495-.38 4.413a5 5 0 0 1-2.707 2.706c-.66.274-1.447.35-2.703.372c-.85.015-1.275.022-1.613.219c-.338.196-.548.551-.968 1.262" opacity=".5"/><path fill="currentColor" d="M10.99 14.308c-1.327-.978-3.49-2.84-3.49-4.593c0-2.677 2.475-3.677 4.5-1.609c2.025-2.068 4.5-1.068 4.5 1.609c0 1.752-2.163 3.615-3.49 4.593c-.454.335-.681.502-1.01.502c-.329 0-.556-.167-1.01-.502"/></svg></a></nav>
 </div>
 <div class="widgets">
+
+
 <widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span><a class="cap-action" id="rss" title="Subscribe" href="atom.xml"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19q0-.825.588-1.412T5 17q.825 0 1.413.588T7 19q0 .825-.587 1.413T5 21m13.5 0q-.65 0-1.088-.475T16.9 19.4q-.275-2.425-1.312-4.537T12.9 11.1q-1.65-1.65-3.762-2.687T4.6 7.1q-.65-.075-1.125-.512T3 5.5q0-.65.45-1.062t1.075-.363q3.075.275 5.763 1.563t4.737 3.337q2.05 2.05 3.338 4.738t1.562 5.762q.05.625-.363 1.075T18.5 21m-6 0q-.625 0-1.075-.437T10.85 19.5q-.225-1.225-.787-2.262T8.65 15.35q-.85-.85-1.888-1.412T4.5 13.15q-.625-.125-1.062-.575T3 11.5q0-.65.45-1.075t1.075-.325q1.825.25 3.413 1.063t2.837 2.062q1.25 1.25 2.063 2.838t1.062 3.412q.1.625-.325 1.075T12.5 21"/></svg></a></div><div class="widget-body fs14"><a class="item title" href="/2025/07/05/%E5%8F%8C%E5%A1%94%E6%A8%A1%E5%9E%8B/"><span class="title">双塔模型</span></a><a class="item title" href="/2025/07/05/Swing/"><span class="title">Swing</span></a><a class="item title" href="/2025/07/03/Item-CF/"><span class="title">Item-CF</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://www.instagram.com/fygod_" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/instagram.png"/></a><a class="social" href="mailto://fy2226762795@gmail.com" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/gmail.png"/></a><a class="social" href="https://open.spotify.com/user/314bvfug4r32gwxbz7fgyew6de3y" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/spotify.png"/></a><a class="social" href="https://twitter.com/threeCoffins" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/twitter.png"/></a><a class="social" href="https://steamcommunity.com/profiles/76561199260814062/" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/steam.png"/></a><a class="social" href="https://www.youtube.com/channel/UCp_bYl4INwp8EOaq4pGV68Q" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/youtube.png"/></a></div></footer>
 </div></aside><div class="l_main" id="main">
 
-<header class="header mobile-only"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="https://gcore.jsdelivr.net/gh/stellariumImpl/CDN/pic/favicon.png" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Stellarium</div><div class="sub normal cap">恍如昨日</div><div class="sub hover cap" style="opacity:0"> 却似经年</div></a></div></header>
 
 
-  
-  
-  
 
-<div class="navbar top"><nav class="post"><a href="/">近期发布</a><a class="active" href="/categories/">分类</a><a href="/tags/">标签</a><a href="/archives/">归档</a></nav></div>
-  <div class='post-list'>
-    <article class='' id='cats'>
+
+<div class="article banner top">
+  <div class="content">
+    <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">推荐系统</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2025-07-03T07:39:55.000Z">2025-07-03</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2025-07-05T08:37:22.164Z">2025-07-05</time></span></div></div></div>
+    
+    <div class="bottom only-title">
       
-        <div>
-          <a class="cat" href="/categories/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
-            <span class='name'><svg style="margin-bottom:1px" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M2 6.95c0-.883 0-1.324.07-1.692A4 4 0 0 1 5.257 2.07C5.626 2 6.068 2 6.95 2c.386 0 .58 0 .766.017a4 4 0 0 1 2.18.904c.144.119.28.255.554.529L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .848.352C14.098 6 14.675 6 15.828 6h.374c2.632 0 3.949 0 4.804.77c.079.07.154.145.224.224c.77.855.77 2.172.77 4.804V14c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14z" opacity=".5"/><path fill="currentColor" d="M20 6.238c0-.298-.005-.475-.025-.63a3 3 0 0 0-2.583-2.582C17.197 3 16.965 3 16.5 3H9.988c.116.104.247.234.462.45L11 4c.816.816 1.224 1.224 1.712 1.495a4 4 0 0 0 .849.352C14.098 6 14.675 6 15.829 6h.373c1.78 0 2.957 0 3.798.238"/><path fill="currentColor" fill-rule="evenodd" d="M12.25 10a.75.75 0 0 1 .75-.75h5a.75.75 0 0 1 0 1.5h-5a.75.75 0 0 1-.75-.75" clip-rule="evenodd"/></svg>推荐系统</span>
-            <span class='badge'>(3)</span>
-          </a>
-        </div>
-      
-    </article>
+      <div class="text-area">
+        <h1 class="text title"><span>Item-CF</span></h1>
+        
+      </div>
+    </div>
+    
   </div>
+  </div><article class="md-text content"><h3 id="对ItemCF算法的整体理解"><a href="#对ItemCF算法的整体理解" class="headerlink" title="对ItemCF算法的整体理解"></a>对ItemCF算法的整体理解</h3><p><strong>请简述ItemCF的核心思想及其主要步骤</strong></p>
+<p><strong>核心思想</strong>：当很多用户同时喜欢两个物品时，认为这两个物品具有较高的相似度。</p>
+<p><strong>计算物品相似度</strong>：基于用户-物品交互记录（如点击、评分等）计算所有物品之间的相似度。</p>
+<p><strong>召回阶段逻辑</strong></p>
+<ul>
+<li>找到用户交互过的物品集合<code>I_u</code></li>
+<li>对于每个<code>i∈I_u</code>，找与之相似的物品</li>
+<li>将这些相似物品合并去重、排序后推荐给用户</li>
+</ul>
+<p><strong>对候选物品进行打分&#x2F;排序的预测</strong></p>
+<p>用户 $u$ 对物品 $b$ 的预测评分，也就是$\hat{r}_{u,b}$等于</p>
+<p>$$<br>\frac{\sum_{i \in I_u} \text{sim}(b, i) \cdot r_{u,i}}{\sum_{i \in I_u} |\text{sim}(b, i)|}<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$I_u$：用户 $u$ 的历史交互物品集合  </li>
+<li>$r_{u,i}$：用户 $u$ 对物品 $i$ 的评分或隐式反馈得分  </li>
+<li>$\text{sim}(b, i)$：物品 $b$ 与用户交互物品 $i$ 的相似度<br>这是在召回之后，用来排序候选物品的重要打分函数。</li>
+</ul>
+<h3 id="相似度计算方法对比"><a href="#相似度计算方法对比" class="headerlink" title="相似度计算方法对比"></a>相似度计算方法对比</h3><p><strong>ItemCF中常用的相似度计算方法有哪些？分别适用于什么场景？</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>公式&#x2F;描述</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>离散型余弦相似度</td>
+<td>向量为 0&#x2F;1（是否交互），计算夹角余弦</td>
+<td>隐式反馈（如点击、浏览）</td>
+</tr>
+<tr>
+<td>连续型余弦相似度</td>
+<td>向量为权重（评分、时长），计算夹角余弦</td>
+<td>显式反馈（如评分）、带权重的隐式反馈</td>
+</tr>
+<tr>
+<td>欧式距离</td>
+<td>计算向量几何距离，值越小越相似</td>
+<td>需要幅度敏感的连续数据（如物理距离）</td>
+</tr>
+<tr>
+<td>皮尔逊相关系数</td>
+<td>协方差与标准差的归一化，衡量线性相关性</td>
+<td>连续数据且需中心化（如评分）</td>
+</tr>
+<tr>
+<td>杰卡德系数</td>
+<td>交集大小除以并集大小，仅处理二值数据</td>
+<td>无权重行为（如点赞、收藏）</td>
+</tr>
+</tbody></table>
+<h3 id="余弦相似度的特点"><a href="#余弦相似度的特点" class="headerlink" title="余弦相似度的特点"></a>余弦相似度的特点</h3><p><strong>为什么余弦相似度在稀疏场景下更稳定有效？它如何解决用户评分标准不统一的问题？</strong></p>
+<p><strong>稀疏场景适配性</strong>：只需两个物品有一个共同用户即可计算相似度，不依赖全局数据。</p>
+<p><strong>评分标准统一</strong>：余弦相似度只关注向量方向（评分趋势），忽略长度（评分绝对值）。例如，用户A习惯打高分<code>(5/4)</code>，用户B习惯打低分<code>(3/2)</code>，但若两者对物品<code>(X/Y)</code>的打分趋势一致（X&gt;Y），则认为相似。</p>
+<h3 id="皮尔逊相关系数的局限性"><a href="#皮尔逊相关系数的局限性" class="headerlink" title="皮尔逊相关系数的局限性"></a>皮尔逊相关系数的局限性</h3><p><strong>皮尔逊相关系数为什么不适用于稀疏场景？如何改进？</strong></p>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>需要足够多的共同评分（否则均值估计不准，协方差计算不稳定）</li>
+<li>要求数据具有中心化意义（如评分均值需有意义）</li>
+</ul>
+<p><strong>改进</strong>：填补缺失值（如用全局均值），或改用余弦相似度。</p>
+<p><strong>既然皮尔逊相关系数在稀疏数据下有这么多限制，为什么实际中还有人用它？</strong></p>
+<p><strong>纠正评分偏置</strong>：相比余弦相似度，皮尔逊会先对每个用户&#x2F;物品的评分做中心化处理（减去均值），这能有效消除评分风格的影响，比如某些用户习惯打高分&#x2F;低分，在相似度计算中体现更真实的兴趣相关性。</p>
+<h3 id="混合相似度的设计"><a href="#混合相似度的设计" class="headerlink" title="混合相似度的设计"></a>混合相似度的设计</h3><p><strong>如何结合物品的类别信息提升ItemCF的相似度计算效果？</strong></p>
+<p>在基础相似度（如余弦）上增加类别权重，例如：</p>
+<p>若两物品属于同一类别，相似度乘以权重 $(1 + \alpha)$，其中$\alpha &gt; 0$</p>
+<p>$$<br>\text{Sim}{\text{混合}} &#x3D; \text{Sim}{\text{基础}} \times (1 + \alpha \cdot \mathbb{I}[\text{同类别}])<br>$$</p>
+<h3 id="杰卡德系数的应用"><a href="#杰卡德系数的应用" class="headerlink" title="杰卡德系数的应用"></a>杰卡德系数的应用</h3><p><strong>杰卡德系数适用于哪些行为数据？能否用于评分数据？</strong></p>
+<p><strong>适用场景</strong>：二值行为（如是否点击、是否购买），不适用于连续数据（如评分）。</p>
+<p><strong>评分数据处理</strong>：需先离散化（如评分≥4视为1，否则为0），但会损失信息。</p>
+<h3 id="欧式距离与余弦相似度的区别"><a href="#欧式距离与余弦相似度的区别" class="headerlink" title="欧式距离与余弦相似度的区别"></a>欧式距离与余弦相似度的区别</h3><p><strong>欧式距离和余弦相似度在衡量物品相似度时有何本质区别？</strong></p>
+<p><strong>欧式距离</strong>：关注向量绝对位置，对幅度敏感。适合需要区分“量级”的场景（如消费金额）。<br><strong>余弦相似度</strong>：关注向量方向，对幅度不敏感。适合忽略量级、关注趋势的场景（如评分偏好）。</p>
+<h3 id="多行为数据的混合建模"><a href="#多行为数据的混合建模" class="headerlink" title="多行为数据的混合建模"></a>多行为数据的混合建模</h3><p><strong>在用户行为数据中，若80%的交互是点击，20%是购买，如何设计相似度计算？</strong></p>
+<p><strong>加权混合</strong>：对不同行为赋予权重（如购买权重&#x3D;5，点击权重&#x3D;1），生成加权用户-物品矩阵，再用连续型余弦相似度计算。<br><strong>分层处理</strong>：分别计算点击和购买的相似度，加权融合（如 $\text{Sim} &#x3D; 0.2 \cdot \text{Sim}{\text{购买}} + 0.8 \cdot \text{Sim}{\text{点击}}$）。</p>
+<h3 id="冷启动的常见解决方案"><a href="#冷启动的常见解决方案" class="headerlink" title="冷启动的常见解决方案"></a>冷启动的常见解决方案</h3><p><strong>ItemCF如何解决新物品的冷启动问题？请详细说明具体方法及其实现逻辑。</strong></p>
+<p><strong>问题成因</strong>：物品冷启动，新物品缺乏交互数据导致无法计算相似度，也就无法与其他物品建立相似度关系</p>
+<p><strong>解决</strong></p>
+<p><strong>方法一：结合内容信息初始化相似度</strong></p>
+<ul>
+<li>提取物品内容特征：如类别、标签、描述文本（TF-IDF&#x2F;Embedding）、作者、价格等。</li>
+<li>计算内容相似度：离散特征（类别&#x2F;标签）用杰卡德系数（共享标签比例）；连续特征（文本向量）用余弦相似度。</li>
+<li>融合到ItemCF：新物品的相似度直接使用内容相似度，老物品的相似度保留原ItemCF结果。</li>
+</ul>
+<p>比如，新书《深度学习入门》与老书《机器学习实战》同属“AI”类别，且标签重合度高 → 初始化高相似度；当新书积累足够点击&#x2F;购买后，逐步过渡到行为数据计算的相似度。</p>
+<p><strong>方法二：混合推荐策略</strong></p>
+<p><strong>阶段1:冷启动期</strong></p>
+<ul>
+<li>对新物品采用基于内容（Content-Based）的推荐：用户画像 + 物品内容特征匹配（如用户常看“编程”类文章 → 推荐新书《Python进阶》）。</li>
+<li>同时对新物品进行曝光试探：在推荐流中随机插入新物品，收集初始交互数据（需控制频率，避免用户体验下降）。</li>
+</ul>
+<p><strong>阶段2:数据累积后</strong></p>
+<ul>
+<li>设定切换阈值（如点击量≥100次或加入购物车≥10次）。</li>
+<li>达到阈值后，将新物品纳入ItemCF相似度计算池，逐步替代内容推荐。</li>
+</ul>
+<p><strong>工程优化技巧</strong></p>
+<ul>
+<li>冷启动标识：在物品元数据中增加<code>is_cold_start</code>字段，动态更新状态。</li>
+<li>AB测试：对比纯ItemCF与混合策略的点击率&#x2F;转化率，调整内容权重和切换阈值。</li>
+<li>降级策略：若内容特征缺失，可基于热门推荐或类别相似度兜底。</li>
+</ul>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2025/07/05/Swing/">Swing</a></div><div class="item" id="next"></div></section></div>
+
+
+
+
+  <div class="related-wrap md-text" id="comments">
+    <section class='header cmt-title cap theme'>
+      <p>快来参与讨论吧~</p>
+
+    </section>
+    <section class='body cmt-body giscus'>
+      
+
+<svg class="loading" style="vertical-align:middle;fill:currentColor;overflow:hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg>
+
+<div id="giscus" src="https://giscus.app/client.js" data-repo="stellariumImpl/comment" data-repo-id="R_kgDOIssBOQ" data-category="General" data-category-id="DIC_kwDOIssBOc4CTVLD" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous"></div>
+
+    </section>
+  </div>
+
 
 
 <footer class="page-footer footnote"><hr><div class="sitemap"><div class="sitemap-group"><span class="fs15">博客</span><a href="/">近期</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></div><div class="sitemap-group"><span class="fs15">项目</span><a href="/wiki">文档</a></div><div class="sitemap-group"><span class="fs15">社交</span><a href="/friends">友链</a><a href="/about/#comments">留言板</a></div><div class="sitemap-group"><span class="fs15">更多</span><a href="/about">关于本站</a><a target="_blank" rel="noopener" href="https://github.com/stellariumImpl">GitHub</a></div></div><div class="text"><p>本站由 <a href="/">@Felix</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
 </div></footer>
 <div class="main-mask" onclick="sidebar.dismiss()"></div></div><aside class="l_right">
-</aside><div class='float-panel blur'>
+<div class="widgets">
+
+
+
+<widget class="widget-wrapper toc" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span><a class="cap-action" onclick="sidebar.toggleTOC()" ><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></a></div><div class="widget-body"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9ItemCF%E7%AE%97%E6%B3%95%E7%9A%84%E6%95%B4%E4%BD%93%E7%90%86%E8%A7%A3"><span class="toc-text">对ItemCF算法的整体理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95%E5%AF%B9%E6%AF%94"><span class="toc-text">相似度计算方法对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6%E7%9A%84%E7%89%B9%E7%82%B9"><span class="toc-text">余弦相似度的特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9A%AE%E5%B0%94%E9%80%8A%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">皮尔逊相关系数的局限性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E7%9B%B8%E4%BC%BC%E5%BA%A6%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">混合相似度的设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%B0%E5%8D%A1%E5%BE%B7%E7%B3%BB%E6%95%B0%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">杰卡德系数的应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A7%E5%BC%8F%E8%B7%9D%E7%A6%BB%E4%B8%8E%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E5%BA%A6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">欧式距离与余弦相似度的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%A1%8C%E4%B8%BA%E6%95%B0%E6%8D%AE%E7%9A%84%E6%B7%B7%E5%90%88%E5%BB%BA%E6%A8%A1"><span class="toc-text">多行为数据的混合建模</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%B7%E5%90%AF%E5%8A%A8%E7%9A%84%E5%B8%B8%E8%A7%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-text">冷启动的常见解决方案</span></a></li></ol></div><div class="widget-footer">
+
+<a class="top" onclick="util.scrollTop()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12c0-4.714 0-7.071 1.464-8.536C4.93 2 7.286 2 12 2c4.714 0 7.071 0 8.535 1.464C22 4.93 22 7.286 22 12c0 4.714 0 7.071-1.465 8.535C19.072 22 16.714 22 12 22s-7.071 0-8.536-1.465C2 19.072 2 16.714 2 12Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 15.5l3-3l3 3m-6-4l3-3l3 3"/></g></svg><span>回到顶部</span></a><a class="buttom" onclick="util.scrollComment()"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M10.46 1.25h3.08c1.603 0 2.86 0 3.864.095c1.023.098 1.861.3 2.6.752a5.75 5.75 0 0 1 1.899 1.899c.452.738.654 1.577.752 2.6c.095 1.004.095 2.261.095 3.865v1.067c0 1.141 0 2.036-.05 2.759c-.05.735-.153 1.347-.388 1.913a5.75 5.75 0 0 1-3.112 3.112c-.805.334-1.721.408-2.977.43a10.81 10.81 0 0 0-.929.036c-.198.022-.275.054-.32.08c-.047.028-.112.078-.224.232c-.121.166-.258.396-.476.764l-.542.916c-.773 1.307-2.69 1.307-3.464 0l-.542-.916a10.605 10.605 0 0 0-.476-.764c-.112-.154-.177-.204-.224-.232c-.045-.026-.122-.058-.32-.08c-.212-.023-.49-.03-.93-.037c-1.255-.021-2.171-.095-2.976-.429A5.75 5.75 0 0 1 1.688 16.2c-.235-.566-.338-1.178-.389-1.913c-.049-.723-.049-1.618-.049-2.76v-1.066c0-1.604 0-2.86.095-3.865c.098-1.023.3-1.862.752-2.6a5.75 5.75 0 0 1 1.899-1.899c.738-.452 1.577-.654 2.6-.752C7.6 1.25 8.857 1.25 10.461 1.25M6.739 2.839c-.914.087-1.495.253-1.959.537A4.25 4.25 0 0 0 3.376 4.78c-.284.464-.45 1.045-.537 1.96c-.088.924-.089 2.11-.089 3.761v1c0 1.175 0 2.019.046 2.685c.045.659.131 1.089.278 1.441a4.25 4.25 0 0 0 2.3 2.3c.515.214 1.173.294 2.429.316h.031c.398.007.747.013 1.037.045c.311.035.616.104.909.274c.29.17.5.395.682.645c.169.232.342.525.538.856l.559.944a.52.52 0 0 0 .882 0l.559-.944c.196-.331.37-.624.538-.856c.182-.25.392-.476.682-.645c.293-.17.598-.24.909-.274c.29-.032.639-.038 1.037-.045h.032c1.255-.022 1.913-.102 2.428-.316a4.25 4.25 0 0 0 2.3-2.3c.147-.352.233-.782.278-1.441c.046-.666.046-1.51.046-2.685v-1c0-1.651 0-2.837-.089-3.762c-.087-.914-.253-1.495-.537-1.959a4.25 4.25 0 0 0-1.403-1.403c-.464-.284-1.045-.45-1.96-.537c-.924-.088-2.11-.089-3.761-.089h-3c-1.651 0-2.837 0-3.762.089" clip-rule="evenodd"/><path fill="currentColor" d="M9 11a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0a1 1 0 0 1 2 0"/></svg><span>参与讨论</span></a></div></widget>
+</div></aside><div class='float-panel blur'>
   <button type='button' style='display:none' class='laptop-only rightbar-toggle mobile' onclick='sidebar.rightbar()'>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6h11m-11 6h11m-11 6h11M4 6h1v4m-1 0h2m0 8H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg>
   </button>
@@ -482,6 +629,30 @@
 
 <!-- optional -->
 
+  <script type="module">
+  const el = document.querySelector('#comments #giscus');
+  util.viewportLazyload(el, load_discus, false);
+
+  function load_discus() {
+    if (!el) return;
+    try {
+        el.innerHTML = '';
+      } catch (error) {
+        console.error(error);
+      }
+      const script = document.createElement('script');
+      script.async = true;
+      for (const key of Object.keys(el.attributes)) {
+        const attr = el.attributes[key];
+        if (['class', 'id'].includes(attr.name) === false) {
+          script.setAttribute(attr.name, attr.value);
+        }
+      }
+      el.appendChild(script);
+  }
+</script>
+
+
 
 
 <script defer>
@@ -697,6 +868,26 @@
       })
     }
   });
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+  }
+});
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+});
+MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for(i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
